@@ -199,7 +199,7 @@ function handleImageError(event) {
 
 function handleImageLoad(event) {
   // 圖片載入成功的處理
-  console.log('Image loaded successfully:', event.target.src);
+  // console.log('Image loaded successfully:', event.target.src);
 }
 
 // 初始化滾動狀態和預載圖片
