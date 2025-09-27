@@ -1,0 +1,564 @@
+/* Home page specific styles extracted from HomePage.vue */
+
+/* News Ticker */
+.news-ticker { position:relative; background:var(--brand-bg-dark,#222); border-bottom:1px solid #2f303a; padding:.45rem .75rem; overflow:hidden; font-size:.78rem; line-height:1.2; }
+.ticker-viewport { overflow:hidden; width:100%; }
+.ticker-row { display:flex; will-change:transform; }
+.ticker-item { display:inline-flex; align-items:center; padding:0 1.25rem 0 .25rem; white-space:nowrap; color:#fff; opacity:.85; transition:opacity .25s; }
+.ticker-item:hover { opacity:1; }
+.bullet { width:6px; height:6px; border-radius:50%; background:var(--brand-accent,#fcb532); margin-right:.55rem; box-shadow:0 0 0 4px rgba(252,181,50,.18); flex-shrink:0; }
+.ticker-text { letter-spacing:.3px; }
+/* 若要滑過時強制全部亮，可取消註解以下一行 */
+/* .news-ticker:hover .ticker-item { opacity:1; } */
+
+/* Hero Carousel - 響應式優化 */
+.hero-carousel { 
+  position: relative; 
+  height: clamp(120px, 40vh, 300px); 
+  min-height: 420px; 
+  max-height: 800px; /* 防止在超大螢幕上過高 */
+  overflow: hidden; 
+  /* background: linear-gradient(135deg, #1a1a1a 0%, #000 100%); */
+  aspect-ratio: auto;
+}
+
+.hero-slide { 
+  position: absolute; 
+  inset: 0; 
+  background-size: contain; /* 預設為 contain (平板/手機) */
+  background-position: center; 
+  background-repeat: no-repeat;
+  background-color: transparent; /* 使用透明背景，讓容器的漸層背景顯示 */
+  opacity: 0; 
+  transform: scale(1.05); 
+  transition: opacity .75s ease, transform 1s ease; 
+  display: flex; 
+  cursor: pointer;
+  /* 確保圖片在不同長寬比下正確顯示 */
+  background-attachment: scroll; /* 提升行動裝置效能 */
+}
+
+/* 桌面版本使用 cover */
+@media (min-width: 992px) {
+  .hero-slide {
+    background-size: cover;
+  }
+}
+
+.hero-slide:hover { 
+  transform: scale(1.02); 
+}
+
+.hero-slide:focus { 
+  outline: 3px solid rgba(255,255,255,0.8); 
+  outline-offset: 3px; 
+}
+
+.hero-slide.active { 
+  opacity: 1; 
+  transform: scale(1); 
+  z-index: 2; 
+}
+.hero-layer { position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.4)); }
+.hero-inner { position:relative; z-index:3; align-self:center; color:#fff; max-width:780px; }
+
+/* Hero Carousel 背景位置調整類別 */
+.hero-slide.bg-top { background-position: center top; }
+.hero-slide.bg-bottom { background-position: center bottom; }
+.hero-slide.bg-left { background-position: left center; }
+.hero-slide.bg-right { background-position: right center; }
+.hero-slide.bg-top-left { background-position: left top; }
+.hero-slide.bg-top-right { background-position: right top; }
+.hero-slide.bg-bottom-left { background-position: left bottom; }
+.hero-slide.bg-bottom-right { background-position: right bottom; }
+
+/* 背景尺寸調整類別 */
+.hero-slide.bg-contain { 
+  background-size: contain !important; 
+  background-color: #000; /* 填充空白區域 */
+}
+.hero-slide.bg-cover { 
+  background-size: cover !important; 
+  background-color: #000; 
+}
+.hero-slide.bg-cover-x { background-size: 100% auto !important; } /* 寬度填滿 */
+.hero-slide.bg-cover-y { background-size: auto 100% !important; } /* 高度填滿 */
+
+/* 圖片載入優化 */
+.hero-slide {
+  /* 預載入背景圖片 */
+  background-image: var(--hero-bg-image);
+}
+
+/* 針對不同螢幕密度優化 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .hero-slide {
+    /* 高解析度螢幕優化 */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* 減少動畫以提升性能（適用於較慢的裝置） */
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide {
+    transition: opacity .4s ease;
+    transform: none !important;
+  }
+  .hero-slide:hover {
+    transform: none !important;
+  }
+}
+
+/* 針對高對比度模式的調整 */
+@media (prefers-contrast: high) {
+  .hero-control {
+    background: rgba(0,0,0,.8);
+    border: 2px solid #fff;
+  }
+  .hero-dots button {
+    border: 2px solid #fff;
+  }
+}
+
+/* === Media Section (Bottom) === */
+.home-media-section {
+  position:relative;
+  background: linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.8)), var(--media-bg) center/cover no-repeat;
+  padding: clamp(2.5rem,5vw,4rem) 0;
+  margin: 0 0 3.5rem;
+  overflow:hidden;
+}
+.home-media-inner { position:relative; z-index:2; }
+.media-image-wrap {
+  position:relative;
+  height:100%;
+  min-height:300px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.media-main-img { width:100%; height:100%; object-fit:cover; display:block; }
+.media-video-panel {
+  --panel-bg: url('/images/home/gold_frame.png');
+  --panel-bg-size: cover; /* cover | contain | 100% auto | auto 100% */
+  --video-scale: 0.9;      /* 0~1 影片寬度占面板百分比 */
+  --video-max: 100%;       /* 可指定 px 如 860px */
+  position:relative;
+  height:100%;
+  min-height:300px;
+  padding:0.5rem;
+  background: var(--panel-bg) center / var(--panel-bg-size) no-repeat;
+  border-radius:1rem;
+  box-shadow:0 10px 30px -12px rgba(0,0,0,.55);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.media-video-ratio { width:clamp(200px, calc(var(--video-scale) * 100%), var(--video-max)); transition:width .35s ease; }
+.media-video-ratio iframe { width:100%; height:100%; border:0; border-radius:.75rem; box-shadow:0 6px 20px -8px rgba(0,0,0,.6); }
+
+/* 快速尺寸類別 (改變影片占比) */
+.media-video-panel.size-sm { --video-scale:0.6; }
+.media-video-panel.size-md { --video-scale:0.75; }
+.media-video-panel.size-lg { --video-scale:0.9; }
+
+/* 背景縮放模式輔助類別 */
+.media-video-panel.bg-contain { --panel-bg-size:contain; }
+.media-video-panel.bg-cover { --panel-bg-size:cover; }
+.media-video-panel.bg-fit-w { --panel-bg-size:100% auto; }
+.media-video-panel.bg-fit-h { --panel-bg-size:auto 100%; }
+
+@media (max-width:991.98px){
+  .media-image-wrap, .media-video-panel { min-height:260px; }
+}
+@media (max-width:575.98px){
+  .home-media-section { margin-bottom:2.5rem; }
+  .media-image-wrap, .media-video-panel { min-height:220px; }
+  .media-video-panel { padding:.75rem; }
+}
+.hero-control { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.4); color:#fff; border:0; width:48px; height:48px; border-radius:50%; font-size:30px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); transition:background .3s; }
+.hero-control:hover { background:rgba(0,0,0,.65); }
+.hero-control.prev { left:18px; z-index:5}
+.hero-control.next { right:18px; z-index:5}
+.hero-dots { position:absolute; bottom:18px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:5; }
+.hero-dots button { width:14px; height:14px; border-radius:50%; background:rgba(255,255,255,.4); border:2px solid transparent; cursor:pointer; padding:0; }
+.hero-dots button.active { background:#fff; box-shadow:0 0 0 4px rgba(255,255,255,.28); }
+.hero-dots button:hover { background:#fff; }
+/* 響應式設計 - Hero Carousel */
+@media (max-width: 1200px) {
+  .hero-carousel { 
+    height: 55vh; 
+    min-height: 380px; 
+    max-height: 600px; 
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-carousel { 
+    height: 50vh; 
+    min-height: 350px; 
+    max-height: 500px; 
+  }
+  .hero-control { 
+    width: 44px; 
+    height: 44px; 
+    font-size: 28px; 
+  }
+  .hero-control.prev { left: 12px; }
+  .hero-control.next { right: 12px; }
+}
+
+@media (max-width: 768px) { 
+  .hero-inner h1 { font-size: 1.9rem; } 
+  .hero-carousel { 
+    height: 45vh; 
+    min-height: 320px; 
+    max-height: 450px; 
+  } 
+  .hero-control { 
+    width: 42px; 
+    height: 42px; 
+    font-size: 26px; 
+  }
+  .hero-control.prev { left: 10px; }
+  .hero-control.next { right: 10px; }
+  .hero-dots { 
+    bottom: 12px; 
+    gap: 8px; 
+  }
+  .hero-dots button { 
+    width: 12px; 
+    height: 12px; 
+  }
+}
+
+@media (max-width: 576px) { 
+  .hero-inner h1 { font-size: 1.6rem; } 
+  .hero-inner p { font-size: .95rem; } 
+  .hero-carousel { 
+    height: clamp(120px, 40vh, 300px); 
+    min-height: 280px; 
+    max-height: 380px; 
+  }
+  .hero-control { 
+    width: 38px; 
+    height: 38px; 
+    font-size: 24px; 
+  }
+  .hero-control.prev { left: 8px; }
+  .hero-control.next { right: 8px; }
+  .hero-dots { 
+    bottom: 10px; 
+    gap: 6px; 
+  }
+  .hero-dots button { 
+    width: 10px; 
+    height: 10px; 
+    border-width: 1px;
+  }
+}
+
+/* 超小螢幕額外優化 */
+@media (max-width: 480px) {
+  .hero-carousel { 
+    height: 35vh; 
+    min-height: 250px; 
+    max-height: 320px; 
+  }
+}
+
+/* 直向行動裝置特別優化 */
+@media (max-width: 576px) and (orientation: portrait) {
+  .hero-carousel { 
+    height: 40vh; 
+    min-height: 280px; 
+    max-height: 350px; 
+  }
+  /* 確保圖片在直向螢幕上正確裁切 */
+  .hero-slide {
+    background-position: center center;
+  }
+}
+
+/* 橫向行動裝置優化 */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero-carousel { 
+    height: 60vh; 
+    min-height: 300px; 
+    max-height: 400px; 
+  }
+  .hero-slide {
+    background-position: center center;
+  }
+}
+
+/* Timeline */
+.timeline-item:last-child .flex-grow-1 { border-left:0; }
+.timeline { position:relative; margin:0; }
+.timeline-item .timeline-dot { width:12px; height:12px; background:#0d6efd; border-radius:50%; position:relative; }
+.timeline-item .flex-grow-1 { border-color:rgba(0,0,0,.1)!important; }
+.timeline-item .flex-grow-1::before { content:''; position:absolute; left:-1px; top:0; bottom:0; width:2px; background:linear-gradient(#0d6efd,#6c757d); opacity:.25; }
+.timeline-item:last-child .flex-grow-1::before { bottom:50%; }
+
+/* Video */
+.video-wrapper iframe { width:100%; height:100%; border:0; }
+@media (max-width:576px){ .timeline-item .flex-grow-1::before { left:-1px; } }
+
+/* News list half-width + dark theme */
+.news-section-half { max-width:1000px; }
+@media (min-width:992px){ .news-section-half { max-width:80%; } }
+.news-list-dark { background:#0f0f10; border:1px solid #262730; border-radius:.5rem; overflow:hidden; }
+.news-list-dark .list-group-item { background:transparent; color:#eee; border:0; border-bottom:1px solid #23242b; }
+.news-list-dark .list-group-item:last-child { border-bottom:0; }
+.news-item-dark:hover { background:rgba(255,255,255,.05); }
+/* Scrollable news list (show only ~3 items) */
+.news-list-scroll { max-height:12.6rem; /* 3 * 4.2rem */ overflow-y:auto; }
+.news-list-scroll .list-group-item { min-height:4.2rem; display:flex; gap:1rem; padding-top:.65rem; padding-bottom:.65rem; }
+/* Typography adjustments for news items (enlarged) */
+.news-list-scroll .list-group-item .fw-semibold { font-size:1.15rem; line-height:1.28; }
+.news-list-scroll .list-group-item .small { font-size:.85rem; }
+.news-list-scroll::-webkit-scrollbar { width:8px; }
+.news-list-scroll::-webkit-scrollbar-thumb { background:#2e2f35; border-radius:4px; }
+.news-list-scroll::-webkit-scrollbar-thumb:hover { background:#3a3b42; }
+
+/* News feature background block */
+.news-feature-block { position:relative; }
+.news-feature-bg { position:relative; border:1px solid #24252d; border-radius:14px; padding:2.2rem 2.2rem 2.6rem; display:flex; justify-content:flex-start; overflow:hidden; 
+	/* 保持原始 2709x1042 比例：2709/1042 ≈ 2.59885 寬高比 */
+	/* aspect-ratio 讓容器依寬度自動算高度；再用 min/max 限制實際範圍 */
+	aspect-ratio: 2709 / 1042;
+	min-height:320px; /* 避免太扁 */
+	max-height:560px; /* 避免過高 */
+	background:#000 url('/images/home/news-bg.jpg') center / cover no-repeat;
+	width:100%;
+}
+
+/* 移除漸層與遮罩，讓圖片完整填滿外框 */
+.news-feature-bg-content { position:relative; width:100%; }
+.news-feature-bg-content > .news-section-half { position:relative; }
+@media (min-width:992px){ .news-section-half { max-width:66%; } }
+@media (min-width:1400px){
+	.news-section-half { max-width:50%; }
+}
+@media (max-width:991.98px){
+	.news-feature-bg { background-image:none !important; background-color:#000; border:2px solid #fcb532; box-shadow:0 0 0 3px rgba(252,181,50,.35); max-width:100%; width:100%; margin:0 auto; aspect-ratio:auto; min-height:unset; }
+	.news-feature-bg-content { width:100%; padding-right:0; }
+	.news-section-half { max-width:100%; }
+}
+
+/* 超小螢幕：直接隱藏背景圖片，改用純色以避免版面被擠壓或圖片干擾閱讀 */
+@media (max-width:575.98px){
+	.news-feature-bg { background-image:none !important; background-color:#000; border:2px solid #fcb532; box-shadow:0 0 0 3px rgba(252,181,50,.35); max-width:100%; width:100%; aspect-ratio:auto; min-height:auto; padding:1.4rem 1.25rem 1.8rem; }
+}
+
+/* 如果想在桌面也顯示完整圖片，不被裁切，可在自訂 CSS 加上：
+   .news-feature-bg { --news-bg-size: contain; background-position:top center; }
+*/
+
+/* 自訂：桌面版將消息列表放置於背景寬度中間 50% (左起 25%) 並水平置中其內文 */
+@media (min-width:992px){
+	.news-feature-bg-content .news-section-half {
+		width:50%;
+		margin-left:10%; /* 從整體 1/4 寬度位置開始 */
+        margin-top:10%; /* 從整體 1/4 寬度位置開始 */
+		max-width:none; /* 取消之前的 max-width 限制 */
+	}
+	.news-feature-bg-content .news-section-half .list-group {
+		margin-left:auto;
+		margin-right:auto;
+	}
+}
+
+/* Cover Hero Section */
+.cover-hero {
+  position:relative;
+  width:100%;
+  min-height:60vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.cover-hero::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.25));
+}
+.cover-inner {
+  position:relative;
+  text-align:center;
+  padding:2rem 1rem;
+  color:#fff;
+  max-width:960px;
+}
+.cover-title {
+  font-size:clamp(2rem,5vw,3.25rem);
+  font-weight:700;
+  letter-spacing:1px;
+  margin:0;
+  text-shadow:0 4px 16px rgba(0,0,0,.45);
+}
+/* 手機調整 */
+@media (max-width:575.98px){
+  .cover-hero { min-height:48vh; }
+  .cover-title { letter-spacing:.5px; }
+}
+
+/* 封面區塊與下方內容分離 */
+.cover-hero {
+  margin-bottom: 3rem; /* 調整數值控制距離 例如 2rem / 4rem */
+  position:relative;
+}
+
+/* 可選：加入一條淡淡分隔線 */
+.cover-hero::after {
+  /* 若你已用 ::after 做遮罩，改成 ::before 或把陰影放到 .cover-hero-overlay */
+  box-shadow:0 8px 20px -10px rgba(0,0,0,.35);
+}
+
+/* 可選：波浪 SVG 分隔 (需要在 HTML 加 .cover-separator) */
+.cover-separator {
+  margin-top:-2.2rem;
+  line-height:0;
+  height:60px;
+}
+.cover-separator svg {
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+/* 全幅封面背景 */
+.cover-frame {
+  position:relative;
+  width:100%;
+  background: var(--cover-img) center center / cover no-repeat;
+  padding: 90px 0 70px; /* 上下距離可調 */
+  margin:0 0 3rem;
+  overflow:hidden;
+}
+.home-cover .cover-frame-inner{
+  min-height:48vh;
+  height:60vh;
+}
+.cover-frame::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.25));
+  pointer-events:none;
+}
+.cover-frame-inner {
+  position:relative;
+  max-width:1400px;
+  margin:0 auto;
+  padding:0 1rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:40vh;
+}
+.cover-badge {
+  position:absolute;
+  bottom:-25px;
+  left:25%;
+  /* width:180px; */
+  max-width:28vw;
+  animation: badgeFadeIn .9s cubic-bezier(.22,.9,.3,1) forwards;
+  opacity:0;
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,.45));
+  pointer-events:none;
+  z-index:3;
+}
+@keyframes badgeFadeIn {
+  0% { opacity:0; transform:translateY(30px) scale(.9) rotate(-4deg); }
+  60% { opacity:1; transform:translateY(-6px) scale(1.03) rotate(1deg); }
+  100% { opacity:1; transform:translateY(0) scale(1) rotate(0deg); }
+}
+@media (max-width:575.98px){
+  .cover-frame { padding:70px 0 55px; margin-bottom:2.25rem; }
+  .cover-badge { width:130px; bottom:-15px; }
+}
+
+/* 覆寫：允許小圖超出背景 */
+.cover-frame {
+  overflow:visible; /* 原本是 hidden，改成 visible 讓小圖外溢可見 */
+}
+
+/* 清除舊的 cover-badge 定義 (含 bottom:-25px / left:25%)，只保留這一版 */
+/* 確保小圖底部貼齊背景底部：bottom:0 並以底部為縮放基準；若需微調可改 --badge-y-adjust */
+.cover-frame { overflow:visible; }
+
+.cover-badge {
+  --badge-min:220px;
+  --badge-max:460px;
+  --badge-vw:32vw;
+  --badge-scale:1;
+  --badge-y-adjust:-14vh; /* 正值往上收, 負值往下超出 */
+  position:absolute;
+  bottom:calc(0px + var(--badge-y-adjust));
+  right:3%;
+  width:clamp(var(--badge-min), var(--badge-vw), var(--badge-max));
+  height:auto;
+  max-height:85vh;
+  transform-origin:bottom center;
+  transform:scale(var(--badge-scale));
+  opacity:0;
+  animation:badgeFadeIn .9s cubic-bezier(.22,.9,.3,1) forwards;
+  filter:drop-shadow(0 10px 28px rgba(0,0,0,.55));
+  pointer-events:none;
+  z-index:5;
+}
+
+@keyframes badgeFadeIn {
+  0%   { opacity:0; transform:scale(calc(var(--badge-scale)*0.85)) translateY(18px) rotate(-4deg); }
+  60%  { opacity:1; transform:scale(calc(var(--badge-scale)*1.03)) translateY(-4px) rotate(1deg); }
+  100% { opacity:1; transform:scale(var(--badge-scale)) translateY(0) rotate(0deg); }
+}
+
+@media (max-width:575.98px){
+  .cover-badge {
+    --badge-min:180px;
+    --badge-max:340px;
+    --badge-vw:55vw;
+    --badge-scale:1.12;
+    right:4%;
+    max-height:60vh;
+  }
+}
+
+/* 首頁新聞區背景圖 */
+.section-spacing--home-news {
+  --home-news-bg: url('/images/home/home_bk.png');
+  position:relative;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.7)),
+    var(--home-news-bg) center/cover no-repeat;
+  padding:3rem 2rem;
+  border-radius:1.25rem;
+  overflow:hidden;
+}
+
+.section-spacing--home-news::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.12),transparent 60%);
+  pointer-events:none;
+}
+
+.section-spacing--home-news > section {
+  position:relative;
+  z-index:1;
+}
+
+/* RWD */
+@media (max-width:575.98px){
+  .section-spacing--home-news {
+    padding:2rem 1.25rem;
+    border-radius:.9rem;
+  }
+}

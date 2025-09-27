@@ -1,0 +1,82 @@
+/* Custom theme bridging legacy html styles with Bootstrap */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --brand-bg-dark: #000000;
+  --brand-bg-darker: #000000;
+  --brand-accent: #fcb532;
+  --brand-accent-rgb: 252, 181, 50;
+  --bs-body-font-family: 'Poppins', system-ui, Arial, sans-serif;
+}
+
+body {
+  font-family: var(--bs-body-font-family);
+  background-color: var(--brand-bg-darker);
+  color: #fff;
+}
+
+/* Navbar overrides */
+.navbar.bg-dark { background-color: var(--brand-bg-dark) !important; }
+.navbar .nav-link { color:#fff; font-weight:500; letter-spacing:.5px; }
+.navbar .nav-link.active, .navbar .nav-link:hover { color: var(--brand-accent); }
+.navbar-brand { font-weight:700; color:#fff !important; }
+
+/* Accent utility */
+.text-accent { color: var(--brand-accent) !important; }
+.bg-accent { background-color: var(--brand-accent) !important; }
+
+/* Hero section styled similar to legacy hero */
+.hero-section {
+  min-height: 60vh;
+  background: url('/images/bk_right.jpg') center/cover no-repeat;
+  position: relative;
+  display:flex;
+  align-items:center;
+  padding: 4rem 0;
+}
+.hero-overlay { position:absolute; inset:0; background:rgba(0,0,0,.55); }
+.hero-content { position:relative; max-width:720px; margin-left :60px}
+.hero-content h1 { font-weight:700; font-size: clamp(2.2rem,5vw,3.5rem); }
+.hero-content p { font-size:1.1rem; font-weight:400; }
+
+/* Cards refinement to fit dark theme */
+.card { background-color:#1e1f27; border:1px solid #2f303a; }
+.card .card-title, .card h4 { color:#fff; }
+.card .card-text { color:#b8bcc9; }
+.card.shadow-sm { box-shadow:0 .25rem .6rem rgba(0,0,0,.35)!important; }
+
+/* Footer */
+footer { background: var(--brand-bg-dark) !important; color:#d7d7d7; }
+footer a { color:#fff; }
+footer a:hover { color: var(--brand-accent); }
+
+/* Form */
+.form-control, .form-select { background-color:#1e1f27; border-color:#444; color:#fff; }
+.form-control:focus { background-color:#22232c; border-color: var(--brand-accent); box-shadow:0 0 0 .15rem rgba(var(--brand-accent-rgb), .25); color:#fff; }
+
+/* Accent buttons */
+.btn-primary { background-color: var(--brand-accent); border-color: var(--brand-accent); color:#212529; font-weight:600; }
+.btn-primary:hover { background-color:#ffcc5c; border-color:#ffcc5c; color:#212529; }
+.btn-outline-primary { color: var(--brand-accent); border-color: var(--brand-accent); }
+.btn-outline-primary:hover { background-color: var(--brand-accent); color:#212529; }
+
+/* Badges */
+.badge.bg-primary { background-color: var(--brand-accent)!important; color:#212529; }
+
+/* Scrollbar (WebKit) */
+::-webkit-scrollbar { width:10px; }
+::-webkit-scrollbar-track { background: #1a1b21; }
+::-webkit-scrollbar-thumb { background: #2e3039; border-radius:6px; }
+::-webkit-scrollbar-thumb:hover { background:#3c3e48; }
+
+/* Utility spacing adjustments */
+.section-spacing { padding-top:4rem; padding-bottom:4rem; }
+
+@media (min-width: 992px) {
+  .hero-section { min-height: 70vh; }
+}
+
+
+id_card{
+  
+}
