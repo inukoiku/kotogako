@@ -1,0 +1,754 @@
+.cover-frame-library {
+  /* 顯示完整圖片：上下不裁切，用 contain；左右可能留空 */
+  background: var(--cover-img) center center / cover no-repeat; /* 改 contain -> cover */
+  width:100%;
+  /* 移除原先 clamp 高度與 aspect-ratio 限制，改成視窗寬度推導高度或由內容撐開 */
+  height:auto;
+  aspect-ratio:auto;
+  padding:0;
+  margin:0 0 2rem;
+  position:relative;
+}
+
+/* 若要嚴格依圖片比例顯示全部且不裁切，可改成方法 B：
+.cover-frame-library {
+  background: var(--cover-img) top center / 100% auto no-repeat;
+}
+*/
+
+/* 可選：已知圖片比例 (例如 2400x900 = 8/3)，用 aspect-ratio 讓高度跟著寬度縮放且不裁切 */
+.cover-frame-library.use-ratio {
+  aspect-ratio: 8 / 3;       /* 改成你的圖片寬:高 */
+  background-size:100% 100%; /* 只適合圖片寬高等比例縮放時 */
+}
+
+/* 如果你想完全保留比例且不用背景裁切，改成放一張 <img>： */
+/*
+<section class="cover-frame-library no-bg" ...>
+  <img class="cover-lib-img" src="..." alt="" />
+  ...按鈕...
+</section>
+
+.cover-frame-library.no-bg { background:none; }
+.cover-frame-library .cover-lib-img {
+  display:block;
+  width:100%;
+  height:auto;
+}
+*/
+
+@media (max-width:575.98px){
+  .cover-frame-library { margin-bottom:1.75rem; }
+}
+
+/* 內層容器調整，避免原 home.css 的 min-height 造成干擾 */
+.cover-frame-library .cover-frame-inner {
+  height:100%;
+  padding:0;
+  width:100%;
+  display:flex;
+  align-items:end;
+  justify-content:flex-start;
+  min-height: 76vh;
+}
+.home-cover .cover-frame-inner{
+  min-height:48vh;
+  height:60vh;
+}
+
+/* 若圖片比例未知或需自適應高度：移除 aspect-ratio，改用 min-height */
+@media (max-width: 991.98px){
+  .cover-frame-library { aspect-ratio:auto; 
+  height:clamp(120px, 32vh, 310px);}
+  .cover-frame-library .cover-frame-inner {
+    min-height: 25vh;
+    height:clamp(120px, 32vh, 310px);
+  }
+}
+@media (max-width: 575.98px){
+  .cover-frame-library {
+    height:clamp(120px, 18vh, 300px);
+  }
+  .cover-frame-library .cover-frame-inner {
+    min-height: 25vh;
+    height: 25vh;
+  }
+}
+
+/* 可選：若想把左右黑邊做柔和漸層
+.cover-frame-library::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg, #000 0%, transparent 12%, transparent 88%, #000 100%);
+  pointer-events:none;
+}
+*/
+
+/* 可選：若想改為寬度滿且適度裁切 (回原樣) 改此：
+   .cover-frame-library { background: var(--cover-img) center / cover no-repeat; }
+*/
+
+/* ===== Library Page 專用新增樣式 ===== */
+
+/* 封面內的左側切換按鈕群組 */
+.lib-switch-btns {
+  position:absolute;
+  top:1.25rem;
+  left:1.25rem;
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+  z-index:5;
+}
+.lib-switch-btn {
+  background:rgba(0,0,0,.35);
+  padding:4px;
+  cursor:pointer;
+  transition:.25s;
+  line-height:0;
+  border:none;
+}
+.lib-switch-btn img {
+  display:block;
+  width:72px;
+  height:auto;
+  object-fit:contain;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.5));
+}
+
+/* 限制封面左側切換圖片高度：不超出、等比縮放 */
+.cover-frame-library .lib-switch-btn img {
+  height:clamp(48px, 12vh, 88px); /* 中間 12vh，自適應視窗；上下限可調 */
+  width:auto;
+  max-height:88px;
+  object-fit:contain;
+}
+
+/* 若還是覺得太高，直接改上面最大值 88px，例如 72px */
+/* 只想用固定高度：height:72px; 刪除 clamp / max-height 即可 */
+@media (max-width:575.98px){
+  .cover-frame-library .lib-switch-btn img {
+    height:clamp(42px, 10vh, 70px);
+    max-height:70px;
+  }
+}
+
+/* 封面文字 */
+.lib-hero-caption {
+  position:absolute;
+  bottom:2rem;
+  left:2rem;
+  color:#fff;
+  text-shadow:0 4px 18px rgba(0,0,0,.55);
+  max-width:480px;
+  z-index:4;
+}
+.lib-title {
+  margin:0 0 .5rem;
+  font-size:clamp(1.8rem,4.2vw,3rem);
+  font-weight:700;
+  letter-spacing:1px;
+}
+.lib-sub {
+  margin:0;
+  font-size:clamp(.9rem,1.2vw,1.1rem);
+  opacity:.85;
+}
+
+/* 下方切換背景區塊 */
+.library-section-switch {
+  --switch-bg: url('/images/library/library_bk.png');
+  position:relative;
+  width:100%;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.7)),
+    var(--switch-bg) center/cover no-repeat;
+  padding:3rem 0;
+  margin:0 0 3rem;
+  overflow:visible; /* 允許內部溢出供動態 padding 包含 */
+}
+.library-section-inner {
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 1.25rem;
+  position:relative;
+  min-height:360px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* 內容區塊 */
+.lib-block {
+  width:100%;
+  max-width:90%;
+  border-radius:1.1rem;
+  color:#fff;
+}
+.lib-block-title {
+  font-size:1.65rem;
+  font-weight:600;
+  margin:0 0 1rem;
+  letter-spacing:.5px;
+}
+.lib-block-text {
+  margin:0;
+  line-height:1.55rem;
+  font-size:.95rem;
+  opacity:.9;
+}
+
+/* 區塊差異（若需自訂可加） */
+.lib-block-a {
+    height: 100%;
+}
+.lib-block-b {
+  height: 100%;
+}
+
+/* Fade 過渡 (使用 <transition name="fade"> ) */
+
+
+/* RWD */
+@media (max-width:991.98px){
+  .lib-switch-btn img { width:60px; }
+  .lib-block { padding:1.9rem 1.5rem 2.1rem; }
+}
+@media (max-width:575.98px){
+  .lib-switch-btns { top:.75rem; left:.75rem; gap:.6rem; }
+  .lib-switch-btn img { width:56px; }
+  .lib-hero-caption { bottom:1.2rem; left:1.1rem; }
+  .lib-block { padding:1.6rem 1.25rem 1.9rem; }
+  .lib-block-title { font-size:1.35rem; }
+  .library-section-switch { padding:2.25rem 0 2.5rem; }
+}
+
+/* === 註解掉第一個定義，使用下方修正過的定義 === */
+/*
+.cover-frame-library .lib-switch-btns {
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:1rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  padding:0 1.25rem;
+  gap:0;
+  pointer-events:none;
+  z-index:5;
+}
+
+.cover-frame-library .lib-switch-btn {
+  pointer-events:auto;
+  background:rgba(0,0,0,.45);
+  padding:6px;
+  backdrop-filter:blur(4px);
+  transition:.25s;
+}
+
+.cover-frame-library .lib-switch-btn img {
+  width:auto;
+  height:70px;
+  object-fit:contain;
+}
+*/
+
+
+
+/* === 兩顆按鈕水平排在 banner 中間下方 === */
+.cover-frame-library .lib-switch-btns {
+  position:relative;
+  left:50%;                 /* 水平居中 */
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:row;
+  gap:16rem;                 /* 兩個按鈕之間的間距 */
+  padding:0;
+  width:auto;
+  pointer-events:auto;
+  justify-content:center;
+  align-items:center;
+  /* height:fit-content; */
+  z-index:1;
+}
+
+.cover-frame-library .lib-switch-btn {
+  pointer-events:auto;
+  background:rgba(0,0,0,.45);
+  padding:6px;
+  backdrop-filter:blur(4px);
+  transition:.25s;
+  cursor:pointer;
+}
+
+.cover-frame-library .lib-switch-btn img {
+  height:70px;
+  width:auto;
+  object-fit:contain;
+  pointer-events:none;
+}
+
+
+/* 手機版：兩個按鈕在中間下方，間距稍小 */
+@media (max-width:575.98px){
+  .cover-frame-library .lib-switch-btns { 
+    bottom:.6rem; 
+    gap:1.5rem;             /* 手機版間距稍小 */
+  }
+  .cover-frame-library .lib-switch-btn img { height:58px; }
+  .cover-frame-library.lib-btns-split .lib-switch-btns { gap:1.5rem; }
+}
+
+/* 方案 2：寬度滿版，依圖片等比高度撐開，不裁切 (用一層 <img>) */
+.library-section-switch.use-img {
+  background:none;
+  padding:0;
+}
+.library-section-switch.use-img .library-section-inner {
+  position:relative;
+  max-width:none;
+  padding:0;
+}
+.library-section-switch.use-img .lib-bg-img {
+  display:block;
+  width:100%;
+  height:auto;      /* 等比縮放，完整呈現 */
+  vertical-align:middle;
+}
+.library-section-switch.use-img .lib-block-wrap {
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2.5rem 1.25rem;
+  /* 背景內容在圖片上層 */
+}
+
+/* 六格照片區 */
+.library-photo-section {
+  width:100%;
+  height: 100%;
+  display:flex;
+  justify-content:center;
+  overflow:visible;
+}
+
+/* 六格照片區 */
+.library-photo-section-vault {
+  width:100%;
+  height: 100%;
+  display:block;
+  justify-content:center;
+  overflow:visible;
+}
+
+/* A 方案：改為絕對定位自由排布容器 */
+.lib-photo-grid {
+  position:relative;
+  max-width:1000px;
+  width:100%;
+  overflow:visible;
+  min-height:320px; /* 初始高度避免閃跳 */
+}
+
+/* Block A 專用：改成標準 2 欄 3 行 grid （不影響 Block B 原絕對定位）*/
+.lib-photo-grid-a[data-static-grid="1"] {
+  display:grid;
+  position:static;
+  grid-template-columns:repeat(2, 1fr);
+  gap:26px 32px;
+  max-width:920px;
+  min-height:unset;
+  width:100%;
+  margin:0 auto;
+  padding:4px;
+}
+.lib-photo-grid-a[data-static-grid="1"] .lib-photo-item {
+  position:relative !important;
+  width:100% !important;
+  height:auto !important;
+  transform:none !important;
+  z-index:1 !important;
+  aspect-ratio: 4 / 3; /* 統一比例，可依需求調整 */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:rgba(0,0,0,.25);
+  border-radius:1rem;
+}
+.lib-photo-grid-a[data-static-grid="1"] .lib-photo-item.single .lib-photo-raw { width:100%; height:100%; object-fit:contain; transform:none; }
+.lib-photo-grid-a[data-static-grid="1"] .lib-photo-item.framed { aspect-ratio:4/3; }
+.lib-photo-grid-a[data-static-grid="1"] .lib-photo-item.framed .lib-photo-frame { width:100%; height:100%; background-size:contain; padding-top: 1.5rem;}
+.lib-photo-grid-a[data-static-grid="1"] .lib-photo-item.framed .lib-photo-inner { width:90%; height:90%; transform:none;object-fit:contain; }
+
+/* Block B 響應式 Grid 佈局（手機和平板專用）*/
+.lib-photo-grid-b[data-static-grid="1"] {
+  display:grid;
+  position:static;
+  grid-template-columns:repeat(2, 1fr);
+  gap:26px 32px;
+  max-width:920px;
+  min-height:unset;
+  width:100%;
+  margin:0 auto;
+  padding:4px;
+}
+.lib-photo-grid-b[data-static-grid="1"] .lib-photo-item {
+  position:relative !important;
+  width:100% !important;
+  height:auto !important;
+  transform:none !important;
+  z-index:1 !important;
+  aspect-ratio: 3 / 5; /* 統一比例，可依需求調整 */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:rgba(0,0,0,.25);
+  border-radius:1rem;
+  left:auto !important;
+  top:auto !important;
+}
+.lib-photo-grid-b[data-static-grid="1"] .lib-photo-item.single .lib-photo-raw { 
+  width:100%; 
+  height:100%; 
+  object-fit:contain; 
+  transform:none !important; 
+}
+.lib-photo-grid-b[data-static-grid="1"] .lib-photo-item.framed { 
+  aspect-ratio:3/4; 
+}
+.lib-photo-grid-b[data-static-grid="1"] .lib-photo-item.framed .lib-photo-frame { 
+  width:100%; 
+  height:100%; 
+  background-size:contain; 
+  padding-top: 1.5rem;
+  transform:none !important;
+}
+.lib-photo-grid-b[data-static-grid="1"] .lib-photo-item.framed .lib-photo-inner { 
+  width:90%; 
+  height:90%; 
+  transform:none !important;
+  object-fit:contain; 
+}
+
+@media (max-width:767.98px){
+  .lib-photo-grid-a[data-static-grid="1"] { grid-template-columns:1fr 1fr; gap:18px 18px; }
+  .lib-photo-grid-b[data-static-grid="1"] { grid-template-columns:1fr 1fr; gap:18px 18px; }
+}
+@media (max-width:575.98px){
+  .lib-photo-grid-a[data-static-grid="1"] { grid-template-columns:1fr; max-width:520px; }
+  .lib-photo-grid-b[data-static-grid="1"] { grid-template-columns:1fr; max-width:520px; }
+}
+
+.lib-photo-item {
+  position:absolute; /* 絕對定位 - 只在非響應式模式下生效 */
+  border-radius:.9rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:visible;
+  transition:transform .35s ease;
+}
+
+/* 響應式模式下強制覆蓋絕對定位和其他動態樣式 */
+.lib-photo-grid-a[data-static-grid="1"] .lib-photo-item{
+  position:relative !important;
+  left:auto !important;
+  top:auto !important;
+  width:100% !important;
+  height:100% !important;
+  transform:none !important;
+  transition:none !important;
+  z-index:auto !important;
+}
+.lib-photo-grid-b[data-static-grid="1"] .lib-photo-item {
+  position:relative !important;
+  left:auto !important;
+  top:auto !important;
+  width:100% !important;
+  height:37vh !important;
+  transform:none !important;
+  transition:none !important;
+  z-index:auto !important;
+}
+
+/* 響應式模式下框架圖片樣式重置 */
+.lib-photo-grid-a[data-static-grid="1"] .lib-photo-frame,
+.lib-photo-grid-b[data-static-grid="1"] .lib-photo-frame {
+  transform:none !important;
+}
+
+.lib-photo-grid-a[data-static-grid="1"] .lib-photo-inner,
+.lib-photo-grid-b[data-static-grid="1"] .lib-photo-inner {
+  transform:none !important;
+}
+
+/* 若想完全脫離 grid 演算法，可在 JS 中給 absolute: true 然後用這裡條件類別改成 position:absolute; 指定 top/left */
+
+/* 第一張：不強制比例，隨原圖 */
+.lib-photo-item.single {
+  padding:0;
+}
+.lib-photo-item.single .lib-photo-raw {
+  width:80%;
+  height:80%;
+  display:block;
+  object-fit:contain;
+  aspect-ratio:auto;
+  /* 可自訂位移與縮放 */
+  transform:translate(var(--raw-offset-x,0), var(--raw-offset-y,0)) scale(var(--raw-scale,1));
+}
+
+
+/* 其餘：固定外框比例 (可調) */
+.lib-photo-item.framed {
+  aspect-ratio:auto;
+  padding:0; /* 外框與父層同尺寸 */
+  background:transparent;
+}
+
+/* 圖片與 caption 區分：保留固定高度 */
+.lib-photo-item .lib-cap-space {
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:var(--caption-h,44px);
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  pointer-events:none;
+}
+
+/* 背景框 */
+.lib-photo-frame {
+  position:relative;
+  inset:0;
+  width:100%;
+  height:100%;
+  background:var(--frame-img) center center / cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background-size: contain;
+  /* 外框僅位移，不縮放，確保填滿父層 */
+  transform:translate(var(--frame-offset-x,0), var(--frame-offset-y,0));
+}
+
+/* 內層主圖：置中縮放 */
+.lib-photo-inner {
+  width:70%;
+  height:70%;
+  object-fit:cover;
+  box-sizing:border-box;
+  transform:scale(var(--inner-scale,1));
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.55));
+}
+/* .lib-photo-item.framed:hover .lib-photo-inner {
+  transform:scale(1.07);
+  filter:drop-shadow(0 6px 14px rgba(0,0,0,.65)) brightness(1.08);
+} */
+
+/* Caption (若需要) */
+.lib-photo-item .lib-cap {
+  width:100%;
+  padding:.4rem .6rem;
+  font-size:.7rem;
+  line-height:1.1;
+  background:linear-gradient(180deg,rgba(0,0,0,0) 0%, rgba(0,0,0,.7) 90%);
+  color:#fff;
+  text-align:center;
+}
+
+/* 手機單欄 */
+@media (max-width:575.98px){
+  .lib-photo-grid {
+    grid-template-columns:1fr;
+    gap:.9rem;
+  }
+  .lib-photo-item.framed { aspect-ratio:16/11; }
+  .lib-photo-inner { max-width:82%; max-height:82%; }
+}
+
+/* 覆寫原本 fade 過場：取消位移與縮放，只做瞬間或純淡入 (可選) */
+
+/* 方案 1：完全無任何動畫 (瞬間切換) */
+.fade-enter-active,
+.fade-leave-active {
+  transition:none !important;
+}
+
+
+/* 若你想保留 0.18s 淡入淡出 (無位移)，改用下列，並刪除上面方案 1：
+.fade-enter-active,
+.fade-leave-active { transition:opacity .18s linear; }
+.fade-enter-from,
+.fade-leave-to { opacity:0; }
+.fade-enter-from,
+.fade-enter-to,
+.fade-leave-from,
+.fade-leave-to { transform:none !important; }
+*/
+
+/* === Minimal override: only change lib-bg-img sizing (place at file end) === */
+/* Remove/ignore earlier .library-section-switch.use-img .lib-bg-img height:auto rule */
+.library-section-switch.use-img { position:relative; }
+
+.library-section-switch.use-img > .lib-bg-img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;          /* use contain if you don't want cropping */
+  object-position:center;
+  pointer-events:none;
+  min-height: 1000px;
+}
+
+/* === 圖片彈出視窗樣式 === */
+
+/* 可點擊的框架區域樣式 - 覆蓋整個框架 */
+.lib-photo-frame.clickable-frame {
+  cursor: pointer;
+  /* 確保點擊區域覆蓋整個框架 */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lib-photo-frame.clickable-frame:focus {
+  outline: 3px solid #007acc;
+  outline-offset: 3px;
+}
+
+/* 確保內層圖片不會攔截點擊事件 */
+.lib-photo-frame.clickable-frame .lib-photo-inner {
+  pointer-events: none;
+}
+
+/* single 類型的圖片保持普通樣式 */
+.lib-photo-item.single img {
+  cursor: default;
+}
+
+/* 彈出視窗遮罩 - 無動畫 */
+.image-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  box-sizing: border-box;
+  /* 確保能容納各種比例的圖片 */
+  overflow: auto;
+}
+
+/* 彈出視窗內容 - 無動畫 */
+.image-modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 移除 overflow hidden，讓圖片完整顯示 */
+  box-sizing: border-box;
+}
+
+/* 放大圖片 */
+.image-modal-img {
+  /* JavaScript 會動態計算和設定尺寸 */
+  max-width: 90vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  display: block;
+  /* 確保圖片居中顯示 */
+  margin: 0 auto;
+  /* 初始狀態，避免閃爍 */
+  /* opacity: 0;
+  transition: opacity 0.2s ease; */
+}
+
+/* 圖片載入完成後顯示 */
+.image-modal-img[style*="width"] {
+  opacity: 1;
+}
+
+/* 關閉按鈕 - 無動畫 */
+.image-modal-close {
+  position: absolute;
+  top: -50px;
+  right: -10px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  z-index: 1;
+}
+
+.image-modal-close:hover {
+  background: #fff;
+}
+
+.image-modal-close:focus {
+  outline: 3px solid #007acc;
+  outline-offset: 2px;
+}
+
+/* 手機版適配 */
+@media (max-width: 768px) {
+  .image-modal-overlay {
+    padding: 5px;
+  }
+  
+  .image-modal-content {
+    max-width: 95vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+  }
+  
+  .image-modal-img {
+    /* 手機版 JavaScript 也會動態計算尺寸 */
+    max-width: 95vw;
+    max-height: 90vh;
+    object-fit: contain;
+    object-position: center;
+  }
+  
+  .image-modal-close {
+    top: -35px;
+    right: -5px;
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+}

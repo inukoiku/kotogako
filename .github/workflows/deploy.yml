@@ -1,0 +1,50 @@
+name: Deploy to GitHub Pages (docs folder)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: vue-site/package.json
+
+      - name: Install deps
+        working-directory: vue-site
+        run: npm ci
+
+      - name: Build
+        working-directory: vue-site
+        run: npm run build
+
+      - name: Prepare docs folder
+        run: |
+          rm -rf docs
+          mkdir docs
+          cp -r vue-site/dist/* docs/
+          cp docs/index.html docs/404.html
+
+      - name: Commit and push docs
+        run: |
+          if [[ -n "$(git status --porcelain docs)" ]]; then
+            git config user.name "github-actions"
+            git config user.email "github-actions@users.noreply.github.com"
+            git add docs
+            git commit -m "chore: update docs site $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            git push
+          else
+            echo "No changes to commit"
+          fi

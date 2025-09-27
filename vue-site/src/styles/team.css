@@ -1,0 +1,1122 @@
+.timeline { position:relative; }
+.timeline-dot {
+  width:12px; height:12px; border-radius:50%;
+  background: var(--bs-primary);
+  flex:0 0 auto;
+  box-shadow:0 0 0 3px rgba(13,110,253,.25);
+}
+.member-card {
+  position:relative; overflow:hidden; border-radius:0.5rem; background:#fff;
+}
+.member-card img { width:100%; display:block; object-fit:cover; aspect-ratio:3/4; }
+.member-overlay {
+  position:absolute; inset:0; background:rgba(0,0,0,.55);
+  color:#fff; opacity:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; transition:.35s;
+  text-align:center; padding:0.75rem;
+}
+.member-card:hover .member-overlay { opacity:1; }
+.member-overlay h4 { font-size:1rem; margin-bottom:.25rem; }
+.member-overlay p { font-size:.75rem; letter-spacing:1px; margin-bottom:.5rem; }
+.member-social i { font-size:.75rem; margin:0 .25rem; cursor:pointer; }
+.team-hero .id_c { max-width:360px; border-radius:1rem; box-shadow:0 0 30px -10px rgba(0,0,0,.35); }
+/* 水平活動歷程時間軸 */
+.timeline-h-wrapper {
+  position:relative;
+  overflow:hidden;
+  padding:.5rem 0 1.25rem;
+}
+.timeline-h {
+  display:flex;
+  gap:1.25rem;
+  margin:0;
+  padding:0 .5rem 0 .5rem;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  position:relative;
+}
+.timeline-h::before {
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  top:26px;
+  height:3px;
+  background:rgba(13,110,253,.25);
+  pointer-events:none;
+}
+.timeline-h::-webkit-scrollbar { height:8px; }
+.timeline-h::-webkit-scrollbar-thumb {
+  background:rgba(0,0,0,.25);
+  border-radius:4px;
+}
+.timeline-h-item {
+  position:relative;
+  flex:0 0 240px;
+  scroll-snap-align:start;
+  padding-top:2.1rem;
+}
+@media (min-width: 992px){
+  .timeline-h-item { flex:0 0 280px; }
+}
+.tl-dot {
+  position:absolute;
+  top:18px;
+  left:50%;
+  width:14px;
+  height:14px;
+  transform:translate(-50%, -50%);
+  border-radius:50%;
+  background:var(--bs-primary,#0d6efd);
+  box-shadow:0 0 0 4px rgba(13,110,253,.25);
+  z-index:2;
+}
+.tl-card {
+  background:#fff;
+  border:1px solid #e5e5e5;
+  border-radius:.75rem;
+  padding:.8rem .95rem .9rem;
+  box-shadow:0 4px 14px -6px rgba(0,0,0,.15);
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+}
+.timeline-h-item.latest .tl-card {
+  border-color:var(--bs-success,#198754);
+  box-shadow:0 4px 18px -6px rgba(25,135,84,.35);
+}
+.tl-title {
+  font-size:.95rem;
+  line-height:1.25rem;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.tl-desc {
+  line-height:1.25rem;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin:0;
+  min-height:3.75rem;
+}
+
+/* --- 水平交錯時間軸 (左→右) --- */
+.h-timeline-outer {
+  position:relative;
+  overflow:hidden;
+  padding:0.5rem 0 1.5rem;
+}
+.h-timeline {
+  display:flex;
+  gap:1.5rem;
+  margin:0;
+  padding:2.5rem 0.75rem 2.5rem;
+  overflow-x:auto;
+  scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling:touch;
+  position:relative;
+}
+.h-timeline::-webkit-scrollbar { height:8px; }
+.h-timeline::-webkit-scrollbar-thumb {
+  background:rgba(0,0,0,.25);
+  border-radius:4px;
+}
+.h-timeline::before {
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  top:50%;
+  height:2px;
+  background:linear-gradient(90deg, var(--bs-primary,#0d6efd), rgba(13,110,253,.15));
+  opacity:.4;
+  pointer-events:none;
+}
+.h-tl-item {
+  position:relative;
+  flex:0 0 240px;
+  scroll-snap-align:start;
+  padding:0 0.25rem;
+}
+@media (min-width:992px) {
+  .h-tl-item { flex:0 0 280px; }
+}
+.h-tl-dot {
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:14px;
+  height:14px;
+  transform:translate(-50%, -50%);
+  border-radius:50%;
+  background:var(--bs-primary,#0d6efd);
+  box-shadow:0 0 0 4px rgba(13,110,253,.25);
+  z-index:2;
+}
+.h-tl-item.latest .h-tl-dot {
+  background:var(--bs-success,#198754);
+  box-shadow:0 0 0 5px rgba(25,135,84,.35);
+}
+
+.h-tl-card {
+  position:relative;
+  max-width:100%;
+  /* 無白底：若想淡底可解鎖下面兩行 */
+  /* background:rgba(255,255,255,.55);
+     backdrop-filter:blur(3px); */
+  padding:0 0.25rem 0.5rem;
+  display:flex;
+  flex-direction:column;
+}
+
+.h-tl-item.top .h-tl-card {
+  transform:translateY(-1.1rem);
+  text-align:left;
+}
+.h-tl-item.bottom .h-tl-card {
+  transform:translateY(1.1rem);
+  text-align:left;
+}
+
+.h-tl-title {
+  font-size:.95rem;
+  line-height:1.25rem;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-weight:600;
+}
+.h-tl-desc {
+  line-height:1.25rem;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin:0;
+  font-size:.75rem;
+  color:var(--bs-secondary-color, #6c757d);
+  min-height:3.75rem;
+}
+
+/* 減少上下占位：在小螢幕改為直向單列 */
+@media (max-width: 575.98px) {
+  .h-timeline {
+    padding:1.75rem 0.5rem 1.75rem;
+  }
+  .h-timeline::before { top:20px; }
+  .h-tl-item {
+    flex:0 0 70%;
+    min-width:250px;
+  }
+  .h-tl-item.top .h-tl-card,
+  .h-tl-item.bottom .h-tl-card {
+    transform:none;
+    padding-top:1.75rem;
+  }
+  .h-tl-dot {
+    top:20px;
+  }
+}
+
+/* --- 水平交錯時間軸 (左→右, 固定中央線) --- */
+.h-timeline-outer {
+  position:relative;
+  overflow-x:hidden;
+  overflow-y:visible;
+  padding:1.5rem 0 2rem;
+}
+
+/* 固定不捲動的中央線 */
+.h-timeline-outer::before {
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  top:50%;
+  height:2px;
+  background:linear-gradient(90deg, var(--bs-primary,#0d6efd), rgba(13,110,253,.15));
+  opacity:.4;
+  pointer-events:none;
+  z-index:1;
+}
+
+.h-timeline {
+  display:flex;
+  gap:1.5rem;
+  margin:0;
+  padding:0 0.75rem;
+  overflow-x:auto;
+  scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling:touch;
+  position:relative;
+  z-index:2; /* 在中央線上方 */
+}
+.h-timeline::-webkit-scrollbar { height:8px; }
+.h-timeline::-webkit-scrollbar-thumb {
+  background:rgba(0,0,0,.25);
+  border-radius:4px;
+}
+
+.h-tl-item {
+  position:relative;
+  flex:0 0 240px;
+  scroll-snap-align:start;
+  padding:0 0.25rem;
+}
+@media (min-width:992px) {
+  .h-tl-item { flex:0 0 280px; }
+}
+
+.h-tl-dot {
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:14px;
+  height:14px;
+  transform:translate(-50%, -50%);
+  border-radius:50%;
+  background:var(--bs-primary,#0d6efd);
+  box-shadow:0 0 0 4px rgba(13,110,253,.25);
+  z-index:3;
+}
+.h-tl-item.latest .h-tl-dot {
+  background:var(--bs-success,#198754);
+  box-shadow:0 0 0 5px rgba(25,135,84,.35);
+}
+
+.h-tl-card {
+  position:relative;
+  max-width:100%;
+  padding:0 0.25rem 0.5rem;
+  display:flex;
+  flex-direction:column;
+}
+
+.h-tl-item.top .h-tl-card {
+  transform:translateY(-1.25rem);
+}
+.h-tl-item.bottom .h-tl-card {
+  transform:translateY(1.25rem);
+}
+
+.h-tl-title {
+  font-size:.95rem;
+  line-height:1.25rem;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-weight:600;
+}
+.h-tl-desc {
+  line-height:1.25rem;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin:0;
+  font-size:.75rem;
+  color:var(--bs-secondary-color, #6c757d);
+  min-height:3.75rem;
+}
+
+/* 手機：單列排列，上下不交錯 */
+@media (max-width: 575.98px) {
+  .h-timeline-outer {
+    padding:1.25rem 0 1.5rem;
+  }
+  .h-timeline { gap:1rem; }
+  .h-tl-item {
+    flex:0 0 70%;
+    min-width:240px;
+  }
+  .h-tl-item.top .h-tl-card,
+  .h-tl-item.bottom .h-tl-card {
+    transform:none;
+    padding-top:0.5rem;
+  }
+  .h-tl-dot { top:50%; }
+}
+
+/* --- 水平交錯時間軸 (置中線修正) --- */
+.h-timeline-outer {
+  position:relative;
+  overflow-x:hidden;
+  overflow-y:visible;
+  padding:1.5rem 0 2rem;
+}
+
+/* 固定中央線 (經由 50% + 微調可改 --tl-line-shift) */
+.h-timeline-outer {
+  --tl-line-shift: 0px; /* 若仍偏，可改正/負值微調 */
+}
+.h-timeline-outer::before {
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  top:calc(50% + var(--tl-line-shift));
+  height:2px;
+  background:linear-gradient(90deg,var(--bs-primary,#0d6efd),rgba(13,110,253,.15));
+  opacity:.4;
+  pointer-events:none;
+  z-index:1;
+}
+
+.h-timeline {
+  display:flex;
+  gap:1.5rem;
+  margin:0;
+  padding:0 0.75rem;
+  overflow-x:auto;
+  scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling:touch;
+  position:relative;
+  z-index:2;
+}
+.h-timeline::-webkit-scrollbar { height:8px; }
+.h-timeline::-webkit-scrollbar-thumb {
+  background:rgba(0,0,0,.25);
+  border-radius:4px;
+}
+
+.h-tl-item {
+  position:relative;
+  flex:0 0 240px;
+  scroll-snap-align:start;
+  padding:0 0.25rem;
+}
+@media (min-width:992px) {
+  .h-tl-item { flex:0 0 280px; }
+}
+
+.h-tl-dot {
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:14px;
+  height:14px;
+  transform:translate(-50%, -50%);
+  border-radius:50%;
+  background:var(--bs-primary,#0d6efd);
+  box-shadow:0 0 0 4px rgba(13,110,253,.25);
+  z-index:3;
+}
+.h-tl-item.latest .h-tl-dot {
+  background:var(--bs-success,#198754);
+  box-shadow:0 0 0 5px rgba(25,135,84,.35);
+}
+
+.h-tl-card {
+  position:relative;
+  max-width:100%;
+  padding:0 0.25rem 0.5rem;
+  display:flex;
+  flex-direction:column;
+}
+
+.h-tl-item.top .h-tl-card {
+  transform:translateY(-1.25rem);
+}
+.h-tl-item.bottom .h-tl-card {
+  transform:translateY(1.25rem);
+}
+
+.h-tl-title {
+  font-size:.95rem;
+  line-height:1.25rem;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-weight:600;
+}
+.h-tl-desc {
+  line-height:1.25rem;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin:0;
+  font-size:.75rem;
+  color:var(--bs-secondary-color, #6c757d);
+  min-height:3.75rem;
+}
+
+/* 手機：單列排列，上下不交錯 */
+@media (max-width: 575.98px) {
+  .h-timeline-outer {
+    padding:1.25rem 0 1.5rem;
+  }
+  .h-timeline { gap:1rem; }
+  .h-tl-item {
+    flex:0 0 70%;
+    min-width:240px;
+  }
+  .h-tl-item.top .h-tl-card,
+  .h-tl-item.bottom .h-tl-card {
+    transform:none;
+    padding-top:0.5rem;
+  }
+  .h-tl-dot { top:50%; }
+}
+
+/* --- 水平交錯時間軸：中央線 = 上下事件垂直幾何中點 --- */
+.h-timeline-outer {
+  --card-height: 140px; /* 單張卡片固定高度，可調 */
+  --gap: 18px;          /* 中線與卡片距離 */
+  --item-width: 260px;  /* 單事件寬 (>=992px 會放大) */
+  --line-color: var(--bs-primary,#0d6efd);
+  position:relative;
+  overflow:hidden;
+  padding: 1rem 0 1.5rem;
+}
+
+/* 固定中央線（不隨內容高度浮動） */
+.h-timeline-outer::before {
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  top: calc(var(--card-height) + var(--gap));
+  height:2px;
+  background: linear-gradient(90deg,var(--line-color),rgba(13,110,253,.15));
+  opacity:.45;
+  pointer-events:none;
+  z-index:1;
+}
+
+.h-timeline {
+  display:flex;
+  gap:1.5rem;
+  margin:0;
+  padding:0 0.75rem;
+  list-style:none;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scroll-snap-type:x proximity;
+  height: calc(var(--card-height)*2 + var(--gap)*2);
+  position:relative;
+  z-index:2;
+}
+.h-timeline::-webkit-scrollbar { height:8px; }
+.h-timeline::-webkit-scrollbar-thumb {
+  background:rgba(0,0,0,.25);
+  border-radius:4px;
+}
+
+/* 每個事件槽 */
+.h-tl-item {
+  position:relative;
+  flex:0 0 var(--item-width);
+  scroll-snap-align:start;
+  height:100%;
+}
+@media (min-width: 992px) {
+  .h-timeline-outer { --item-width: 300px; }
+}
+
+/* 卡片固定高度，上 / 下 絕對定位，確保中線總在上下中間 */
+.h-tl-card {
+  position:absolute;
+  left:0; right:0;
+  height: var(--card-height);
+  padding: 0 0.35rem 0.4rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+
+/* 上列事件 */
+.h-tl-item.top .h-tl-card { top:0; }
+/* 下列事件 */
+.h-tl-item.bottom .h-tl-card { bottom:0; }
+
+/* 中央節點 */
+.h-tl-dot {
+  position:absolute;
+  top: calc(var(--card-height) + var(--gap));
+  left:50%;
+  width:14px;
+  height:14px;
+  transform:translate(-50%, -50%);
+  border-radius:50%;
+  background: var(--line-color);
+  box-shadow:0 0 0 4px rgba(13,110,253,.28);
+  z-index:3;
+}
+.h-tl-item.latest .h-tl-dot {
+  background: var(--bs-success,#198754);
+  box-shadow:0 0 0 5px rgba(25,135,84,.35);
+}
+
+/* 文字截斷（標題 1 行，描述 3 行） */
+.h-tl-title {
+  font-size:.95rem;
+  line-height:1.25rem;
+  font-weight:600;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin:0 0 .25rem;
+}
+.h-tl-desc {
+  font-size:.75rem;
+  line-height:1.25rem;
+  margin:0 0 .25rem;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color: var(--bs-secondary-color,#6c757d);
+  flex-grow:0;
+  max-width:100%;
+  min-height: calc(1.25rem * 3);
+}
+
+/* Badge 對齊 */
+.h-tl-card .badge { align-self:flex-start; }
+
+.h-timeline-controls button {
+  width:2rem; height:2rem;
+  padding:0;
+  line-height:1;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+/* 移除淡化遮罩效果 */
+.fade-left,
+.fade-right {
+  display:none !important;
+  background:none !important;
+  width:0 !important;
+  pointer-events:none;
+  box-shadow:none;
+}
+
+/* 簡化水平時間軸 (無 h-tl-card) */
+.mini-tl-wrap {
+  --seg-width: 180px;
+  --dot:14px;
+  --line:#FA8072;
+  --active:#FA8072;
+  --inactive:#00000080;
+  position:relative;
+  overflow-x:auto;
+  padding:18px 6px 24px;
+  -webkit-overflow-scrolling:touch;
+}
+.mini-tl-wrap::-webkit-scrollbar{ height:8px; }
+.mini-tl-wrap::-webkit-scrollbar-thumb{ background:#0003; border-radius:4px; }
+
+.mini-tl {
+  position:relative;
+  list-style:none;
+  margin:38px 0 0;
+  padding:0;
+  white-space:nowrap;
+  height:1px;
+  background:var(--line);
+}
+.mini-item {
+  position:relative;
+  display:inline-block;
+  width:var(--seg-width);
+  height:1px;
+  background:var(--line);
+  text-align:center;
+  color:var(--inactive);
+  vertical-align:top;
+  padding:0;
+}
+.mini-point {
+  position:absolute;
+  top:0;
+  left:50%;
+  width:var(--dot);
+  height:var(--dot);
+  transform:translate(-50%, -50%);
+  border-radius:50%;
+  background:#fff;
+  border:2px solid var(--line);
+  box-sizing:border-box;
+  transition:.25s;
+}
+.mini-item.active > .mini-point {
+  background:#fff;
+  border-width:7px;
+  border-color:var(--active);
+}
+.mini-title {
+  font-size:.8rem;
+  margin:22px 4px 6px;
+  line-height:1.1rem;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  word-break:break-word;
+}
+.mini-date {
+  font-size:.7rem;
+  margin:0;
+  line-height:1rem;
+}
+.mini-item.active .mini-title,
+.mini-item.active .mini-date { color:var(--active); }
+.mini-item .badge { margin-top:4px; }
+
+.fade-left, .fade-right {
+  position:absolute;
+  top:0; bottom:0;
+  width:40px;
+  pointer-events:none;
+  z-index:2;
+}
+.fade-left { left:0; background:linear-gradient(90deg,#fff,rgba(255,255,255,0)); }
+.fade-right{ right:0; background:linear-gradient(270deg,#fff,rgba(255,255,255,0)); }
+
+@media (max-width:575.98px){
+  .mini-tl-wrap { --seg-width: 150px; }
+  .mini-title { -webkit-line-clamp:3; }
+}
+
+/* --- 修正 mini-tl-wrap 高度不足問題 --- */
+.mini-tl-wrap {
+  /* 原本 padding 可能太小，改為給線與文字足夠空間 */
+  padding: 28px 8px 30px;
+  overflow-x: auto;
+  overflow-y: visible; /* 允許內容往下超出不被裁掉 */
+}
+
+.mini-tl {
+  /* 線往上移，讓下方文字有空間 */
+  margin: 0;
+  height: 1px;
+  background: #FA8072;
+  position: relative;
+}
+
+/* 每個事件點與文字垂直間距 */
+.mini-item {
+  height: 1px;          /* 線高度 */
+  padding: 0;
+  /* 讓下方文字不被父層裁掉 */
+  overflow: visible;
+}
+
+.mini-point {
+  top: 0;               /* 線上置中 */
+}
+
+.mini-title {
+  margin: 24px 6px 6px; /* 線下留 24px 再放標題 */
+  line-height: 1.15rem;
+}
+
+.mini-date {
+  margin: 0 0 4px;
+  line-height: 1rem;
+}
+
+/* 若仍被裁，最後手段可加 min-height */
+.mini-tl-wrap {
+  min-height: 170px; /* 視需要微調 (150~190) */
+}
+
+/* 手機再微調縮小間距 */
+@media (max-width:575.98px){
+  .mini-tl-wrap { padding: 26px 6px 26px; min-height: 180px; }
+  .mini-title { margin-top: 22px; }
+}
+
+/* === Override timeline colors (放在檔案最後) === */
+.mini-tl-wrap {
+  --line:#fcb532;
+  --active:#fcb532;
+  --inactive:rgba(255,255,255,.6);
+}
+.mini-tl,
+.mini-item { background:#fcb532; }
+
+.mini-point {
+  border-color:#fcb532;
+  background:#111;              /* 若想中間透明改成: background:#000; 或 #fff */
+}
+.mini-item.active > .mini-point {
+  border-color:#fcb532;
+}
+
+.mini-title,
+.mini-date,
+.mini-item.active .mini-title,
+.mini-item.active .mini-date {
+  color:#fff;
+}
+
+.mini-item .badge {
+  background:#fcb532;
+  color:#111;
+  border:1px solid #fcb532;
+}
+
+/* 其他舊時間軸（若仍使用）統一改色與字色 */
+.h-timeline-outer,
+.timeline-h-wrapper {
+  --line-color:#fcb532;
+}
+.h-timeline-outer::before,
+.timeline-h::before { background:linear-gradient(90deg,#fcb532,#fcb53255); }
+
+.h-tl-dot,
+.tl-dot {
+  background:#fcb532;
+  box-shadow:0 0 0 4px #fcb53255;
+}
+.h-tl-item.latest .h-tl-dot,
+.timeline-h-item.latest .tl-dot {
+  background:#fcb532;
+  box-shadow:0 0 0 5px #fcb53280;
+}
+
+.h-tl-card,
+.tl-card {
+  color:#fff;
+}
+.h-tl-card small,
+.h-tl-title,
+.h-tl-desc,
+.tl-title,
+.tl-desc { color:#fff; }
+
+/* ========== Team Gallery Switch ========== */
+.team-gallery-switch {
+  position:relative;
+  background:
+    var(--team-gallery-bg) center/cover no-repeat;
+  padding: clamp(2.5rem, 4vw, 3.5rem) 1.5rem;
+  border-radius: 1.2rem;
+  margin: 0 auto 3rem;
+  overflow: hidden;
+}
+
+/* 滾動容器 */
+.tg-btn-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  justify-content: center;
+}
+
+.tg-btn-row {
+  display: flex;
+  flex-wrap: nowrap; /* 改為不換行 */
+  gap: 0; /* 移除 gap，使用 margin 控制間距 */
+  align-items: center;
+  overflow-x: auto;
+  /* 移除 scroll-behavior，改用 JS 控制滾動動畫 */
+  /* 隱藏滾動條但保持功能 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  padding: 1rem 0; /* 增加 padding 確保按鈕完整顯示 */
+  /* 計算大約 5 個按鈕的寬度：190px * 5 - 重疊部分 39px * 4 */
+  width: calc(5 * 190px - 4 * 39px);
+  max-width: calc(5 * 190px - 4 * 39px);
+  min-width: 0;
+  /* iOS Safari 滾動優化 */
+  -webkit-overflow-scrolling: touch;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  /* 確保容器有足夠高度 */
+  min-height: 100px;
+}
+
+.tg-btn-row::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+/* 滾動按鈕 */
+.tg-scroll-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.tg-scroll-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transform: scale(1.05);
+}
+
+.tg-scroll-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tg-scroll-btn.tg-scroll-left {
+  margin-right: 1rem;
+}
+
+.tg-scroll-btn.tg-scroll-right {
+  margin-left: 1rem;
+}
+
+.tg-btn {
+  background:transparent;
+  border:none;
+  padding:0;
+  cursor:pointer;
+  line-height:0;
+  position:relative;
+  transition:transform .25s ease, filter .25s;
+  outline:none;
+  /* 平行四邊形裁切路徑 - 根據圖片角度調整 */
+  clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+  overflow: visible; /* 改為 visible 讓圖片完整顯示 */
+  z-index:1;
+  flex-shrink: 0; /* 防止按鈕被壓縮 */
+  /* iOS Safari 兼容性修正 */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+  /* 確保按鈕有足夠高度容納圖片 */
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 讓按鈕彼此貼合 - 除了第一個按鈕外都向左偏移 */
+.tg-btn:not(:first-child) {
+  margin-left: -39px; /* 使用固定像素值，避免百分比造成過度重疊 */
+}
+
+/* hover 和 active 狀態提升 z-index 確保在最上層 */
+.tg-btn:hover,
+.tg-btn.active {
+  z-index:2;
+}
+
+/* 不同斜度的變化類別（可選用） */
+.tg-btn.skew-light {
+  clip-path: polygon(18% 0%, 100% 0%, 82% 100%, 0% 100%);
+}
+.tg-btn.skew-medium {
+  clip-path: polygon(22% 0%, 100% 0%, 78% 100%, 0% 100%);
+}
+.tg-btn.skew-heavy {
+  clip-path: polygon(26% 0%, 100% 0%, 74% 100%, 0% 100%);
+}
+.tg-btn.skew-reverse {
+  clip-path: polygon(0% 0%, 78% 0%, 100% 100%, 22% 100%);
+}
+.tg-btn img {
+  display:block;
+  height:72px;
+  width:auto;
+  object-fit:contain; /* 改為 contain 確保圖片完整顯示 */
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.4));
+  transition:transform .3s, filter .3s;
+  /* 移除固定寬度限制 */
+  min-width: auto;
+  max-width: 150px; /* 設定最大寬度防止圖片過大 */
+  /* iOS Safari 圖片渲染優化 */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+.tg-btn:hover img { 
+  transform:translateY(-4px) scale(1.03); 
+  filter:brightness(1.06) drop-shadow(0 6px 14px rgba(0,0,0,.55)); 
+  /* iOS Safari 修正 */
+  -webkit-transform:translateY(-4px) scale(1.03) translateZ(0); 
+}
+.tg-btn.active img {
+  transform:translateY(-2px) scale(1.05);
+  filter:brightness(1.12) drop-shadow(0 8px 18px rgba(0,0,0,.6));
+  /* iOS Safari 修正 */
+  -webkit-transform:translateY(-2px) scale(1.05) translateZ(0);
+}
+
+.tg-display {
+  position:relative;
+  min-height:340px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:1rem;
+}
+
+.tg-figure {
+  margin:0;
+  width:100%;
+  max-width:1000px;
+  position:relative;
+}
+.tg-figure img {
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:cover;
+  box-shadow:0 12px 38px -10px rgba(0,0,0,.55);
+}
+.tg-figure figcaption {
+  margin-top:.65rem;
+  font-size:.85rem;
+  opacity:.85;
+  color:#fff;
+  text-align:center;
+  letter-spacing:.5px;
+}
+
+/* 轉場動畫 */
+.tg-fade-enter-active,
+.tg-fade-leave-active { transition:opacity .25s ease; }
+.tg-fade-enter-from,
+.tg-fade-leave-to { opacity:0; }
+
+/* RWD */
+@media (max-width:991.98px){
+  .team-gallery-switch { padding: clamp(2rem, 3vw, 2.8rem) 1.25rem; }
+  .tg-btn img { 
+    height:64px;
+    /* 確保中等螢幕也能正確顯示圖片 */
+    object-fit: contain;
+    width: auto;
+  }
+  .tg-display { min-height:300px; }
+  
+  /* 中等螢幕調整滾動容器寬度 */
+  .tg-btn-row {
+    max-width: calc(4 * 100px + 3 * 10px); /* 調整寬度計算，給按鈕更多空間 */
+    padding: 0.6rem 0; /* 增加上下 padding */
+  }
+  
+  /* 中等螢幕按鈕樣式 */
+  .tg-btn {
+    min-width: 100px;
+    padding: 0.1rem;
+  }
+}
+@media (max-width:575.98px){
+  .team-gallery-switch { 
+    padding: clamp(1.5rem, 2.5vw, 2rem) 1rem; 
+    border-radius: .9rem;
+  }
+  .tg-btn img { 
+    height:56px;
+    /* 修改 object-fit 讓圖片完整顯示 */
+    object-fit: contain;
+    /* 確保圖片寬度自適應 */
+    width: auto;
+    min-width: auto;
+  }
+  .tg-display { padding:.85rem; min-height:260px; }
+  
+  /* 手機版調整重疊程度 */
+  .tg-btn:not(:first-child) {
+    margin-left: -18px; /* 手機版稍微減少重疊 */
+  }
+  
+  /* 手機版滾動容器調整 - 讓按鈕有足夠空間顯示 */
+  .tg-btn-row {
+    max-width: calc(3 * 80px + 2 * 10px); /* 調整為更寬鬆的寬度計算 */
+    padding: 0.8rem 0; /* 增加上下 padding 確保按鈕完整顯示 */
+  }
+  
+  /* 手機版按鈕樣式調整 */
+  .tg-btn {
+    /* 給按鈕更多空間 */
+    min-width: 80px;
+    min-height: 70px; /* 調整高度 */
+    padding: 0.2rem;
+    /* 手機版暫時移除 clip-path 確保圖片完整顯示 */
+    clip-path: none;
+    overflow: visible;
+  }
+  
+  .tg-scroll-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  
+  .tg-scroll-btn.tg-scroll-left {
+    margin-right: 0.5rem;
+  }
+  
+  .tg-scroll-btn.tg-scroll-right {
+    margin-left: 0.5rem;
+  }
+}
+
+/* iOS Safari 特殊修正 */
+@supports (-webkit-touch-callout: none) {
+  /* 針對 iOS Safari 的樣式修正 */
+  .tg-btn {
+    /* 強制硬件加速 */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
+  }
+  
+  .tg-btn img {
+    /* 防止圖片在 iOS 上模糊 */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* 確保圖片正確渲染 */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+  }
+  
+  .tg-btn-row {
+    /* iOS 滾動優化 */
+    -webkit-overflow-scrolling: touch;
+    /* 防止滾動時的視覺問題 */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  
+  /* iOS hover 替代方案 - 使用 :active */
+  .tg-btn:active img {
+    transform: translateY(-2px) scale(1.02);
+    -webkit-transform: translateY(-2px) scale(1.02) translateZ(0);
+    filter: brightness(1.04) drop-shadow(0 4px 10px rgba(0,0,0,.45));
+  }
+}

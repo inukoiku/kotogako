@@ -1,0 +1,195 @@
+/* ========== 連結圖片區塊 ========== */
+.links-gallery-section {
+  /* 背景圖片設定 */
+  background-image: url('/images/linkspage/link_bk.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 5rem 0;
+  position: relative;
+}
+
+/* 背景圖片遮罩 */
+.links-gallery-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.links-gallery-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border-radius: 2px;
+}
+
+/* 2張一排的網格佈局 */
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.link-item {
+  /* background: #fff; */
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.link-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.link-image-container {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.link-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.link-item:hover .link-image {
+  transform: scale(1.05);
+}
+
+
+
+/* ========== 響應式設計 ========== */
+@media (max-width: 968px) {
+  .links-gallery-section {
+    padding: 3rem 0;
+    background-attachment: scroll; /* 手機上移除 fixed */
+  }
+  
+  .links-gallery-container {
+    padding: 0 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+  }
+  
+  .links-grid {
+    gap: 1.5rem;
+  }
+  
+  .link-image-container {
+    height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 在手機上改為單欄顯示 */
+  .links-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .link-image-container {
+    height: 180px;
+  }
+  
+  .link-overlay {
+    padding: 1.5rem;
+  }
+  
+  .link-title {
+    font-size: 1.3rem;
+  }
+  
+  .link-description {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .links-gallery-section {
+    padding: 2rem 0;
+  }
+  
+  .links-gallery-container {
+    padding: 0 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  
+  .link-image-container {
+    height: 160px;
+  }
+  
+  .link-overlay {
+    padding: 1rem;
+  }
+  
+  .link-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* ========== 動畫效果 ========== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.link-item {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.link-item:nth-child(1) { animation-delay: 0.1s; }
+.link-item:nth-child(2) { animation-delay: 0.2s; }
+.link-item:nth-child(3) { animation-delay: 0.3s; }
+.link-item:nth-child(4) { animation-delay: 0.4s; }
+.link-item:nth-child(5) { animation-delay: 0.5s; }
+.link-item:nth-child(6) { animation-delay: 0.6s; }
