@@ -138,13 +138,32 @@ export function useTeamPage() {
       imageUrls.push(base + item.image);
     });
     
+    let loadedCount = 0;
+    const totalImages = imageUrls.length;
+    
     imageUrls.forEach(url => {
       const img = new Image();
-      img.src = url;
-      // 添加錯誤處理
+      img.onload = () => {
+        loadedCount++;
+        // 當所有圖片載入完成後，更新滾動狀態
+        if (loadedCount === totalImages) {
+          console.log('All images loaded, updating scroll state');
+          setTimeout(() => {
+            updateScrollState();
+          }, 100);
+        }
+      };
       img.onerror = () => {
         console.warn(`Failed to preload image: ${url}`);
+        loadedCount++;
+        // 即使失敗也要計數，避免卡住
+        if (loadedCount === totalImages) {
+          setTimeout(() => {
+            updateScrollState();
+          }, 100);
+        }
       };
+      img.src = url;
     });
   }
 
@@ -210,31 +229,33 @@ export function useTeamPage() {
     if (!el) return;
     
     // 確保元素已經完全渲染
-    const scrollLeft = el.scrollLeft;
+    const scrollLeft = Math.round(el.scrollLeft);
     const scrollWidth = el.scrollWidth;
     const clientWidth = el.clientWidth;
     
-    // 添加偵錯資訊
-    // console.log('Scroll State Debug:', {
-    //   scrollLeft,
-    //   scrollWidth,
-    //   clientWidth,
-    //   hasScrollableContent: scrollWidth > clientWidth
-    // });
+    // 線上環境偵錯資訊
+    console.log('Scroll State Debug:', {
+      scrollLeft,
+      scrollWidth,
+      clientWidth,
+      hasScrollableContent: scrollWidth > clientWidth,
+      canScrollRightCalc: scrollWidth > clientWidth && scrollLeft < (scrollWidth - clientWidth - 2)
+    });
     
-    canScrollLeft.value = scrollLeft > 1; // 給一點容差
-    canScrollRight.value = scrollWidth > clientWidth && scrollLeft < (scrollWidth - clientWidth - 1); // 確保有可滾動內容
+    canScrollLeft.value = scrollLeft > 2; // 增加容差值
+    // 增加容差值，避免浮點數精度問題
+    canScrollRight.value = scrollWidth > clientWidth && scrollLeft < (scrollWidth - clientWidth - 2);
     
-    // console.log('Button States:', {
-    //   canScrollLeft: canScrollLeft.value,
-    //   canScrollRight: canScrollRight.value
-    // });
+    console.log('Button States:', {
+      canScrollLeft: canScrollLeft.value,
+      canScrollRight: canScrollRight.value
+    });
   }
 
   // 初始化滾動狀態
   function initScrollState() {
     let attempts = 0;
-    const maxAttempts = 10; // 減少最大嘗試次數
+    const maxAttempts = 15; // 稍微增加嘗試次數應對線上環境
     
     const checkAndInit = () => {
       attempts++;
@@ -243,35 +264,50 @@ export function useTeamPage() {
       if (!el) {
         console.log(`Attempt ${attempts}: Element not found test`);
         if (attempts < maxAttempts) {
-          setTimeout(checkAndInit, 50); // 減少延遲時間
+          setTimeout(checkAndInit, 100); // 線上環境需要更多時間
         }
         return;
       }
       
-      // 等待元素完全渲染
-      if (el.scrollWidth === 0 || el.clientWidth === 0) {
-        // console.log(`Attempt ${attempts}: Element not ready`, {
+      // 檢查圖片是否載入完成
+      const images = el.querySelectorAll('img');
+      let imagesLoaded = true;
+      images.forEach(img => {
+        if (!img.complete || img.naturalHeight === 0) {
+          imagesLoaded = false;
+        }
+      });
+      
+      // 等待元素完全渲染且圖片載入完成
+      if (el.scrollWidth === 0 || el.clientWidth === 0 || !imagesLoaded) {
+        // console.log(`Attempt ${attempts}: Element/Images not ready`, {
         //   scrollWidth: el.scrollWidth,
-        //   clientWidth: el.clientWidth
+        //   clientWidth: el.clientWidth,
+        //   imagesLoaded: imagesLoaded
         // });
         if (attempts < maxAttempts) {
-          setTimeout(checkAndInit, 50); // 減少延遲時間
+          setTimeout(checkAndInit, 100);
         }
         return;
       }
       
-      // console.log(`Attempt ${attempts}: Element ready, initializing...`);
+      console.log(`Attempt ${attempts}: Element ready, initializing...`);
       
       // 確保初始位置在最左邊
       el.scrollLeft = 0;
       
-      // 立即更新狀態，不用多重延遲
+      // 立即更新狀態
       updateScrollState();
       
-      // 只做一次額外檢查確保準確性
+      // 額外檢查確保準確性，線上環境需要稍微多等一下
       setTimeout(() => {
         updateScrollState();
-      }, 50); // 縮短到 50ms
+      }, 100);
+      
+      // 再做一次最終檢查
+      setTimeout(() => {
+        updateScrollState();
+      }, 200);
     };
     
     checkAndInit();
