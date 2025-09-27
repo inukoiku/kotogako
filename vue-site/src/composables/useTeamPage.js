@@ -241,7 +241,7 @@ export function useTeamPage() {
       const el = galleryBtnRow.value;
       
       if (!el) {
-        console.log(`Attempt ${attempts}: Element not found`);
+        console.log(`Attempt ${attempts}: Element not found test`);
         if (attempts < maxAttempts) {
           setTimeout(checkAndInit, 50); // 減少延遲時間
         }
