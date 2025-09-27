@@ -44,7 +44,13 @@ export function useLinkPage() {
 
   // 點擊圖片開啟連結
   function openLink(url) {
-    window.open(url, '_blank');
+    // 使用 noopener 和 noreferrer 提供安全保護
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    
+    // 額外的安全保護：如果瀏覽器不支援 window.open 的第三個參數
+    if (newWindow) {
+      newWindow.opener = null;
+    }
   }
 
   return {

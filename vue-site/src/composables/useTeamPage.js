@@ -234,22 +234,22 @@ export function useTeamPage() {
     const clientWidth = el.clientWidth;
     
     // 線上環境偵錯資訊
-    console.log('Scroll State Debug:', {
-      scrollLeft,
-      scrollWidth,
-      clientWidth,
-      hasScrollableContent: scrollWidth > clientWidth,
-      canScrollRightCalc: scrollWidth > clientWidth && scrollLeft < (scrollWidth - clientWidth - 2)
-    });
+    // console.log('Scroll State Debug:', {
+    //   scrollLeft,
+    //   scrollWidth,
+    //   clientWidth,
+    //   hasScrollableContent: scrollWidth > clientWidth,
+    //   canScrollRightCalc: scrollWidth > clientWidth && scrollLeft < (scrollWidth - clientWidth - 2)
+    // });
     
     canScrollLeft.value = scrollLeft > 2; // 增加容差值
     // 增加容差值，避免浮點數精度問題
     canScrollRight.value = scrollWidth > clientWidth && scrollLeft < (scrollWidth - clientWidth - 2);
     
-    console.log('Button States:', {
-      canScrollLeft: canScrollLeft.value,
-      canScrollRight: canScrollRight.value
-    });
+    // console.log('Button States:', {
+    //   canScrollLeft: canScrollLeft.value,
+    //   canScrollRight: canScrollRight.value
+    // });
   }
 
   // 初始化滾動狀態
@@ -262,7 +262,7 @@ export function useTeamPage() {
       const el = galleryBtnRow.value;
       
       if (!el) {
-        console.log(`Attempt ${attempts}: Element not found test`);
+        // console.log(`Attempt ${attempts}: Element not found test`);
         if (attempts < maxAttempts) {
           setTimeout(checkAndInit, 100); // 線上環境需要更多時間
         }
@@ -291,7 +291,7 @@ export function useTeamPage() {
         return;
       }
       
-      console.log(`Attempt ${attempts}: Element ready, initializing...`);
+      // console.log(`Attempt ${attempts}: Element ready, initializing...`);
       
       // 確保初始位置在最左邊
       el.scrollLeft = 0;
