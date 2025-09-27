@@ -234,7 +234,7 @@ export function useTeamPage() {
   // 初始化滾動狀態
   function initScrollState() {
     let attempts = 0;
-    const maxAttempts = 20; // 最多嘗試 20 次
+    const maxAttempts = 10; // 減少最大嘗試次數
     
     const checkAndInit = () => {
       attempts++;
@@ -243,7 +243,7 @@ export function useTeamPage() {
       if (!el) {
         console.log(`Attempt ${attempts}: Element not found`);
         if (attempts < maxAttempts) {
-          setTimeout(checkAndInit, 100);
+          setTimeout(checkAndInit, 50); // 減少延遲時間
         }
         return;
       }
@@ -255,7 +255,7 @@ export function useTeamPage() {
         //   clientWidth: el.clientWidth
         // });
         if (attempts < maxAttempts) {
-          setTimeout(checkAndInit, 100);
+          setTimeout(checkAndInit, 50); // 減少延遲時間
         }
         return;
       }
@@ -265,14 +265,13 @@ export function useTeamPage() {
       // 確保初始位置在最左邊
       el.scrollLeft = 0;
       
-      // 多次檢查狀態，確保正確
+      // 立即更新狀態，不用多重延遲
+      updateScrollState();
+      
+      // 只做一次額外檢查確保準確性
       setTimeout(() => {
         updateScrollState();
-        // 再檢查一次
-        setTimeout(() => {
-          updateScrollState();
-        }, 200);
-      }, 100);
+      }, 50); // 縮短到 50ms
     };
     
     checkAndInit();
@@ -281,13 +280,13 @@ export function useTeamPage() {
   // 監聽視窗大小變化和元素尺寸變化
   if (typeof window !== 'undefined') {
     window.addEventListener('resize', () => {
-      setTimeout(updateScrollState, 100);
+      setTimeout(updateScrollState, 50); // 減少延遲
     });
     
     // 使用 ResizeObserver 監聽滾動容器尺寸變化
     if (window.ResizeObserver) {
       const resizeObserver = new ResizeObserver(() => {
-        setTimeout(updateScrollState, 50);
+        setTimeout(updateScrollState, 25); // 減少延遲
       });
       
       // 當 galleryBtnRow 可用時開始觀察
@@ -295,7 +294,7 @@ export function useTeamPage() {
         if (galleryBtnRow.value) {
           resizeObserver.observe(galleryBtnRow.value);
         } else {
-          setTimeout(observeElement, 100);
+          setTimeout(observeElement, 50); // 減少延遲
         }
       };
       observeElement();
