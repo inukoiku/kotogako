@@ -1,7 +1,67 @@
 .site-header-nav {
   background:#000;
   padding:.5rem 0;
+  position: relative;
 }
+
+/* 手機版漢堡按鈕 */
+.mobile-menu-toggle {
+  display: none;
+  position: absolute;
+  top: 90%;
+  right: 1rem;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  width: 30px;
+  height: 30px;
+  flex-direction: column;
+  justify-content: space-around;
+  cursor: pointer;
+  z-index: 1000;
+  padding: 0;
+}
+
+.hamburger-line {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translateY(8px);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translateY(-8px);
+}
+
+/* 手機版背景遮罩 */
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
 .nav-grid {
   display:grid;
   grid-template-columns:repeat(6, 1fr);
@@ -9,6 +69,7 @@
   max-width:1200px;
   margin:0 auto;
   padding:0 .75rem;
+  transition: all 0.3s ease;
 }
 .nav-cell {
   position:relative;
@@ -81,7 +142,79 @@
 @media (max-width:992px){
   .nav-grid { grid-template-columns:repeat(3, 1fr); }
 }
+
+@media (max-width:768px){
+  /* 顯示漢堡按鈕 */
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  /* 手機版選單預設隱藏 */
+  .nav-grid {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #000;
+    grid-template-columns: repeat(2, 1fr); /* 改為兩列 */
+    gap: 0.5rem;
+    padding: 1rem;
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-top: 1px solid #333;
+    max-height: 0;
+    overflow: hidden;
+    z-index: 999;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* 展開狀態 */
+  .nav-grid.mobile-open {
+    transform: scaleY(1);
+    opacity: 1;
+    visibility: visible;
+    max-height: 500px;
+  }
+  
+  /* 手機版選單項目動畫 */
+  .nav-cell {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.3s ease;
+  }
+  
+  .nav-grid.mobile-open .nav-cell {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  /* 為每個選單項目加入延遲動畫 */
+  .nav-grid.mobile-open .nav-cell:nth-child(1) { transition-delay: 0.1s; }
+  .nav-grid.mobile-open .nav-cell:nth-child(2) { transition-delay: 0.15s; }
+  .nav-grid.mobile-open .nav-cell:nth-child(3) { transition-delay: 0.2s; }
+  .nav-grid.mobile-open .nav-cell:nth-child(4) { transition-delay: 0.25s; }
+  .nav-grid.mobile-open .nav-cell:nth-child(5) { transition-delay: 0.3s; }
+  .nav-grid.mobile-open .nav-cell:nth-child(6) { transition-delay: 0.35s; }
+  
+  /* 手機版選單項目樣式調整 */
+  .nav-img-wrap {
+    max-width: 120px;
+    margin: 0 auto;
+  }
+  
+  /* 手機版隱藏標籤 */
+  .nav-label {
+    display: none;
+  }
+}
+
 @media (max-width:575.98px){
-  .nav-grid { grid-template-columns:repeat(2, 1fr); }
   .nav-label { font-size:.75rem; }
+  
+  .nav-img-wrap {
+    max-width: 100px;
+  }
 }
