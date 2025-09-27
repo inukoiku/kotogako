@@ -1,0 +1,2 @@
+# kotogako
+Inugami High School
