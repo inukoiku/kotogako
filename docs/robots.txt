@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# 主要頁面
+Allow: /
+Allow: /news
+Allow: /library
+Allow: /team
+Allow: /products
+Allow: /links
+
+# 靜態資源
+Allow: /images/
+Allow: /assets/
+
+# Sitemap 位置
+Sitemap: https://inukoiku.github.io/kotogako/sitemap.xml
+
+# 爬蟲延遲 (可選)
+Crawl-delay: 1

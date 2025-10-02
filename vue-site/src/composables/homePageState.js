@@ -53,6 +53,17 @@ export function useHomePageState() {
       bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
       cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
     },
+    { 
+      id: 3, 
+      image: `${base}/images/home/product_student.jpg`, 
+      title: '犬高育學蘭服學生吊飾', 
+      subtitle: '犬高育學蘭服學生吊飾', 
+      cta: { label: '犬高育學蘭服學生吊飾', to: 'https://docs.google.com/forms/d/1tdrL6OFC3p3D9BuX3P9nXuBjB9_b0xZQ9ZaP13dXNuc/edit' },
+      // 響應式配置 - 根據螢幕大小動態調整
+      bgPosition: 'center center',
+      bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
+      cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
+    },
   ]);
 
   const news = ref([
