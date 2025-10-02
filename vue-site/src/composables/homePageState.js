@@ -34,9 +34,31 @@ export function useHomePageState() {
     { 
       id: 2, 
       image: `${base}/images/home/highschoolmainbk_2.jpg`, 
-      title: '多元活動', 
-      subtitle: '活動歷程持續更新，加入我們不錯過任何精彩', 
-      cta: { label: '活動歷程', to: 'https://www.facebook.com/profile.php?id=61560013116714' },
+      title: 'FB粉絲團', 
+      subtitle: '犬高育粉絲團持續更新，歡迎追蹤', 
+      cta: { label: '犬高育FB粉絲團', to: 'https://www.facebook.com/profile.php?id=61560013116714' },
+      // 響應式配置 - 根據螢幕大小動態調整
+      bgPosition: 'center center',
+      bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
+      cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
+    },
+    { 
+      id: 3, 
+      image: `${base}/images/home/towel.png`, 
+      title: '犬力以赴毛巾', 
+      subtitle: '犬高育官方授權商品', 
+      cta: { label: '犬力以赴毛巾', to: 'https://www.facebook.com/profile.php?id=61560013116714' },
+      // 響應式配置 - 根據螢幕大小動態調整
+      bgPosition: 'center center',
+      bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
+      cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
+    },
+    { 
+      id: 3, 
+      image: `${base}/images/home/product_student.jpg`, 
+      title: '犬高育學蘭服學生吊飾', 
+      subtitle: '犬高育學蘭服學生吊飾', 
+      cta: { label: '犬高育學蘭服學生吊飾', to: 'https://docs.google.com/forms/d/1tdrL6OFC3p3D9BuX3P9nXuBjB9_b0xZQ9ZaP13dXNuc/edit' },
       // 響應式配置 - 根據螢幕大小動態調整
       bgPosition: 'center center',
       bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
