@@ -47,7 +47,7 @@ export function useHomePageState() {
       image: `${base}/images/home/towel.png`, 
       title: '犬力以赴毛巾', 
       subtitle: '犬高育官方授權商品', 
-      cta: { label: '犬力以赴毛巾', to: 'https://www.facebook.com/profile.php?id=61560013116714' },
+      cta: { label: '犬力以赴毛巾', to: 'https://docs.google.com/forms/d/e/1FAIpQLSd6nnQNdEir0L_Rzby3tf80FupYD227yQAMtrPzd3HmOCVADA/viewform' },
       // 響應式配置 - 根據螢幕大小動態調整
       bgPosition: 'center center',
       bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain

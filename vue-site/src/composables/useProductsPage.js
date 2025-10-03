@@ -23,7 +23,7 @@ export function useProductsPage() {
               <li>限量發行：數量有限，售完為止</li>
               <li>精美包裝：適合收藏或送禮</li>
             </ul>
-            <p>購買方式請洽詢學務處或關注官方社群媒體公告。</p>
+            <p>購買方式請洽<a href="https://docs.google.com/forms/d/e/1FAIpQLSd6nnQNdEir0L_Rzby3tf80FupYD227yQAMtrPzd3HmOCVADA/viewform" target="_blank" rel="noopener">這裡</a>。</p>
           </div>
         </div>
       `
