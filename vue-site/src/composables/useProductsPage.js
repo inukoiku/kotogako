@@ -24,6 +24,7 @@ export function useProductsPage() {
               <li>精美包裝：適合收藏或送禮</li>
             </ul>
             <p>購買方式請洽<a href="https://docs.google.com/forms/d/e/1FAIpQLSd6nnQNdEir0L_Rzby3tf80FupYD227yQAMtrPzd3HmOCVADA/viewform" target="_blank" rel="noopener">這裡</a>。</p>
+            <p>訂單狀況查詢請洽<a href="https://inukoiku.blogspot.com/2025/10/blog-post.html" target="_blank" rel="noopener">這裡</a>。</p>
           </div>
         </div>
       `
