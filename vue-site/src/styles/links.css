@@ -1,7 +1,7 @@
 /* ========== 連結圖片區塊 ========== */
 .links-gallery-section {
   /* 背景圖片設定 */
-  background-image: url('/images/linkspage/link_bk.png');
+  background-image: url('/images/linkspage/link_bk.webp');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
