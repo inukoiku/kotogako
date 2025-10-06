@@ -40,73 +40,73 @@ export function useTeamPage() {
     {
       id: 'g1',
       label: 'member_1',
-      buttonA: '/images/members/wei_btn.png',        // 默認圖片
-      buttonB: '/images/members/wei_btn_active.png', // 激活/hover圖片
-      image: '/images/members/member_wei.png',
+      buttonA: '/images/members/wei_btn.webp',        // 默認圖片
+      buttonB: '/images/members/wei_btn_active.webp', // 激活/hover圖片
+      image: '/images/members/member_wei.webp',
       caption: ''
     },
     {
       id: 'g2',
       label: 'member_2',
-      buttonA: '/images/members/en_btn.png',
-      buttonB: '/images/members/en_btn_active.png',
-      image: '/images/members/member_en.png',
+      buttonA: '/images/members/en_btn.webp',
+      buttonB: '/images/members/en_btn_active.webp',
+      image: '/images/members/member_en.webp',
       caption: ''
     },
     {
       id: 'g3',
       label: 'member_3',
-      buttonA: '/images/members/c_btn.png',
-      buttonB: '/images/members/c_btn_active.png',
-      image: '/images/members/member_c.png',
+      buttonA: '/images/members/c_btn.webp',
+      buttonB: '/images/members/c_btn_active.webp',
+      image: '/images/members/member_c.webp',
       caption: ''
     },
     {
       id: 'g4',
       label: 'member_4',
-      buttonA: '/images/members/lei_btn.png',
-      buttonB: '/images/members/lei_btn_active.png',
-      image: '/images/members/member_lei.png',
+      buttonA: '/images/members/lei_btn.webp',
+      buttonB: '/images/members/lei_btn_active.webp',
+      image: '/images/members/member_lei.webp',
       caption: ''
     },
     {
       id: 'g5',
       label: 'member_5',
-      buttonA: '/images/members/kaza_btn.png',
-      buttonB: '/images/members/kaza_btn_active.png',
-      image: '/images/members/member_kaza.png',
+      buttonA: '/images/members/kaza_btn.webp',
+      buttonB: '/images/members/kaza_btn_active.webp',
+      image: '/images/members/member_kaza.webp',
       caption: ''
     },
     {
       id: 'g6',
       label: 'member_6',
-      buttonA: '/images/members/zhe_btn.png',
-      buttonB: '/images/members/zhe_btn_active.png',
-      image: '/images/members/member_zhe.png',
+      buttonA: '/images/members/zhe_btn.webp',
+      buttonB: '/images/members/zhe_btn_active.webp',
+      image: '/images/members/member_zhe.webp',
       caption: ''
     },
     {
       id: 'g7',
       label: 'member_7',
-      buttonA: '/images/members/miffy_btn.png',
-      buttonB: '/images/members/miffy_btn_active.png',
-      image: '/images/members/member_miffy.png',
+      buttonA: '/images/members/miffy_btn.webp',
+      buttonB: '/images/members/miffy_btn_active.webp',
+      image: '/images/members/member_miffy.webp',
       caption: ''
     },
     {
       id: 'g8',
       label: 'member_8',
-      buttonA: '/images/members/jay_btn.png',
-      buttonB: '/images/members/jay_btn_active.png',
-      image: '/images/members/member_jay.png',
+      buttonA: '/images/members/jay_btn.webp',
+      buttonB: '/images/members/jay_btn_active.webp',
+      image: '/images/members/member_jay.webp',
       caption: ''
     },
     // {
     //   id: 'g9',
     //   label: 'member_9',
-    //   buttonA: '/images/members/en_btn.png',
-    //   buttonB: '/images/members/en_btn_active.png',
-    //   image: '/images/members/member_gua.png',
+    //   buttonA: '/images/members/en_btn.webp',
+    //   buttonB: '/images/members/en_btn_active.webp',
+    //   image: '/images/members/member_gua.webp',
     //   caption: ''
     // }
   ]);

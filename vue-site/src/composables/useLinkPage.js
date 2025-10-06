@@ -7,35 +7,35 @@ export function useLinkPage() {
   const linkImages = ref([
     {
       id: 1,
-      image: `${base}/images/linkspage/link_1.png`,
+      image: `${base}/images/linkspage/link_1.webp`,
       title: '海報教練',
       description: '海報教練',
       url: 'https://www.instagram.com/seal.coach?igsh=eDJ3M3JoZGZoZWhl'
     },
     {
       id: 2,
-      image: `${base}/images/linkspage/link_3.png`,
+      image: `${base}/images/linkspage/link_3.webp`,
       title: 'FUSION',
       description: 'FUSION',
       url: 'https://www.facebook.com/share/1B6UUV833H/?mibextid=wwXIfr'
     },
     {
       id: 3,
-      image: `${base}/images/linkspage/link_2.png`,
+      image: `${base}/images/linkspage/link_2.webp`,
       title: '汪汪雜貨舖',
       description: '汪汪雜貨舖',
       url: 'https://www.instagram.com/wang2zahuopu?igsh=MTU3ZXQ2ZmRlcGJwbQ=='
     },
     {
       id: 4,
-      image: `${base}/images/linkspage/link_4.png`,
+      image: `${base}/images/linkspage/link_4.webp`,
       title: '好色喔!禁羈相談室',
       description: '好色喔!禁羈相談室',
       url: 'https://www.instagram.com/hsokinky_2024?igsh=MWUzcWpoaTk0OHZraw=='
     },
     {
       id: 5,
-      image: `${base}/images/linkspage/link_5.png`,
+      image: `${base}/images/linkspage/link_5.webp`,
       title: '頂頂 頂你個吠',
       description: '頂頂 頂你個吠',
       url: 'https://www.dingdingwoof.com/'

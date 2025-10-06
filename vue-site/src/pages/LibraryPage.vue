@@ -2,7 +2,7 @@
   <!-- 封面 -->
   <section
     class="cover-frame cover-frame-library"
-    :style="{ '--cover-img': 'url(' + base + '/images/library/library_banner.png)' }"
+    :style="{ '--cover-img': 'url(' + base + '/images/library/library_banner.webp)' }"
   >
     <div class="cover-frame-inner">
       <div class="lib-switch-btns">
@@ -43,10 +43,10 @@
   <!-- 下方背景 + 區塊切換 -->
   <section
     class="library-section-switch use-img"
-    :style="{ '--switch-bg': 'url(' + base + '/images/library/library_bk.png)' }"
+    :style="{ '--switch-bg': 'url(' + base + '/images/library/library_bk.webp)' }"
     ref="librarySectionRef"
   >
-    <img class="lib-bg-img" :src="base + '/images/library/library_bk.png'" alt="下方背景圖">
+    <img class="lib-bg-img" :src="base + '/images/library/library_bk.webp'" alt="下方背景圖">
     <div class="lib-block-wrap">
       <!-- Block A (Vault) -->
       <transition name="fade">

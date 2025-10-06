@@ -9,7 +9,7 @@
   <!-- </section> -->
    <section
       class="cover-frame cover-frame-library home-cover"
-      :style="{ '--cover-img': 'url(' + base + '/images/home/summer_welcome_with_name.png)' }"
+      :style="{ '--cover-img': 'url(' + base + '/images/home/summer_welcome_with_name.webp)' }"
     >
       <div class="cover-frame-inner">
     </div>
@@ -62,7 +62,7 @@
   <!-- 媒體展示區 (左圖 / 右背景 + YouTube) -->
   <section
     class="home-media-section"
-    :style="{ '--media-bg': 'url(' + base + '/images/home/home_bk.png)' }"
+    :style="{ '--media-bg': 'url(' + base + '/images/home/home_bk.webp)' }"
   >
     <div class="container home-media-inner">
       <div class="row g-4 align-items-stretch">
@@ -70,7 +70,7 @@
         <div class="col-lg-6">
           <div class="media-image-wrap">
             <img
-              :src="base + '/images/home/home_words.png'"
+              :src="base + '/images/home/home_words.webp'"
               alt="媒體展示圖"
               class="media-main-img"
               loading="lazy"
@@ -80,7 +80,7 @@
         </div>
         <!-- 右側背景 + YouTube -->
     <div class="col-lg-6">
-      <div class="media-video-panel size-lg bg-contain" :style="{ '--panel-bg': 'url(' + base + '/images/home/gold_frame.png)', '--video-scale':'1' }">
+      <div class="media-video-panel size-lg bg-contain" :style="{ '--panel-bg': 'url(' + base + '/images/home/gold_frame.webp)', '--video-scale':'1' }">
               <div class="ratio ratio-16x9 media-video-ratio">
                 <iframe
                   :src="resolvedYoutubeUrl"
