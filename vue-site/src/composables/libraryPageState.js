@@ -14,33 +14,33 @@ export function useLibraryPageState() {
   const windowWidth = ref(window.innerWidth);
   const useResponsiveLayout = computed(() => windowWidth.value <= 991.98);
 
-  const btnA        = '/images/library/vault_btn.png';
-  const btnAActive  = '/images/library/vault_btn_active.png';
-  const btnAHover   = '/images/library/vault_btn_active.png';
-  const btnB        = '/images/library/gallery_btn.png';
-  const btnBActive  = '/images/library/gallery_btn_active.png';
-  const btnBHover   = '/images/library/gallery_btn_active.png';
+  const btnA        = '/images/library/vault_btn.webp';
+  const btnAActive  = '/images/library/vault_btn_active.webp';
+  const btnAHover   = '/images/library/vault_btn_active.webp';
+  const btnB        = '/images/library/gallery_btn.webp';
+  const btnBActive  = '/images/library/gallery_btn_active.webp';
+  const btnBHover   = '/images/library/gallery_btn_active.webp';
 
   // Block A 照片資料 (Vault)
   const photosA = ref([
-        { type:'single', autoLayout:true, absolute:true, src:'/images/library/about_vault.png', alt:'Gallery圖 1', caption:'', rawScale:0.7, cellScale:1, cellZ:3, itemScale:0.7, itemDX:-10, itemDY:-150, tweakX:0, tweakY:0 },
-    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.png', innerSrc:'/images/library/vault_1.jpg', alt:'Gallery圖 2', caption:'', scale:0.8, cellScale:0.8, cellZ:4, itemScale:0.8, itemDX:40, itemDY:-60, tweakX:0, tweakY:0,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 },
-    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.png', innerSrc:'/images/library/vault_2.jpg', alt:'Gallery圖 3', caption:'', scale:0.85, cellScale:1, cellZ:2, itemScale:0.9, itemDX:0, itemDY:-435, tweakX:0, tweakY:0,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 },
-    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.png', innerSrc:'/images/library/vault_3.jpg', alt:'Gallery圖 4', caption:'', scale:0.92, cellScale:1, cellZ:5, itemScale:0.8, itemDX:-25, itemDY:-180, tweakX:0, tweakY:0,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 },
-    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.png', innerSrc:'/images/library/vault_4.jpg', alt:'Gallery圖 5', caption:'', scale:0.95, cellScale:1, cellZ:1, itemScale:0.8, itemDX:20, itemDY:-540, tweakX:0, tweakY:0,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 },
-    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.png', innerSrc:'/images/library/vault_5.jpg', alt:'Gallery圖 6', caption:'', scale:0.88, cellScale:1, cellZ:6, itemScale:0.7, itemDX:45, itemDY:-340, tweakX:0, tweakY:0 ,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 },
-    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.png', innerSrc:'/images/library/vault_6.jpg', alt:'Gallery圖 6', caption:'', scale:0.88, cellScale:1, cellZ:6, itemScale:0.7, itemDX:45, itemDY:-340, tweakX:0, tweakY:0 ,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 },
-    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.png', innerSrc:'/images/library/vault_7.jpg', alt:'Gallery圖 6', caption:'', scale:0.88, cellScale:1, cellZ:6, itemScale:0.7, itemDX:45, itemDY:-340, tweakX:0, tweakY:0 ,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 }
+        { type:'single', autoLayout:true, absolute:true, src:'/images/library/about_vault.webp', alt:'Gallery圖 1', caption:'', rawScale:0.7, cellScale:1, cellZ:3, itemScale:0.7, itemDX:-10, itemDY:-150, tweakX:0, tweakY:0 },
+    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.webp', innerSrc:'/images/library/vault_1.webp', alt:'Gallery圖 2', caption:'', scale:0.8, cellScale:0.8, cellZ:4, itemScale:0.8, itemDX:40, itemDY:-60, tweakX:0, tweakY:0,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 },
+    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.webp', innerSrc:'/images/library/vault_2.webp', alt:'Gallery圖 3', caption:'', scale:0.85, cellScale:1, cellZ:2, itemScale:0.9, itemDX:0, itemDY:-435, tweakX:0, tweakY:0,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 },
+    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.webp', innerSrc:'/images/library/vault_3.webp', alt:'Gallery圖 4', caption:'', scale:0.92, cellScale:1, cellZ:5, itemScale:0.8, itemDX:-25, itemDY:-180, tweakX:0, tweakY:0,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 },
+    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.webp', innerSrc:'/images/library/vault_4.webp', alt:'Gallery圖 5', caption:'', scale:0.95, cellScale:1, cellZ:1, itemScale:0.8, itemDX:20, itemDY:-540, tweakX:0, tweakY:0,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 },
+    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.webp', innerSrc:'/images/library/vault_5.webp', alt:'Gallery圖 6', caption:'', scale:0.88, cellScale:1, cellZ:6, itemScale:0.7, itemDX:45, itemDY:-340, tweakX:0, tweakY:0 ,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 },
+    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.webp', innerSrc:'/images/library/vault_6.webp', alt:'Gallery圖 6', caption:'', scale:0.88, cellScale:1, cellZ:6, itemScale:0.7, itemDX:45, itemDY:-340, tweakX:0, tweakY:0 ,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 },
+    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/gold_frame.webp', innerSrc:'/images/library/vault_7.webp', alt:'Gallery圖 6', caption:'', scale:0.88, cellScale:1, cellZ:6, itemScale:0.7, itemDX:45, itemDY:-340, tweakX:0, tweakY:0 ,paddingleft:15,paddingtop:0,paddingright:0,paddingbottom:23 }
   ]);
 
   // Block B 照片資料 (Gallery) - 保持原有設定
   const photosB = ref([
-    { type:'single', autoLayout:true, absolute:true, src:'/images/library/left_worlds.png', alt:'Gallery圖 1', caption:'', rawScale:0.7, cellScale:1, cellZ:3, itemScale:0.7, itemDX:-10, itemDY:-150, tweakX:0, tweakY:0 },
-    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/frame.png', innerSrc:'/images/library/gallery_img_1.JPG', alt:'Gallery圖 2', caption:'', scale:0.8, cellScale:0.8, cellZ:4, itemScale:0.8, itemDX:40, itemDY:-60, tweakX:0, tweakY:0,paddingleft:16,paddingtop:0,paddingright:12,paddingbottom:23 },
-    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/frame.png', innerSrc:'/images/library/gallery_img_2.JPG', alt:'Gallery圖 3', caption:'', scale:0.85, cellScale:1, cellZ:2, itemScale:0.9, itemDX:0, itemDY:-435, tweakX:0, tweakY:0,paddingleft:6,paddingtop:0,paddingright:0,paddingbottom:27 },
-    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/frame.png', innerSrc:'/images/library/gallery_img_3.JPG', alt:'Gallery圖 4', caption:'', scale:0.92, cellScale:1, cellZ:5, itemScale:0.8, itemDX:-25, itemDY:-180, tweakX:0, tweakY:0,paddingleft:15,paddingtop:0,paddingright:11,paddingbottom:23 },
-    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/frame.png', innerSrc:'/images/library/gallery_img_4.JPG', alt:'Gallery圖 5', caption:'', scale:0.95, cellScale:1, cellZ:1, itemScale:0.8, itemDX:20, itemDY:-540, tweakX:0, tweakY:0,paddingleft:7,paddingtop:0,paddingright:0,paddingbottom:27 },
-    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/frame.png', innerSrc:'/images/library/gallery_img_5.PNG', alt:'Gallery圖 6', caption:'', scale:0.88, cellScale:1, cellZ:6, itemScale:0.7, itemDX:45, itemDY:-340, tweakX:0, tweakY:0 ,paddingleft:9,paddingtop:0,paddingright:0,paddingbottom:27 }
+    { type:'single', autoLayout:true, absolute:true, src:'/images/library/left_worlds.webp', alt:'Gallery圖 1', caption:'', rawScale:0.7, cellScale:1, cellZ:3, itemScale:0.7, itemDX:-10, itemDY:-150, tweakX:0, tweakY:0 },
+    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/frame.webp', innerSrc:'/images/library/gallery_img_1.webp', alt:'Gallery圖 2', caption:'', scale:0.8, cellScale:0.8, cellZ:4, itemScale:0.8, itemDX:40, itemDY:-60, tweakX:0, tweakY:0,paddingleft:16,paddingtop:0,paddingright:12,paddingbottom:23 },
+    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/frame.webp', innerSrc:'/images/library/gallery_img_2.webp', alt:'Gallery圖 3', caption:'', scale:0.85, cellScale:1, cellZ:2, itemScale:0.9, itemDX:0, itemDY:-435, tweakX:0, tweakY:0,paddingleft:6,paddingtop:0,paddingright:0,paddingbottom:27 },
+    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/frame.webp', innerSrc:'/images/library/gallery_img_3.webp', alt:'Gallery圖 4', caption:'', scale:0.92, cellScale:1, cellZ:5, itemScale:0.8, itemDX:-25, itemDY:-180, tweakX:0, tweakY:0,paddingleft:15,paddingtop:0,paddingright:11,paddingbottom:23 },
+    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/frame.webp', innerSrc:'/images/library/gallery_img_4.webp', alt:'Gallery圖 5', caption:'', scale:0.95, cellScale:1, cellZ:1, itemScale:0.8, itemDX:20, itemDY:-540, tweakX:0, tweakY:0,paddingleft:7,paddingtop:0,paddingright:0,paddingbottom:27 },
+    { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/library/frame.webp', innerSrc:'/images/library/gallery_img_5.webp', alt:'Gallery圖 6', caption:'', scale:0.88, cellScale:1, cellZ:6, itemScale:0.7, itemDX:45, itemDY:-340, tweakX:0, tweakY:0 ,paddingleft:9,paddingtop:0,paddingright:0,paddingbottom:27 }
   ]);
 
   const hover = ref('');
@@ -150,8 +150,8 @@ export function useLibraryPageState() {
   function onImgErr(e){ e.target.removeAttribute('src'); }
   function onPhotoErr(e, isSingle){
     e.target.onerror = null;
-    e.target.src = base + (isSingle ? '/images/library/left_worlds.png'
-                                    : '/images/common/mainboy.png');
+    e.target.src = base + (isSingle ? '/images/library/left_worlds.webp'
+                                    : '/images/common/mainboy.webp');
   }
 
   // 佈局函式 - 通用

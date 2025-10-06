@@ -4,7 +4,7 @@
     <!-- 全幅封面（背景左右滿版） -->
     <section
       class="cover-frame cover-frame-library"
-      :style="{ '--cover-img': 'url(' + base + '/images/members/member_banner.png)' }"
+      :style="{ '--cover-img': 'url(' + base + '/images/members/member_banner.webp)' }"
     >
       <div class="cover-frame-inner">
     </div>
@@ -93,7 +93,7 @@
     <!-- 新增：團隊圖集切換區塊 -->
     <section 
       class="team-gallery-switch container mb-5"
-      :style="{ '--team-gallery-bg': 'url(' + base + '/images/members/member_bk.png)' }"
+      :style="{ '--team-gallery-bg': 'url(' + base + '/images/members/member_bk.webp)' }"
     >
       <!-- 圖片按鈕列 -->
       <div class="tg-btn-container">

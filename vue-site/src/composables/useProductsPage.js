@@ -7,12 +7,12 @@ export function useProductsPage() {
   const products = ref([
     {
       id: 1,
-      image: '/images/products/towel.png',
+      image: '/images/products/towel.webp',
       htmlContent: `
         <div class="news-content">
           <h2>人型游步，犬力以赴毛巾</h2>
           <p class="news-date">最新推出</p>
-          <img data-type="image" src="${base || ''}/images/products/towel.png" style="width:100%">
+          <img data-type="image" src="${base || ''}/images/products/towel.webp" style="width:100%">
 
           <div class="news-body">
             <p>犬高育官方推出理念毛巾！</p>
@@ -30,12 +30,12 @@ export function useProductsPage() {
     },
     {
       id: 2,
-      image: '/images/products/product_student.jpg',
+      image: '/images/products/product_student.webp',
       htmlContent: `
         <div class="news-content">
           <h2>學蘭狗勾入學去</h2>
           <p class="news-date">最新推出</p>
-          <img data-type="image" src="${base || ''}/images/products/product_student.jpg" style="width:100%">
+          <img data-type="image" src="${base || ''}/images/products/product_student.webp" style="width:100%">
 
           <div class="news-body">
             <p>犬高育狗勾壓克力鑰匙圈！</p>
@@ -57,7 +57,7 @@ export function useProductsPage() {
   const backgroundSection = ref({
     title: '學校商品專區',
     subtitle: '精選校園周邊商品',
-    backgroundImage: `${base}/images/products/construction.png`
+    backgroundImage: `${base}/images/products/construction.webp`
   });
 
   return {

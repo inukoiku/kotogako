@@ -7,12 +7,12 @@ export function useNewsPage() {
   const newsBanners = ref([
     {
       id: 1,
-      image: '/images/events/event2.png',
+      image: '/images/events/event2.webp',
       htmlContent: `
         <div class="news-content">
           <h2>《夏日大作戰～決戰馬拉灣》(已結束)</h2>
           <p class="news-date">2025年7月5日</p>
-          <img class=""  data-type="image" src="${base}/images/events/2025_summer.jpg" style="width:100%">
+          <img class=""  data-type="image" src="${base}/images/events/2025_summer.webp" style="width:100%">
 
           <div class="news-body">
             <p>夏日馬拉灣活動又來啦!!</p>
@@ -29,7 +29,7 @@ export function useNewsPage() {
     },
     {
       id: 2,
-      image: '/images/events/event1.png',
+      image: '/images/events/event1.webp',
       htmlContent: `
         <div class="news-content">
           <h2>2025台北同志大遊行</h2>
@@ -48,12 +48,12 @@ export function useNewsPage() {
     },
     {
       id: 3,
-      image: '/images/events/event3.png',
+      image: '/images/events/event3.webp',
       htmlContent: `
         <div class="news-content">
           <h2>2025 高雄同志大遊行</h2>
           <p class="news-date">2025年11月29日</p>
-          <img class=""  data-type="image" src="https://scontent.ftpe20-1.fna.fbcdn.net/v/t39.30808-6/498328243_1002300008764822_6690007618856316007_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=HATmKDUhIqMQ7kNvwGAo5fv&_nc_oc=Adk0q7wsdklFYUdAxwImqbxwiA29s2CONDLKL1bez23dUfeZEKnoVsHTebhRcI_iPIA&_nc_zt=23&_nc_ht=scontent.ftpe20-1.fna&_nc_gid=9CTq-3eTY8bk8jyGCbWYRw&oh=00_AfZ-6HRB5WfAoRjcClMqQcFzPOHodCF4mQ21XvUcW5qlZA&oe=68DB24C2" style="width:100%">
+          <img class=""  data-type="image" src="${base}/images/events/kaoshung_pride2025.webp" style="width:100%">
 
           <div class="news-body">
             <ul>

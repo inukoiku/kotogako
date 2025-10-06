@@ -22,7 +22,7 @@ export function useHomePageState() {
   const heroSlides = computed(() => [
     { 
       id: 1, 
-      image: `${base}/images/home/bk_mid.jpg`, 
+      image: `${base}/images/home/bk_mid.webp`, 
       title: '歡迎來到 犬高育', 
       subtitle: '一起學習・一起成長・一起創造價值', 
       cta: { label: '查看商品', to: '/products' },
@@ -33,7 +33,7 @@ export function useHomePageState() {
     },
     { 
       id: 2, 
-      image: `${base}/images/home/highschoolmainbk_2.jpg`, 
+      image: `${base}/images/home/highschoolmainbk_2.webp`, 
       title: 'FB粉絲團', 
       subtitle: '犬高育粉絲團持續更新，歡迎追蹤', 
       cta: { label: '犬高育FB粉絲團', to: 'https://www.facebook.com/profile.php?id=61560013116714' },
@@ -44,7 +44,7 @@ export function useHomePageState() {
     },
     { 
       id: 3, 
-      image: `${base}/images/home/towel.png`, 
+      image: `${base}/images/home/towel.webp`, 
       title: '犬力以赴毛巾', 
       subtitle: '犬高育官方授權商品', 
       cta: { label: '犬力以赴毛巾', to: 'https://docs.google.com/forms/d/e/1FAIpQLSd6nnQNdEir0L_Rzby3tf80FupYD227yQAMtrPzd3HmOCVADA/viewform' },
@@ -55,7 +55,7 @@ export function useHomePageState() {
     },
     { 
       id: 3, 
-      image: `${base}/images/home/product_student.jpg`, 
+      image: `${base}/images/home/product_student.webp`, 
       title: '犬高育學蘭服學生吊飾', 
       subtitle: '犬高育學蘭服學生吊飾', 
       cta: { label: '犬高育學蘭服學生吊飾', to: 'https://docs.google.com/forms/d/1tdrL6OFC3p3D9BuX3P9nXuBjB9_b0xZQ9ZaP13dXNuc/edit' },
