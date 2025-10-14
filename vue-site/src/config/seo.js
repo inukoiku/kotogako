@@ -3,7 +3,7 @@ export const seoConfig = {
   // 網站基本資訊
   siteName: '犬神高度育造高等學校',
   siteUrl: 'https://inukoiku.github.io/kotogako',
-  description: '犬神高度育造高等學校官方網站，提供校園資訊、活動公告、學習資源、商品販售等服務。',
+  description: '犬神高度育造高等學校官方網站，非正式學校，我們藉由文創的力量吸引目光，讓大眾對犬文化與BDSM群體有不一樣的認識與想法。',
   
   // Google Analytics ID (請申請 Google Analytics 並替換)
   googleAnalyticsId: 'G-XXXXXXXXXX',
