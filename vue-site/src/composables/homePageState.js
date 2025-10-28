@@ -52,29 +52,8 @@ export function useHomePageState() {
       bgPosition: 'center center',
       bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
       cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
-    },
-    { 
-      id: 3, 
-      image: `${base}/images/home/product_student.webp`, 
-      title: '犬高育學蘭服學生吊飾', 
-      subtitle: '犬高育學蘭服學生吊飾', 
-      cta: { label: '犬高育學蘭服學生吊飾', to: 'https://docs.google.com/forms/d/1tdrL6OFC3p3D9BuX3P9nXuBjB9_b0xZQ9ZaP13dXNuc/edit' },
-      // 響應式配置 - 根據螢幕大小動態調整
-      bgPosition: 'center center',
-      bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
-      cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
-    },
-    { 
-      id: 4, 
-      image: `${base}/images/home/home_fusion.webp`, 
-      title: 'Fusion Taiwan 2025－DEEP INSIDE', 
-      subtitle: 'Fusion Taiwan 2025－DEEP INSIDE', 
-      cta: { label: 'Fusion Taiwan 2025－DEEP INSIDE', to: 'https://lafin.kktix.cc/events/0aaf41a8?fbclid=IwZXh0bgNhZW0CMTAAYnJpZBExaXBFbTJ2cDBkcmxmUEVJdwEeNoXTR2a6W0w6cd1-grcMFBAc6SsMseMH2dGuq386YMMBTTdw3no3F4dD7Oc_aem_FfbqAUVRabGomYc35FpXvA' },
-      // 響應式配置 - 根據螢幕大小動態調整
-      bgPosition: 'center center',
-      bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
-      cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
     }
+    
   ]);
 
   const news = ref([
