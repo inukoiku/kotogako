@@ -65,7 +65,7 @@ export function useHomePageState() {
     { id:6, date:'2025-09-16', title:'犬高育官方網站上線', tag:'公告' }
   ]);
 
-  const youtubeId = 'eBnZL9OEQow';
+  const youtubeId = 'vQcaTrdcNT0';
   const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeId}?rel=0`;
 
   /* ========== Hero Carousel ========== */
