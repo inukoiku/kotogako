@@ -53,16 +53,14 @@ export function useNewsPage() {
       image: '/images/events/event3.webp',
       htmlContent: `
         <div class="news-content">
-          <h2>2025 高雄同志大遊行</h2>
+          <h2>2025 高雄同志大遊行(已結束)</h2>
           <p class="news-date">2025年11月29日</p>
           <img class=""  data-type="image" src="${base}/images/events/kaoshung_pride2025.webp" style="width:100%">
 
           <div class="news-body">
             <ul>
-              <li>11/15（六）志工訓練會（高雄交通便捷處，實際時間、地點待通知）</li>
-              <li>11/29 （六）第十六屆高雄同志大遊行當日！！</li>
+              <li><img class=""  data-type="image" src="${base}/images/events/pride_kaohsiung.webp" style="width:100%"></li>
             </ul>
-            <p>詳細資訊請參考 <a href="https://www.facebook.com/KaohsiungPRIDE/?locale=zh_TW" target="_blank">活動頁面</a>。</p>
           </div>
         </div>
       `

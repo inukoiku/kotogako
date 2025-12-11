@@ -52,6 +52,17 @@ export function useHomePageState() {
       bgPosition: 'center center',
       bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
       cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
+    },
+    { 
+      id: 3, 
+      image: `${base}/images/home/card_season2.webp`, 
+      title: '犬高育學生證2026', 
+      subtitle: '犬高育學生證2026', 
+      cta: { label: '犬高育學生證2026', to: 'https://forms.gle/7JrYQEwubbuXEpVKA' },
+      // 響應式配置 - 根據螢幕大小動態調整
+      bgPosition: 'center center',
+      bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
+      cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
     }
     
   ]);
@@ -65,7 +76,7 @@ export function useHomePageState() {
     { id:6, date:'2025-09-16', title:'犬高育官方網站上線', tag:'公告' }
   ]);
 
-  const youtubeId = 'vQcaTrdcNT0';
+  const youtubeId = 'lEJ4m_l-498';
   const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeId}?rel=0`;
 
   /* ========== Hero Carousel ========== */
