@@ -29,6 +29,31 @@ export function useProductsPage() {
           </div>
         </div>
       `
+    },
+    {
+      id: 2,
+      image: '/images/products/card_season2.webp',
+      htmlContent: `
+        <div class="news-content">
+          <h2>犬高育學生證2026</h2>
+          <p class="news-date">最新推出</p>
+          <img data-type="image" src="${base || ''}/images/products/card_season2.webp" style="width:100%">
+
+          <div class="news-body">
+            <p>犬高育第二學期學生證！</p>
+            <h3>商品特色：</h3>
+            <ul>
+              <li>獨家設計：犬高育學生證</li>
+              <li>實用功能：悠遊卡功能</li>
+              <li>限量發行：季節限定，數量有限，售完為止</li>
+              <li>精美設計：不論自已使用或是當名片都很適合</li>
+              <li>本商品屬於訂製商品，此商品不接受退貨。有疑問請聯繫我們官方LINE</li>
+            </ul>
+            <p>購買方式請洽<a href="https://forms.gle/7JrYQEwubbuXEpVKA" target="_blank" rel="noopener">這裡</a>。</p>
+            <p>訂單狀況查詢請洽<a href="https://inukoiku.blogspot.com/2025/10/blog-post.html" target="_blank" rel="noopener">這裡</a>。</p>
+          </div>
+        </div>
+      `
     }
   ]);
 
