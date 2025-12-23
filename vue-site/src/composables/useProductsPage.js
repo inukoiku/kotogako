@@ -24,8 +24,7 @@ export function useProductsPage() {
               <li>精美包裝：適合收藏或送禮</li>
               <li>本商品屬於個人衛生用品: 為確保衛生安全，此商品一經拆封便不接受退貨。有疑問請聯繫我們官方LINE</li>
             </ul>
-            <p>購買方式請洽<a href="https://docs.google.com/forms/d/e/1FAIpQLSd6nnQNdEir0L_Rzby3tf80FupYD227yQAMtrPzd3HmOCVADA/viewform" target="_blank" rel="noopener">這裡</a>。</p>
-            <p>訂單狀況查詢請洽<a href="https://inukoiku.blogspot.com/2025/10/blog-post.html" target="_blank" rel="noopener">這裡</a>。</p>
+            <p>購買方式請洽<a href="https://myship.7-11.com.tw/general/detail/GM2510015953636" target="_blank" rel="noopener">這裡</a>。</p>
           </div>
         </div>
       `
@@ -44,7 +43,7 @@ export function useProductsPage() {
             <h3>商品特色：</h3>
             <ul>
               <li>獨家設計：犬高育學生證</li>
-              <li>實用功能：悠遊卡功能</li>
+              <li>實用功能：一卡通或悠遊卡功能</li>
               <li>限量發行：季節限定，數量有限，售完為止</li>
               <li>精美設計：不論自已使用或是當名片都很適合</li>
               <li>本商品屬於訂製商品，此商品不接受退貨。有疑問請聯繫我們官方LINE</li>
