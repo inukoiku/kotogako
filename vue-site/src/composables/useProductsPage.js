@@ -49,7 +49,6 @@ export function useProductsPage() {
               <li>本商品屬於訂製商品，此商品不接受退貨。有疑問請聯繫我們官方LINE</li>
             </ul>
             <p>購買方式請洽<a href="https://forms.gle/7JrYQEwubbuXEpVKA" target="_blank" rel="noopener">這裡</a>。</p>
-            <p>訂單狀況查詢請洽<a href="https://inukoiku.blogspot.com/2025/10/blog-post.html" target="_blank" rel="noopener">這裡</a>。</p>
           </div>
         </div>
       `
