@@ -1,7 +1,7 @@
 <template>
   <footer class="mt-auto mt-5 footer-dark border-top border-secondary py-4">
     <div class="container d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
-      <div class="small mb-2 mb-sm-0">&copy; {{ year }} 犬神高度育造高等學校</div>
+      <div class="small mb-2 mb-sm-0">&copy; 2025-{{ year }} 犬神高度育造高等學校</div>
       <div class="d-flex align-items-center gap-4 small footer-links">
         <a href="https://www.facebook.com/profile.php?id=61560013116714" target="_blank" rel="noopener" aria-label="Facebook" class="text-decoration-none">Facebook</a>
         <a href="https://line.me/R/ti/p/@950wjjeb" target="_blank" rel="noopener" aria-label="LINE" class="text-decoration-none">Line</a>

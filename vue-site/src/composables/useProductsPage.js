@@ -52,6 +52,28 @@ export function useProductsPage() {
           </div>
         </div>
       `
+    },
+    {
+      id: 3,
+      image: '/images/products/badge_banner.webp',
+      htmlContent: `
+        <div class="news-content">
+          <h2>犬高育犬生必備迴紋針小徽章</h2>
+          <p class="news-date">最新推出</p>
+          <img data-type="image" src="${base || ''}/images/products/badge_banner.webp" style="width:100%">
+
+          <div class="news-body">
+            <p>犬高育犬生必備迴紋針小徽章</p>
+            <h3>商品特色：</h3>
+            <ul>
+              <li>迴紋針小徽章</li>
+              <li>獨立包裝</li>
+              <li>3.2cmØ</li>
+            </ul>
+            <p>購買方式請洽<a href="https://myship.7-11.com.tw/general/detail/GM2512230689645" target="_blank" rel="noopener">這裡</a>。</p>
+          </div>
+        </div>
+      `
     }
   ]);
 
