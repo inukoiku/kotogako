@@ -63,6 +63,17 @@ export function useHomePageState() {
       bgPosition: 'center center',
       bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
       cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
+    },
+    { 
+      id: 4, 
+      image: `${base}/images/home/badge_banner.webp`, 
+      title: '犬高育犬生必備迴紋針小徽章', 
+      subtitle: '犬高育犬生必備迴紋針小徽章', 
+      cta: { label: '犬高育犬生必備迴紋針小徽章', to: 'https://myship.7-11.com.tw/general/detail/GM2512230689645' },
+      // 響應式配置 - 根據螢幕大小動態調整
+      bgPosition: 'center center',
+      bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
+      cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
     }
     
   ]);
