@@ -1,10 +1,12 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
+import { useFirestore } from './useFirestore';
 
 // 合併原 useHomepageData 與 homePageState：集中首頁資料 + 狀態
 export function useHomePageState() {
   const base = import.meta.env.BASE_URL || '/';
   const router = useRouter();
+  const { getHeroSlides, getNews, loading, error } = useFirestore();
 
   /* ========== 響應式螢幕大小檢測 ========== */
   const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024);
@@ -19,16 +21,19 @@ export function useHomePageState() {
   }
 
   /* ========== 原 useHomepageData 靜態資料 ========== */
-  const heroSlides = computed(() => [
+  // heroSlides 改為 ref，初始為空陣列（從 Firestore 載入）
+  const heroSlides = ref([]);
+  
+  // 備用靜態資料（Firestore 載入失敗時使用）
+  const fallbackSlides = [
     { 
       id: 1, 
       image: `${base}/images/home/bk_mid.webp`, 
       title: '歡迎來到 犬高育', 
       subtitle: '一起學習・一起成長・一起創造價值', 
       cta: { label: '查看商品', to: '/products' },
-      // 響應式配置 - 根據螢幕大小動態調整
       bgPosition: 'center center',
-      bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
+      bgSize: responsiveBgSize.value,
       cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
     },
     { 
@@ -37,9 +42,8 @@ export function useHomePageState() {
       title: 'FB粉絲團', 
       subtitle: '犬高育粉絲團持續更新，歡迎追蹤', 
       cta: { label: '犬高育FB粉絲團', to: 'https://www.facebook.com/profile.php?id=61560013116714' },
-      // 響應式配置 - 根據螢幕大小動態調整
       bgPosition: 'center center',
-      bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
+      bgSize: responsiveBgSize.value,
       cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
     },
     { 
@@ -48,35 +52,31 @@ export function useHomePageState() {
       title: '犬力以赴毛巾', 
       subtitle: '犬高育官方授權商品', 
       cta: { label: '犬力以赴毛巾', to: 'https://myship.7-11.com.tw/general/detail/GM2510015953636' },
-      // 響應式配置 - 根據螢幕大小動態調整
       bgPosition: 'center center',
-      bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
-      cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
-    },
-    { 
-      id: 3, 
-      image: `${base}/images/home/card_season2.webp`, 
-      title: '犬高育學生證2026', 
-      subtitle: '犬高育學生證2026', 
-      cta: { label: '犬高育學生證2026', to: 'https://forms.gle/7JrYQEwubbuXEpVKA' },
-      // 響應式配置 - 根據螢幕大小動態調整
-      bgPosition: 'center center',
-      bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
+      bgSize: responsiveBgSize.value,
       cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
     },
     { 
       id: 4, 
+      image: `${base}/images/home/card_season2.webp`, 
+      title: '犬高育學生證2026', 
+      subtitle: '犬高育學生證2026', 
+      cta: { label: '犬高育學生證2026', to: 'https://forms.gle/7JrYQEwubbuXEpVKA' },
+      bgPosition: 'center center',
+      bgSize: responsiveBgSize.value,
+      cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
+    },
+    { 
+      id: 5, 
       image: `${base}/images/home/badge_banner.webp`, 
       title: '犬高育犬生必備迴紋針小徽章', 
       subtitle: '犬高育犬生必備迴紋針小徽章', 
       cta: { label: '犬高育犬生必備迴紋針小徽章', to: 'https://myship.7-11.com.tw/general/detail/GM2512230689645' },
-      // 響應式配置 - 根據螢幕大小動態調整
       bgPosition: 'center center',
-      bgSize: responsiveBgSize.value, // 桌面用 cover，平板手機用 contain
+      bgSize: responsiveBgSize.value,
       cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
     }
-    
-  ]);
+  ];
 
   const news = ref([
     { id:1, date:'2025-07-20', title:'犬高育line官方開啟', tag:'公告' },
@@ -150,7 +150,45 @@ export function useHomePageState() {
     }
   }
 
-  onMounted(() => {
+  /**
+   * 從 Firestore 載入 heroSlides 資料
+   */
+  async function loadHeroSlides() {
+    try {
+      const firestoreSlides = await getHeroSlides();
+      
+      if (firestoreSlides && firestoreSlides.length > 0) {
+        // 轉換 Firestore 資料格式
+        heroSlides.value = firestoreSlides.map(slide => ({
+          id: slide.id,
+          image: `${base}${slide.imageUrl}`,
+          title: slide.title,
+          subtitle: slide.description,
+          cta: {
+            label: slide.title, // 或使用 slide.altText
+            to: slide.linkUrl
+          },
+          altText: slide.altText,
+          bgPosition: 'center center',
+          bgSize: responsiveBgSize.value,
+          cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
+        }));
+      } else {
+        // 如果 Firestore 沒有資料，使用備用資料
+        console.warn('No slides found in Firestore, using fallback data');
+        heroSlides.value = fallbackSlides;
+      }
+    } catch (err) {
+      // 載入失敗時使用備用資料
+      console.error('Failed to load hero slides from Firestore:', err);
+      heroSlides.value = fallbackSlides;
+    }
+  }
+
+  onMounted(async () => {
+    // 先載入 Firestore 資料
+    await loadHeroSlides();
+    
     startAuto();
     // 監聽視窗大小變化
     if (typeof window !== 'undefined') {
@@ -195,6 +233,9 @@ export function useHomePageState() {
     youtubeEmbedUrl,
     // 新增響應式相關
     isDesktop,
-    responsiveBgSize
+    responsiveBgSize,
+    // 新增 Firestore 狀態
+    loading,
+    error
   };
 }

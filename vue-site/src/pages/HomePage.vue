@@ -17,10 +17,23 @@
 
   <!-- Hero Carousel -->
   <div class="hero-carousel mb-5" @mouseenter="stopAuto" @mouseleave="startAuto">
+    <!-- Loading 狀態 -->
+    <div v-if="loading && heroSlides.length === 0" class="hero-loading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">載入中...</span>
+      </div>
+    </div>
+    
+    <!-- Error 狀態 -->
+    <div v-else-if="error" class="hero-error alert alert-warning">
+      <p>⚠️ 無法載入輪播資料，已使用備用資料</p>
+    </div>
+    
+    <!-- 輪播內容 -->
     <div
-      class="hero-slide"
       v-for="(s,i) in heroSlides"
       :key="s.id"
+      class="hero-slide"
       :class="{
         active: i === currentSlide, 
         prev: i === prevSlideIndex, 
@@ -125,7 +138,10 @@ const {
   pauseTicker,
   resumeTicker,
   showBadge,
-  youtubeEmbedUrl
+  youtubeEmbedUrl,
+  // Firestore 狀態
+  loading,
+  error
 } = useHomePageState();
 
 // YouTube URL 處理
