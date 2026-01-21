@@ -6,7 +6,7 @@ import { useFirestore } from './useFirestore';
 export function useHomePageState() {
   const base = import.meta.env.BASE_URL || '/';
   const router = useRouter();
-  const { getHeroSlides, getNews, loading, error } = useFirestore();
+  const { getHeroSlides, getHomeVideo, loading, error } = useFirestore();
 
   /* ========== 響應式螢幕大小檢測 ========== */
   const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024);
@@ -87,8 +87,11 @@ export function useHomePageState() {
     { id:6, date:'2025-09-16', title:'犬高育官方網站上線', tag:'公告' }
   ]);
 
-  const youtubeId = 'hEcYFNsEEYY';
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeId}?rel=0`;
+  // YouTube ID 改為響應式 ref，從 Firestore 載入
+  const youtubeId = ref('hEcYFNsEEYY'); // 備用預設值
+  const youtubeEmbedUrl = computed(() => 
+    `https://www.youtube.com/embed/${youtubeId.value}?rel=0`
+  );
 
   /* ========== Hero Carousel ========== */
   const currentSlide = ref(0);
@@ -185,9 +188,29 @@ export function useHomePageState() {
     }
   }
 
+  /**
+   * 從 Firestore 載入 YouTube ID
+   */
+  async function loadHomeVideo() {
+    try {
+      const videoId = await getHomeVideo();
+      
+      if (videoId) {
+        youtubeId.value = videoId;
+      } else {
+        console.warn('No video ID found in Firestore, using fallback value');
+      }
+    } catch (err) {
+      console.error('Failed to load home video from Firestore:', err);
+    }
+  }
+
   onMounted(async () => {
     // 先載入 Firestore 資料
-    await loadHeroSlides();
+    await Promise.all([
+      loadHeroSlides(),
+      loadHomeVideo()
+    ]);
     
     startAuto();
     // 監聽視窗大小變化
