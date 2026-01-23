@@ -9,6 +9,13 @@ export function useFirestoreREST() {
   const error = ref(null);
   
   const projectId = import.meta.env.VITE_FIREBASE_PROJECT_ID;
+  const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
+  
+  // 驗證環境變數
+  if (!projectId || !apiKey) {
+    console.error('❌ Missing Firebase config:', { projectId, apiKey: apiKey ? 'present' : 'missing' });
+  }
+  
   const baseUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents`;
 
   /**
@@ -19,8 +26,8 @@ export function useFirestoreREST() {
     error.value = null;
 
     try {
-      const url = `${baseUrl}/pages/homepage/carouselItems`;
-      console.log('🌐 Fetching hero slides via REST API:', url);
+      const url = `${baseUrl}/pages/homepage/carouselItems?key=${apiKey}`;
+      console.log('🌐 Fetching hero slides via REST API');
       
       const response = await fetch(url);
       
@@ -72,8 +79,8 @@ export function useFirestoreREST() {
     error.value = null;
 
     try {
-      const url = `${baseUrl}/pages/homepage`;
-      console.log('🌐 Fetching home video via REST API:', url);
+      const url = `${baseUrl}/pages/homepage?key=${apiKey}`;
+      console.log('🌐 Fetching home video via REST API');
       
       const response = await fetch(url);
       
@@ -103,8 +110,8 @@ export function useFirestoreREST() {
     error.value = null;
 
     try {
-      const url = `${baseUrl}/pages/productpage/productItems`;
-      console.log('🌐 Fetching products via REST API:', url);
+      const url = `${baseUrl}/pages/productpage/productItems?key=${apiKey}`;
+      console.log('🌐 Fetching products via REST API');
       
       const response = await fetch(url);
       
