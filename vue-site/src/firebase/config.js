@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, initializeFirestore, CACHE_SIZE_UNLIMITED } from 'firebase/firestore';
 
 // Firebase 配置（從環境變數讀取）
 const firebaseConfig = {
@@ -14,7 +14,12 @@ const firebaseConfig = {
 // 初始化 Firebase
 const app = initializeApp(firebaseConfig);
 
-// 初始化 Firestore
-export const db = getFirestore(app);
+// 初始化 Firestore（禁用離線持久化以避免連線問題）
+export const db = initializeFirestore(app, {
+  cacheSizeBytes: CACHE_SIZE_UNLIMITED,
+  // 關閉實驗性的自動資料同步，可能導致連線問題
+  experimentalForceLongPolling: false,
+  experimentalAutoDetectLongPolling: true
+});
 
 export default app;
