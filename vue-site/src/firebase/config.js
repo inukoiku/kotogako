@@ -1,6 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
+// 控制是否使用 Fallback 資料（設為 true 時不連接 Firestore，直接使用本地資料）
+export const USE_FALLBACK_DATA = import.meta.env.VITE_USE_FALLBACK_DATA === 'true';
+
 // Firebase 配置（從環境變數讀取）
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,

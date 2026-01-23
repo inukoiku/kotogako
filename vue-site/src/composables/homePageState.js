@@ -1,6 +1,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useFirestore } from './useFirestore';
+import { USE_FALLBACK_DATA } from '../firebase/config';
 
 // 合併原 useHomepageData 與 homePageState：集中首頁資料 + 狀態
 export function useHomePageState() {
@@ -58,10 +59,10 @@ export function useHomePageState() {
     },
     { 
       id: 4, 
-      image: `${base}/images/home/card_season2.webp`, 
-      title: '犬高育學生證2026', 
-      subtitle: '犬高育學生證2026', 
-      cta: { label: '犬高育學生證2026', to: 'https://forms.gle/7JrYQEwubbuXEpVKA' },
+      image: `${base}/images/home/banner-02.webp`, 
+      title: '犬力一擊 ✢ 無袖運動服', 
+      subtitle: '犬力一擊 ✢ 無袖運動服', 
+      cta: { label: '犬力一擊 ✢ 無袖運動服', to: 'https://docs.google.com/forms/d/e/1FAIpQLSeb9I1401w4ueSVh0mLhmwDSs-zoAgtWXg790c54fN55hbmjw/viewform' },
       bgPosition: 'center center',
       bgSize: responsiveBgSize.value,
       cssClasses: responsiveBgSize.value === 'cover' ? 'bg-cover' : 'bg-contain'
@@ -157,6 +158,13 @@ export function useHomePageState() {
    * 從 Firestore 載入 heroSlides 資料
    */
   async function loadHeroSlides() {
+    // 如果開啟 fallback 模式，直接使用本地資料
+    if (USE_FALLBACK_DATA) {
+      console.log('[HomePage] Using fallback hero slides (USE_FALLBACK_DATA=true)');
+      heroSlides.value = fallbackSlides;
+      return;
+    }
+
     try {
       const firestoreSlides = await getHeroSlides();
       
@@ -192,6 +200,12 @@ export function useHomePageState() {
    * 從 Firestore 載入 YouTube ID
    */
   async function loadHomeVideo() {
+    // 如果開啟 fallback 模式，不載入（使用預設值）
+    if (USE_FALLBACK_DATA) {
+      console.log('[HomePage] Using fallback video ID (USE_FALLBACK_DATA=true)');
+      return;
+    }
+
     try {
       const videoId = await getHomeVideo();
       
