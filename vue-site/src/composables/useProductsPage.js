@@ -1,12 +1,17 @@
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useFirestore } from './useFirestore';
 
 export function useProductsPage() {
   const base = import.meta.env.BASE_URL || '/';
+  const { getProducts, loading, error } = useFirestore();
   
-  // 商品資料
-  const products = ref([
+  // 商品資料（從 Firestore 載入）
+  const products = ref([]);
+  
+  // 備用靜態資料（Firestore 載入失敗時使用）
+  const fallbackProducts = [
     {
-      id: 1,
+      order: 1,
       image: '/images/products/towel.webp',
       htmlContent: `
         <div class="news-content">
@@ -30,7 +35,7 @@ export function useProductsPage() {
       `
     },
     {
-      id: 2,
+      order: 2,
       image: '/images/products/card_season2.webp',
       htmlContent: `
         <div class="news-content">
@@ -54,7 +59,7 @@ export function useProductsPage() {
       `
     },
     {
-      id: 3,
+      order: 3,
       image: '/images/products/badge_banner.webp',
       htmlContent: `
         <div class="news-content">
@@ -75,7 +80,7 @@ export function useProductsPage() {
         </div>
       `
     }
-  ]);
+  ];
 
   // 背景區域設定
   const backgroundSection = ref({
@@ -84,9 +89,44 @@ export function useProductsPage() {
     backgroundImage: `${base}/images/products/construction.webp`
   });
 
+  /**
+   * 從 Firestore 載入產品資料
+   */
+  async function loadProducts() {
+    try {
+      const firestoreProducts = await getProducts();
+      
+      if (firestoreProducts && firestoreProducts.length > 0) {
+        // 轉換 Firestore 資料格式
+        products.value = firestoreProducts.map(product => ({
+          id: product.id,
+          // imageUrl 已包含前導斜杠，移除以避免重複 base 路徑
+          image: product.imageUrl,
+          title: product.title,
+          htmlContent: product.htmlContent
+        }));
+      } else {
+        // 如果 Firestore 沒有資料，使用備用資料
+        console.warn('No products found in Firestore, using fallback data');
+        products.value = fallbackProducts;
+      }
+    } catch (err) {
+      // 載入失敗時使用備用資料
+      console.error('Failed to load products from Firestore:', err);
+      products.value = fallbackProducts;
+    }
+  }
+
+  onMounted(async () => {
+    // 載入 Firestore 資料
+    await loadProducts();
+  });
+
   return {
     base,
     products,
-    backgroundSection
+    backgroundSection,
+    loading,
+    error
   };
 }
