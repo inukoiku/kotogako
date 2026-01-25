@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore';
 
 // Fallback 配置（當環境變數未載入時使用）
 const fallbackConfig = {
@@ -31,7 +31,20 @@ console.log('- Auth Domain:', firebaseConfig.authDomain);
 // 初始化 Firebase
 const app = initializeApp(firebaseConfig);
 
-// 初始化 Firestore
-export const db = getFirestore(app);
+// 偵測環境
+const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+
+console.log(`🔧 Environment: ${isProduction ? 'Production' : 'Development'}`);
+
+// 初始化 Firestore - Production 禁用快取並強制 long-polling
+export const db = initializeFirestore(app, {
+  localCache: isProduction 
+    ? undefined 
+    : persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+  experimentalForceLongPolling: isProduction,
+  experimentalAutoDetectLongPolling: !isProduction
+});
+
+console.log(`✅ Firestore initialized - Mode: ${isProduction ? 'Production (long-polling, no cache)' : 'Development (auto, cached)'}`);
 
 export default app;

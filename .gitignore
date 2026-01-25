@@ -11,8 +11,11 @@ vue-site/dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-vue-site/.env.local
+
+# Environment variables
 vue-site/.env
+vue-site/.env.local
+vue-site/.env.production
 
 # Editor settings (optional - uncomment if desired)
 #.vscode/
