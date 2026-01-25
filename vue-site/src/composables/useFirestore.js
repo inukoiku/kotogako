@@ -1,26 +1,12 @@
 import { ref } from 'vue';
 import { collection, query, where, orderBy, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
-import { useFirestoreREST } from './useFirestoreREST';
 
 /**
  * 通用 Firestore 資料獲取 composable
- * Production 環境自動使用 REST API 避免 SDK 連線問題
  */
 export function useFirestore() {
-  // 偵測是否為 Production 環境
-  const isProduction = typeof window !== 'undefined' && 
-    window.location.hostname !== 'localhost' && 
-    window.location.hostname !== '127.0.0.1';
-
-  // Production 使用 REST API
-  if (isProduction) {
-    console.log('🔄 Using Firestore REST API (Production mode)');
-    return useFirestoreREST();
-  }
-
-  // Development 使用 SDK
-  console.log('🔄 Using Firestore SDK (Development mode)');
+  console.log('🔄 Using Firestore SDK');
   
   const loading = ref(false);
   const error = ref(null);
