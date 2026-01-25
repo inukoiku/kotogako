@@ -164,7 +164,8 @@ export function useHomePageState() {
         // 轉換 Firestore 資料格式
         heroSlides.value = firestoreSlides.map(slide => ({
           id: slide.id,
-          image: `${base}${slide.imageUrl}`,
+          // 如果是完整 URL (http/https)，直接使用；否則加上 base
+          image: slide.imageUrl.startsWith('http') ? slide.imageUrl : `${base}${slide.imageUrl}`,
           title: slide.title,
           subtitle: slide.description,
           cta: {
