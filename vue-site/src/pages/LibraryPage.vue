@@ -2,7 +2,7 @@
   <!-- 封面 -->
   <section
     class="cover-frame cover-frame-library"
-    :style="{ '--cover-img': 'url(' + base + '/images/library/library_banner.webp)' }"
+    :style="{ '--cover-img': 'url(' + base + '/images/library/library_banner_v2.webp)' }"
   >
     <div class="cover-frame-inner">
       <div class="lib-switch-btns">

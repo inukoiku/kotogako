@@ -2,7 +2,7 @@
   <!-- 全幅封面（背景左右滿版） -->
   <section
     class="cover-frame cover-frame-library"
-    :style="{ '--cover-img': 'url(' + base + '/images/products/product_banner.webp)' }"
+    :style="{ '--cover-img': 'url(' + base + '/images/products/product_banner_v2.webp)' }"
   >
     <div class="cover-frame-inner">
     </div>
