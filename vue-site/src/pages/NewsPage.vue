@@ -8,8 +8,18 @@
     </div>
   </section>
 
+  <!-- 載入狀態 -->
+  <section v-if="loading" class="news-loading container my-5">
+    <div class="loading-spinner">載入中...</div>
+  </section>
+
+  <!-- 錯誤狀態 -->
+  <section v-else-if="error" class="news-error container my-5">
+    <div class="error-message">資料載入失敗：{{ error }}</div>
+  </section>
+
   <!-- 新聞橫幅區塊 -->
-  <section class="news-banners-section container my-5">
+  <section v-else class="news-banners-section container my-5">
     <div class="news-banners-container">
       <div 
         v-for="banner in reversedNewsBanners" 
@@ -22,8 +32,8 @@
         :aria-label="`查看新聞詳情 ${banner.id}`"
       >
         <img 
-          :src="banner.image.startsWith('http') ? banner.image : base + banner.image" 
-          :alt="`新聞橫幅 ${banner.id}`"
+          :src="banner.image && banner.image.startsWith('http') ? banner.image : base + (banner.image || '')" 
+          :alt="banner.title || `新聞橫幅 ${banner.id}`"
           class="news-banner-image"
           loading="lazy"
         />
@@ -78,8 +88,11 @@ const { news, base: baseFromState } = useHomePageState();
 // 新聞頁面功能
 const { 
   base: newsBase, 
+  loading,
+  error,
   newsBanners,
   reversedNewsBanners, 
+  fetchNewsItems,
   showModal, 
   currentContent, 
   openModal, 
@@ -103,6 +116,7 @@ function handleEscape(event) {
 
 onMounted(() => {
   document.addEventListener('keydown', handleEscape);
+  fetchNewsItems(); // 從 Firestore 取得新聞資料
 });
 
 onUnmounted(() => {
