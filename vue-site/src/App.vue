@@ -1,16 +1,26 @@
 <template>
   <div id="app-shell">
-    <SiteHeader />
-    <main>
+    <template v-if="!isAdminRoute">
+      <SiteHeader />
+      <main>
+        <RouterView />
+      </main>
+      <SiteFooter />
+    </template>
+    <template v-else>
       <RouterView />
-    </main>
-    <SiteFooter />
+    </template>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import SiteHeader from './components/SiteHeader.vue';
 import SiteFooter from './components/SiteFooter.vue';
+
+const route = useRoute();
+const isAdminRoute = computed(() => route.path.startsWith('/admin'));
 </script>
 
 <style scoped>
