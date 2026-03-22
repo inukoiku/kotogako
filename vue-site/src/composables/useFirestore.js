@@ -6,8 +6,6 @@ import { db } from '../firebase/config';
  * 通用 Firestore 資料獲取 composable
  */
 export function useFirestore() {
-  console.log('🔄 Using Firestore SDK');
-  
   const loading = ref(false);
   const error = ref(null);
 
@@ -93,14 +91,9 @@ export function useFirestore() {
       const docRef = doc(db, 'pages', 'homepage');
       const docSnap = await getDoc(docRef);
       
-      console.log('Fetched home video data from Firestore');
       if (docSnap.exists()) {
-        console.log('Homepage document found');
         const data = docSnap.data();
-        console.log('homevideo field:', data.homevideo);
         return data.homevideo || '';
-      } else {
-        console.warn('Homepage document does not exist');
       }
       
       return '';
@@ -148,11 +141,47 @@ export function useFirestore() {
     }
   }
 
+  /**
+   * 獲取新聞頁面資料
+   * @returns {Promise<Array>} 新聞資料陣列
+   */
+  async function getNewsItems() {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const q = query(
+        collection(db, 'pages', 'eventpage', 'eventItems'),
+        where('active', '==', true),
+        orderBy('order', 'asc')
+      );
+
+      const querySnapshot = await getDocs(q);
+      const newsItems = [];
+
+      querySnapshot.forEach((doc) => {
+        newsItems.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
+
+      return newsItems;
+    } catch (err) {
+      console.error('Error fetching news items:', err);
+      error.value = err.message;
+      return [];
+    } finally {
+      loading.value = false;
+    }
+  }
+
   return {
     loading,
     error,
     getHeroSlides,
     getHomeVideo,
-    getProducts
+    getProducts,
+    getNewsItems
   };
 }
