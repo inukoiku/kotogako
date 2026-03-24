@@ -1,0 +1,134 @@
+/* Admin Editor Styles - Shared across editor pages (Events, HeroSlides, Products) */
+
+.editor-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+}
+
+/* ===== Draggable List ===== */
+.draggable-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ===== Item Card ===== */
+.item-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s;
+}
+
+.item-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.item-card.inactive {
+  opacity: 0.6;
+}
+
+/* ===== Drag Handle ===== */
+.drag-handle {
+  cursor: grab;
+  padding: 8px;
+  color: #999;
+  font-size: 18px;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* ===== Item Preview (120x80) ===== */
+.item-preview {
+  width: 120px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.item-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Square preview variant (100x100) for products */
+.item-preview.square {
+  width: 100px;
+  height: 100px;
+}
+
+/* ===== Item Info ===== */
+.item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-info h3 {
+  font-size: 16px;
+  margin: 0 0 4px;
+  color: #1a1a2e;
+}
+
+.item-desc {
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+.item-link {
+  font-size: 12px;
+  color: #666;
+  margin: 0 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===== Item Meta (badges) ===== */
+.item-meta {
+  display: flex;
+  gap: 8px;
+}
+
+.order-badge,
+.status-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.order-badge {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.status-badge.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.inactive {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ===== Item Actions ===== */
+.item-actions {
+  display: flex;
+  gap: 8px;
+}
