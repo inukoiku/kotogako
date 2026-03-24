@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 // Fallback 配置（當環境變數未載入時使用）
 const fallbackConfig = {
@@ -33,6 +34,9 @@ const app = initializeApp(firebaseConfig);
 
 // 初始化 Firestore
 export const db = getFirestore(app);
+
+// 初始化 Auth
+export const auth = getAuth(app);
 
 console.log('✅ Firestore initialized with SDK mode');
 
