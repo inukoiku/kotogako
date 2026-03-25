@@ -35,7 +35,7 @@
             </div>
             <div class="item-info">
               <h3>{{ element.title || '無標題' }}</h3>
-              <p class="item-desc">{{ truncateText(element.description, 80) }}</p>
+              <p class="item-desc">{{ truncateHtml(element.htmlContent, 80) }}</p>
               <div class="item-meta">
                 <span class="order-badge">排序: {{ element.order }}</span>
                 <span class="status-badge" :class="element.active ? 'active' : 'inactive'">
@@ -88,13 +88,13 @@
             </div>
 
             <div class="form-group">
-              <label>產品描述</label>
-              <textarea v-model="formData.description" rows="3" placeholder="產品描述..."></textarea>
-            </div>
-
-            <div class="form-group">
-              <label>購買連結</label>
-              <input v-model="formData.buyUrl" type="url" placeholder="https://..." />
+              <label>產品內容 (HTML)</label>
+              <textarea 
+                v-model="formData.htmlContent" 
+                rows="10" 
+                placeholder="<div class='news-content'>...</div>"
+              ></textarea>
+              <p class="form-hint">支援 HTML 標籤，可包含圖片、列表等</p>
             </div>
 
             <div class="form-group checkbox">
@@ -136,116 +136,38 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
 import draggable from 'vuedraggable';
-import { useAdminFirestore } from '@/composables/useAdminFirestore';
+import { useProductsEditor } from '@/admin/composables/useProductsEditor';
 import '@/admin/styles/admin-common.css';
 import '@/admin/styles/admin-editor.css';
 
-const COLLECTION_PATH = 'pages/productpage/productItems';
-
-const { loading, getAll, create, update, remove, updateOrder } = useAdminFirestore();
-
-const items = ref([]);
-const showModal = ref(false);
-const showDeleteModal = ref(false);
-const isEditing = ref(false);
-const saving = ref(false);
-const currentItem = ref(null);
-
-const formData = ref({
-  title: '',
-  imageUrl: '',
-  description: '',
-  buyUrl: '',
-  order: 1,
-  active: true
-});
-
-onMounted(() => {
-  fetchData();
-});
-
-async function fetchData() {
-  items.value = await getAll(COLLECTION_PATH);
-}
-
-function truncateText(text, maxLength) {
-  if (!text) return '';
-  return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-}
-
-function openCreateModal() {
-  isEditing.value = false;
-  formData.value = {
-    title: '',
-    imageUrl: '',
-    description: '',
-    buyUrl: '',
-    order: items.value.length + 1,
-    active: true
-  };
-  showModal.value = true;
-}
-
-function openEditModal(item) {
-  isEditing.value = true;
-  currentItem.value = item;
-  formData.value = { ...item };
-  showModal.value = true;
-}
-
-function closeModal() {
-  showModal.value = false;
-  currentItem.value = null;
-}
-
-async function saveItem() {
-  saving.value = true;
-  
-  try {
-    if (isEditing.value) {
-      await update(`${COLLECTION_PATH}/${currentItem.value.id}`, formData.value);
-    } else {
-      await create(COLLECTION_PATH, formData.value);
-    }
-    
-    await fetchData();
-    closeModal();
-  } catch (err) {
-    alert('儲存失敗: ' + err.message);
-  } finally {
-    saving.value = false;
-  }
-}
-
-function confirmDelete(item) {
-  currentItem.value = item;
-  showDeleteModal.value = true;
-}
-
-async function deleteItem() {
-  saving.value = true;
-  
-  try {
-    await remove(`${COLLECTION_PATH}/${currentItem.value.id}`);
-    await fetchData();
-    showDeleteModal.value = false;
-  } catch (err) {
-    alert('刪除失敗: ' + err.message);
-  } finally {
-    saving.value = false;
-    currentItem.value = null;
-  }
-}
-
-async function toggleActive(item) {
-  await update(`${COLLECTION_PATH}/${item.id}`, { active: !item.active });
-  await fetchData();
-}
-
-async function handleOrderChange() {
-  await updateOrder(COLLECTION_PATH, items.value);
-}
+const {
+  items,
+  loading,
+  showModal,
+  showDeleteModal,
+  isEditing,
+  saving,
+  currentItem,
+  formData,
+  fetchData,
+  truncateHtml,
+  openCreateModal,
+  openEditModal,
+  closeModal,
+  saveItem,
+  confirmDelete,
+  deleteItem,
+  toggleActive,
+  handleOrderChange
+} = useProductsEditor();
 </script>
+
+<style scoped>
+/* Page-specific overrides */
+.form-group textarea {
+  min-height: 200px;
+  font-family: monospace;
+}
+</style>
 

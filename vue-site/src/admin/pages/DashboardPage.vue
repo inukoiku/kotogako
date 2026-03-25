@@ -53,10 +53,11 @@
           <span class="action-icon">➕</span>
           <span>新增活動</span>
         </router-link>
-        <a href="/" target="_blank" class="action-card">
+        <router-link to="/" class="action-card" target="_blank">
           <span class="action-icon">👁️</span>
           <span>預覽網站</span>
-        </a>
+        </router-link>
+      
       </div>
     </div>
 
@@ -81,34 +82,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useAuth } from '@/composables/useAuth';
-import { useAdminFirestore } from '@/composables/useAdminFirestore';
+import { useDashboardPage } from '@/admin/composables/useDashboardPage';
 import '@/admin/styles/dashboard.css';
 
-const { adminData } = useAuth();
-const { getAll } = useAdminFirestore();
-
-const heroSlidesCount = ref(0);
-const productsCount = ref(0);
-const eventsCount = ref(0);
-
-onMounted(async () => {
-  // 取得各項目數量
-  const heroSlides = await getAll('pages/homepage/carouselItems');
-  heroSlidesCount.value = heroSlides.length;
-
-  const products = await getAll('pages/productpage/productItems');
-  productsCount.value = products.length;
-
-  const events = await getAll('pages/eventpage/eventItems');
-  eventsCount.value = events.length;
-});
-
-function formatDate(timestamp) {
-  if (!timestamp) return '未知';
-  const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-  return date.toLocaleString('zh-TW');
-}
+const {
+  adminData,
+  heroSlidesCount,
+  productsCount,
+  eventsCount,
+  formatDate
+} = useDashboardPage();
 </script>
 
