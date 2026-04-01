@@ -9,7 +9,7 @@
   <!-- </section> -->
    <section
       class="cover-frame cover-frame-library home-cover"
-      :style="{ '--cover-img': 'url(' + base + '/images/home/summer_welcome_with_name.webp)' }"
+      :style="{ '--cover-img': 'url(' + base + '/images/home/summer_welcome_with_name_v2.webp)' }"
     >
       <div class="cover-frame-inner">
     </div>
