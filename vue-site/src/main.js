@@ -11,6 +11,7 @@ import TeamPage from './pages/TeamPage.vue';
 import ProductsPage from './pages/ProductsPage.vue';
 import NewsPage from './pages/NewsPage.vue';
 import LibraryPage from './pages/LibraryPage.vue';
+import EbookPage from './pages/EbookPage.vue';
 import LinkPage from './pages/LinkPage.vue';
 import AgeGate from '@/pages/AgeGate.vue';
 import { useAgeGate } from '@/composables/useAgeGate';
@@ -31,6 +32,7 @@ const routes = [
   { path: '/products', component: ProductsPage },
   { path: '/news', component: NewsPage },
   { path: '/library', component: LibraryPage },
+  { path: '/ebook', name: 'Ebook', component: EbookPage },
   { path: '/link', component: LinkPage },
   { path: '/age-gate', name: 'AgeGate', component: AgeGate },
   

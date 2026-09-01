@@ -176,12 +176,42 @@ export function useFirestore() {
     }
   }
 
+  /**
+   * 獲取電子書頁面，後台可維護 imageUrl、alt、order、active 欄位
+   * @returns {Promise<Array>} 最多 20 頁的電子書圖片
+   */
+  async function getEbookPages() {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const q = query(
+        collection(db, 'pages', 'librarypage', 'ebookPages'),
+        where('active', '==', true),
+        orderBy('order', 'asc')
+      );
+      const querySnapshot = await getDocs(q);
+
+      return querySnapshot.docs
+        .map((pageDoc) => ({ id: pageDoc.id, ...pageDoc.data() }))
+        .filter((page) => typeof page.imageUrl === 'string' && page.imageUrl.trim())
+        .slice(0, 20);
+    } catch (err) {
+      console.error('Error fetching ebook pages:', err);
+      error.value = err.message;
+      return [];
+    } finally {
+      loading.value = false;
+    }
+  }
+
   return {
     loading,
     error,
     getHeroSlides,
     getHomeVideo,
     getProducts,
-    getNewsItems
+    getNewsItems,
+    getEbookPages
   };
 }

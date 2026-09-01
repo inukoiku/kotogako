@@ -92,6 +92,20 @@
 
 /* ===== Library Page 專用新增樣式 ===== */
 
+.library-ebook-entry {
+  display:flex;
+  justify-content:center;
+  margin:-.75rem 0 1.25rem;
+}
+.library-ebook-entry a {
+  padding:.75rem 1.25rem;
+  border:1px solid rgba(255,255,255,.45);
+  color:#fff;
+  background:#312d29;
+  font-weight:700;
+  text-decoration:none;
+}
+
 /* 封面內的左側切換按鈕群組 */
 .lib-switch-btns {
   position:absolute;

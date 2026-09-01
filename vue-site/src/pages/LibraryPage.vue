@@ -40,6 +40,10 @@
     </div>
   </section>
 
+  <nav class="library-ebook-entry" aria-label="電子書入口">
+    <RouterLink to="/ebook">開啟電子書閱覽</RouterLink>
+  </nav>
+
   <!-- 下方背景 + 區塊切換 -->
   <section
     class="library-section-switch use-img"
