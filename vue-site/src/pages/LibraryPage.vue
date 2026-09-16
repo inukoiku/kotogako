@@ -41,7 +41,13 @@
   </section>
 
   <nav class="library-ebook-entry" aria-label="電子書入口">
-    <RouterLink to="/ebook">開啟電子書閱覽</RouterLink>
+    <button
+      type="button"
+      :class="{ active: currentBlock==='C' }"
+      @click="currentBlock='C'"
+    >
+      Magazine
+    </button>
   </nav>
 
   <!-- 下方背景 + 區塊切換 -->
@@ -53,7 +59,6 @@
     <img class="lib-bg-img" :src="base + '/images/library/library_bk.webp'" alt="下方背景圖">
     <div class="lib-block-wrap">
       <!-- Block A (Vault) -->
-      <transition name="fade">
         <div
           v-if="currentBlock==='A'"
           key="A"
@@ -102,10 +107,8 @@
             </div>
           </section>
         </div>
-      </transition>
 
       <!-- Block B (Gallery) -->
-      <transition name="fade">
         <div
           v-if="currentBlock==='B'"
           key="B"
@@ -154,7 +157,16 @@
             </div>
           </section>
         </div>
-      </transition>
+
+      <!-- Block C (Magazine) -->
+        <div
+          v-if="currentBlock==='C'"
+          key="C"
+          class="lib-block lib-block-c"
+          ref="blockCRef"
+        >
+          <EbookReader embedded :show-back="false" />
+        </div>
     </div>
   </section>
 
@@ -195,6 +207,7 @@
 
 <script setup>
 import '@/styles/library.css';
+import EbookReader from '@/components/EbookReader.vue';
 import { useLibraryPageState } from '../composables/libraryPageState';
 
 const {
@@ -211,6 +224,7 @@ const {
   gridRefB,
   blockARef,
   blockBRef,
+  blockCRef,
   librarySectionRef,
   itemStyleA,
   itemStyleB,

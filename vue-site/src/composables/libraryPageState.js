@@ -48,7 +48,9 @@ export function useLibraryPageState() {
   const gridRefB = ref(null);
   const blockARef = ref(null);
   const blockBRef = ref(null);
+  const blockCRef = ref(null);
   const librarySectionRef = ref(null);
+  let blockResizeObserver = null;
 
   // 圖片放大功能
   const showImageModal = ref(false);
@@ -187,12 +189,27 @@ export function useLibraryPageState() {
 
   function adjustSectionHeight(){
     const section = librarySectionRef.value;
+    if(!section) return;
+
+    section.style.minHeight = '';
+
+    if(currentBlock.value === 'C') {
+      const block = blockCRef.value;
+      if(!block) return;
+
+      const sectionRect = section.getBoundingClientRect();
+      const blockRect = block.getBoundingClientRect();
+      const needed = Math.ceil(blockRect.bottom - sectionRect.top) + 40;
+      section.style.minHeight = Math.max(needed, section.offsetHeight) + 'px';
+      return;
+    }
+
     const activeGrid = currentBlock.value === 'A' ? gridRefA.value : gridRefB.value;
-    if(!section || !activeGrid) return;
-    
+    if(!activeGrid) return;
+
     const items = activeGrid.querySelectorAll('.lib-photo-item');
     if(!items.length) return;
-    
+
     let maxBottom = 0;
     items.forEach(el => {
       const r = el.getBoundingClientRect();
@@ -201,9 +218,7 @@ export function useLibraryPageState() {
     
     const sectionRect = section.getBoundingClientRect();
     const needed = Math.ceil(maxBottom - sectionRect.top) + 40;
-    if(needed > section.offsetHeight){
-      section.style.minHeight = needed + 'px';
-    }
+    section.style.minHeight = Math.max(needed, section.offsetHeight) + 'px';
   }
 
   function recalcBlockBounds(){
@@ -222,6 +237,13 @@ export function useLibraryPageState() {
   onMounted(() => {
     scheduleRecalc();
     window.addEventListener('resize', scheduleRecalc);
+    if(typeof ResizeObserver !== 'undefined') {
+      blockResizeObserver = new ResizeObserver(scheduleRecalc);
+      watch(blockCRef, (block, previousBlock) => {
+        if(previousBlock) blockResizeObserver.unobserve(previousBlock);
+        if(block) blockResizeObserver.observe(block);
+      }, { immediate:true });
+    }
     // 添加鍵盤和視窗調整事件監聽器
     document.addEventListener('keydown', handleEscape);
     window.addEventListener('resize', handleResize);
@@ -232,6 +254,7 @@ export function useLibraryPageState() {
     // 移除事件監聽器
     document.removeEventListener('keydown', handleEscape);
     window.removeEventListener('resize', handleResize);
+    blockResizeObserver?.disconnect();
     // 確保在組件卸載時恢復滾動
     document.body.style.overflow = '';
   });
@@ -326,6 +349,7 @@ export function useLibraryPageState() {
     gridRefB,
     blockARef,
     blockBRef,
+    blockCRef,
     librarySectionRef,
     itemStyleA,
     itemStyleB,
