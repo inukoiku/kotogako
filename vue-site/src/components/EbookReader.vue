@@ -61,26 +61,7 @@
         ‹
       </button>
 
-      <div ref="flipbookRef" class="ebook-flipbook">
-        <article
-          v-for="(page, index) in displayBookPages"
-          :key="page.id"
-          class="ebook-sheet ebook-flip-page"
-          :class="{ 'ebook-flip-page-blank': page.blank }"
-          :aria-label="`第 ${index + 1} 頁`"
-        >
-            <img
-              v-if="!page.blank && !failedPageIds.has(page.id)"
-              :src="page.imageUrl"
-              :alt="page.alt || `電子書第 ${index + 1} 頁`"
-              loading="eager"
-              draggable="false"
-              @error="markPageFailed(page.id)"
-            >
-            <div v-else-if="!page.blank" class="ebook-image-error">圖片無法載入</div>
-            <span v-if="!page.blank" class="ebook-sheet-number">{{ index + 1 }}</span>
-        </article>
-      </div>
+      <div ref="flipbookRef" :key="flipbookKey" class="ebook-flipbook"></div>
 
       <button
         class="ebook-nav ebook-nav-next"
@@ -177,8 +158,8 @@ const isLoading = ref(false);
 const isFullscreen = ref(false);
 const readerRef = ref(null);
 const flipbookRef = ref(null);
+const flipbookKey = ref(0);
 const pageFlipRef = ref(null);
-const failedPageIds = ref(new Set());
 const selectedBook = ref(props.embedded ? null : temporaryBooks[0]);
 
 const catalogBooks = computed(() => temporaryBooks.map((book) => ({
@@ -259,14 +240,47 @@ function syncActivePageFallback(targetPage, previousPage) {
   }, 950);
 }
 
-function markPageFailed(pageId) {
-  failedPageIds.value = new Set([...failedPageIds.value, pageId]);
+function createFlipPageElement(page, index) {
+  const article = document.createElement('article');
+  article.className = 'ebook-sheet ebook-flip-page';
+  article.setAttribute('aria-label', `第 ${index + 1} 頁`);
+
+  if (page.blank) {
+    article.classList.add('ebook-flip-page-blank');
+    return article;
+  }
+
+  const img = document.createElement('img');
+  img.src = page.imageUrl;
+  img.alt = page.alt || `電子書第 ${index + 1} 頁`;
+  img.loading = 'eager';
+  img.draggable = false;
+  img.addEventListener('error', () => {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'ebook-image-error';
+    placeholder.textContent = '圖片無法載入';
+    img.replaceWith(placeholder);
+  });
+  article.appendChild(img);
+
+  const number = document.createElement('span');
+  number.className = 'ebook-sheet-number';
+  number.textContent = String(index + 1);
+  article.appendChild(number);
+
+  return article;
+}
+
+function renderFlipPages() {
+  if(!flipbookRef.value) return;
+  flipbookRef.value.replaceChildren(
+    ...displayBookPages.value.map((page, index) => createFlipPageElement(page, index))
+  );
 }
 
 function selectBook(book) {
   selectedBook.value = book;
   activePage.value = 0;
-  failedPageIds.value = new Set();
   isTurning.value = false;
   bookPages.value = (
     book.id === 'magazine-02' && remoteBookPages.value.length
@@ -280,7 +294,6 @@ function returnToCatalog() {
   selectedBook.value = null;
   bookPages.value = [];
   activePage.value = 0;
-  failedPageIds.value = new Set();
   isTurning.value = false;
 }
 
@@ -290,9 +303,14 @@ function destroyPageFlip() {
 }
 
 async function initPageFlip() {
-  destroyPageFlip();
+  const previousPageFlip = pageFlipRef.value;
+  pageFlipRef.value = null;
+  flipbookKey.value += 1;
   await nextTick();
+  previousPageFlip?.destroy();
   if(!flipbookRef.value || !bookPages.value.length) return;
+
+  renderFlipPages();
 
   const startPage = Math.min(activePage.value, Math.max(displayBookPages.value.length - visiblePageCount.value, 0));
   const fullscreenMode = document.fullscreenElement === readerRef.value;
