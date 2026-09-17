@@ -24,6 +24,8 @@ import HeroSlidesEditor from '@/admin/pages/HeroSlidesEditor.vue';
 import HomeVideoEditor from '@/admin/pages/HomeVideoEditor.vue';
 import ProductsEditor from '@/admin/pages/ProductsEditor.vue';
 import EventsEditor from '@/admin/pages/EventsEditor.vue';
+import MagazinesEditor from '@/admin/pages/MagazinesEditor.vue';
+import MagazinePagesEditor from '@/admin/pages/MagazinePagesEditor.vue';
 
 const routes = [
   { path: '/', component: HomePage },
@@ -48,7 +50,9 @@ const routes = [
       { path: 'hero-slides', name: 'HeroSlidesEditor', component: HeroSlidesEditor },
       { path: 'home-video', name: 'HomeVideoEditor', component: HomeVideoEditor },
       { path: 'products', name: 'ProductsEditor', component: ProductsEditor },
-      { path: 'events', name: 'EventsEditor', component: EventsEditor }
+      { path: 'events', name: 'EventsEditor', component: EventsEditor },
+      { path: 'magazines', name: 'MagazinesEditor', component: MagazinesEditor },
+      { path: 'magazines/:magazineId/pages', name: 'MagazinePagesEditor', component: MagazinePagesEditor }
     ]
   }
 ];

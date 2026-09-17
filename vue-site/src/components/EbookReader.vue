@@ -28,24 +28,27 @@
       <span v-else class="ebook-back-placeholder" aria-hidden="true"></span>
     </header>
 
-    <div v-if="!selectedBook" class="ebook-catalog" aria-label="犬高雜誌列表">
-      <button
-        v-for="book in catalogBooks"
-        :key="book.id"
-        class="ebook-book-card"
-        type="button"
-        @click="selectBook(book)"
-      >
-        <span class="ebook-book-cover">
-          <img :src="book.coverUrl" :alt="book.title" draggable="false">
-        </span>
-        <span class="ebook-book-meta">
-          <span class="ebook-book-kicker">{{ book.kicker }}</span>
-          <span class="ebook-book-title">{{ book.title }}</span>
-          <span class="ebook-book-count">共 {{ book.pageImages.length }} 頁</span>
-        </span>
-      </button>
-    </div>
+    <template v-if="!selectedBook">
+      <div v-if="isCatalogLoading" class="ebook-status" role="status">雜誌讀取中...</div>
+      <div v-else-if="!magazines.length" class="ebook-status" role="status">目前沒有可顯示的雜誌</div>
+      <div v-else class="ebook-catalog" aria-label="犬高雜誌列表">
+        <button
+          v-for="book in magazines"
+          :key="book.id"
+          class="ebook-book-card"
+          type="button"
+          @click="selectBook(book)"
+        >
+          <span class="ebook-book-cover">
+            <img :src="book.coverUrl" :alt="book.title" draggable="false">
+          </span>
+          <span class="ebook-book-meta">
+            <span class="ebook-book-kicker">{{ book.kicker }}</span>
+            <span class="ebook-book-title">{{ book.title }}</span>
+          </span>
+        </button>
+      </div>
+    </template>
 
     <div v-else-if="isLoading" class="ebook-status" role="status">頁面載入中...</div>
     <div v-else-if="!bookPages.length" class="ebook-status" role="status">目前沒有可顯示的頁面</div>
@@ -100,59 +103,10 @@ const props = defineProps({
   embedded: { type: Boolean, default: false }
 });
 
-const MAX_PAGES = 20;
-const localPageImages = [
-  'about_vault.webp',
-  'vault_1.webp',
-  'vault_2.webp',
-  'vault_3.webp',
-  'vault_4.webp',
-  'vault_5.webp',
-  'vault_6.webp',
-  'vault_7.webp',
-  'vault_8.webp',
-  'left_worlds.webp',
-  'gallery_img_1.webp',
-  'gallery_img_2.webp',
-  'gallery_img_3.webp',
-  'gallery_img_4.webp',
-  'gallery_img_5.webp'
-];
-
-const temporaryBooks = [
-  {
-    id: 'magazine-02',
-    kicker: 'Vol. 02',
-    title: '犬高雜誌-第二期',
-    cover: 'about_vault.webp',
-    pageImages: localPageImages
-  },
-  {
-    id: 'magazine-01',
-    kicker: 'Vol. 01',
-    title: '犬高雜誌-第一期',
-    cover: 'left_worlds.webp',
-    pageImages: localPageImages.slice(8).concat(localPageImages.slice(0, 8))
-  },
-  {
-    id: 'special-gallery',
-    kicker: 'Special',
-    title: 'Gallery 特別刊',
-    cover: 'gallery_img_1.webp',
-    pageImages: localPageImages.slice(9).concat(localPageImages.slice(0, 9))
-  },
-  {
-    id: 'vault-archive',
-    kicker: 'Archive',
-    title: 'Vault 典藏刊',
-    cover: 'vault_1.webp',
-    pageImages: localPageImages.slice(1).concat(localPageImages.slice(0, 1))
-  }
-];
-
-const { getEbookPages } = useFirestore();
+const { getMagazines, getMagazinePages } = useFirestore();
+const magazines = ref([]);
+const isCatalogLoading = ref(false);
 const bookPages = ref([]);
-const remoteBookPages = ref([]);
 const activePage = ref(0);
 const isLoading = ref(false);
 const isFullscreen = ref(false);
@@ -160,12 +114,7 @@ const readerRef = ref(null);
 const flipbookRef = ref(null);
 const flipbookKey = ref(0);
 const pageFlipRef = ref(null);
-const selectedBook = ref(props.embedded ? null : temporaryBooks[0]);
-
-const catalogBooks = computed(() => temporaryBooks.map((book) => ({
-  ...book,
-  coverUrl: getLocalImageUrl(book.cover)
-})));
+const selectedBook = ref(null);
 
 const visiblePageCount = computed(() => (
   typeof window !== 'undefined' && window.innerWidth >= 800 ? 2 : 1
@@ -185,24 +134,6 @@ const visiblePageLabel = computed(() => {
   const lastPage = Math.min(firstPage + visiblePageCount.value - 1, bookPages.value.length);
   return firstPage === lastPage ? `第 ${firstPage} 頁` : `第 ${firstPage}–${lastPage} 頁`;
 });
-
-function getBaseUrl() {
-  let base = import.meta.env.BASE_URL || '/';
-  if (base.endsWith('/')) base = base.slice(0, -1);
-  return base;
-}
-
-function getLocalImageUrl(fileName) {
-  return `${getBaseUrl()}/images/library/${fileName}`;
-}
-
-function getLocalPages(book = temporaryBooks[0]) {
-  return book.pageImages.slice(0, MAX_PAGES).map((fileName, index) => ({
-    id: `${book.id}-${index + 1}`,
-    imageUrl: getLocalImageUrl(fileName),
-    alt: `${book.title} 第 ${index + 1} 頁`
-  }));
-}
 
 function previousPage() {
   const targetPage = Math.max(activePage.value - visiblePageCount.value, 0);
@@ -278,15 +209,13 @@ function renderFlipPages() {
   );
 }
 
-function selectBook(book) {
+async function selectBook(book) {
   selectedBook.value = book;
   activePage.value = 0;
   isTurning.value = false;
-  bookPages.value = (
-    book.id === 'magazine-02' && remoteBookPages.value.length
-      ? remoteBookPages.value
-      : getLocalPages(book)
-  ).slice(0, MAX_PAGES);
+  isLoading.value = true;
+  bookPages.value = await getMagazinePages(book.id);
+  isLoading.value = false;
 }
 
 function returnToCatalog() {
@@ -361,13 +290,14 @@ function handleFullscreenChange() {
 
 onMounted(async () => {
   document.addEventListener('fullscreenchange', handleFullscreenChange);
-  if (!selectedBook.value) return;
 
-  isLoading.value = true;
-  const remotePages = await getEbookPages();
-  remoteBookPages.value = remotePages.slice(0, MAX_PAGES);
-  selectBook(selectedBook.value);
-  isLoading.value = false;
+  isCatalogLoading.value = true;
+  magazines.value = await getMagazines();
+  isCatalogLoading.value = false;
+
+  if (!props.embedded && magazines.value.length) {
+    await selectBook(magazines.value[0]);
+  }
 });
 
 watch(bookPages, () => {

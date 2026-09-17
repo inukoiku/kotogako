@@ -23,24 +23,15 @@ export function useAdminFirestore() {
 
   /**
    * 取得集合中所有文件（不篩選 active）
+   * collectionPath 支援任意深度的 slash-separated 路徑，例如
+   * 'pages/librarypage/magazines/magazine_vol2/pages'
    */
   async function getAll(collectionPath, orderField = 'order') {
     loading.value = true;
     error.value = null;
 
     try {
-      const pathParts = collectionPath.split('/');
-      let collectionRef;
-      
-      if (pathParts.length === 1) {
-        collectionRef = collection(db, pathParts[0]);
-      } else if (pathParts.length === 3) {
-        collectionRef = collection(db, pathParts[0], pathParts[1], pathParts[2]);
-      } else {
-        throw new Error('Invalid collection path');
-      }
-
-      const q = query(collectionRef, orderBy(orderField, 'asc'));
+      const q = query(collection(db, collectionPath), orderBy(orderField, 'asc'));
       const querySnapshot = await getDocs(q);
       const items = [];
 
@@ -90,28 +81,16 @@ export function useAdminFirestore() {
 
   /**
    * 新增文件
+   * collectionPath 支援任意深度的 slash-separated 路徑
    */
   async function create(collectionPath, data, customId = null) {
     loading.value = true;
     error.value = null;
 
     try {
-      const pathParts = collectionPath.split('/');
-      let docRef;
-
-      if (customId) {
-        if (pathParts.length === 1) {
-          docRef = doc(db, pathParts[0], customId);
-        } else if (pathParts.length === 3) {
-          docRef = doc(db, pathParts[0], pathParts[1], pathParts[2], customId);
-        }
-      } else {
-        // 自動生成 ID
-        const collectionRef = pathParts.length === 1 
-          ? collection(db, pathParts[0])
-          : collection(db, pathParts[0], pathParts[1], pathParts[2]);
-        docRef = doc(collectionRef);
-      }
+      const docRef = customId
+        ? doc(db, collectionPath, customId)
+        : doc(collection(db, collectionPath));
 
       const docData = {
         ...data,
@@ -207,16 +186,9 @@ export function useAdminFirestore() {
 
     try {
       const batch = writeBatch(db);
-      const pathParts = collectionPath.split('/');
 
       items.forEach((item, index) => {
-        let docRef;
-        if (pathParts.length === 1) {
-          docRef = doc(db, pathParts[0], item.id);
-        } else if (pathParts.length === 3) {
-          docRef = doc(db, pathParts[0], pathParts[1], pathParts[2], item.id);
-        }
-        batch.update(docRef, { 
+        batch.update(doc(db, collectionPath, item.id), {
           order: index + 1,
           updatedAt: serverTimestamp()
         });
@@ -226,6 +198,40 @@ export function useAdminFirestore() {
       return { success: true };
     } catch (err) {
       console.error('Error updating order:', err);
+      error.value = err.message;
+      return { success: false, error: err.message };
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  /**
+   * 批次新增文件（例如電子書「貼上多個圖片網址」一次建立多頁）
+   * Firestore 單次 batch 上限 500 筆寫入
+   */
+  async function createBatch(collectionPath, dataList) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const collectionRef = collection(db, collectionPath);
+      const batch = writeBatch(db);
+      const ids = [];
+
+      dataList.forEach((data) => {
+        const docRef = doc(collectionRef);
+        ids.push(docRef.id);
+        batch.set(docRef, {
+          ...data,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+      });
+
+      await batch.commit();
+      return { success: true, ids };
+    } catch (err) {
+      console.error('Error batch creating documents:', err);
       error.value = err.message;
       return { success: false, error: err.message };
     } finally {
@@ -250,6 +256,7 @@ export function useAdminFirestore() {
     updateField,
     remove,
     updateOrder,
+    createBatch,
     toggleActive
   };
 }

@@ -30,6 +30,10 @@
           <span class="nav-icon">📰</span>
           <span v-if="!sidebarCollapsed" class="nav-text">活動管理</span>
         </router-link>
+        <router-link to="/admin/magazines" class="nav-item">
+          <span class="nav-icon">📚</span>
+          <span v-if="!sidebarCollapsed" class="nav-text">雜誌管理</span>
+        </router-link>
       </nav>
 
       <div class="sidebar-footer">
@@ -76,12 +80,15 @@ const { adminData, logout } = useAuth();
 const sidebarCollapsed = ref(false);
 
 const pageTitle = computed(() => {
+  if (route.name === 'MagazinePagesEditor') return '雜誌頁面管理';
+
   const titles = {
     '/admin/dashboard': '儀表板',
     '/admin/hero-slides': '首頁輪播管理',
     '/admin/home-video': '首頁影片管理',
     '/admin/products': '產品管理',
-    '/admin/events': '活動管理'
+    '/admin/events': '活動管理',
+    '/admin/magazines': '雜誌管理'
   };
   return titles[route.path] || '後台管理';
 });

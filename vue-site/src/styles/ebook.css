@@ -192,8 +192,7 @@
   padding:12px 2px 2px;
 }
 
-.ebook-book-kicker,
-.ebook-book-count {
+.ebook-book-kicker {
   color:var(--ebook-accent);
   font:700 .72rem Georgia, serif;
   text-transform:uppercase;
@@ -202,10 +201,6 @@
 .ebook-book-title {
   font:700 1rem Georgia, "Times New Roman", serif;
   line-height:1.25;
-}
-
-.ebook-book-count {
-  color:#6d6356;
 }
 
 .ebook-reader {
