@@ -1,5 +1,13 @@
 <template>
-  <section class="ebook-page" :class="{ 'ebook-page-embedded': embedded, 'ebook-page-reading': selectedBook }">
+  <section
+    class="ebook-page"
+    ref="pageRootRef"
+    :class="{
+      'ebook-page-embedded': embedded,
+      'ebook-page-reading': selectedBook,
+      'ebook-fs-controls-hidden': isFullscreen && !fsControlsVisible
+    }"
+  >
     <header class="ebook-toolbar">
       <RouterLink v-if="showBack" class="ebook-back" to="/library">← 返回圖書館</RouterLink>
       <button
@@ -53,13 +61,20 @@
     <div v-else-if="isLoading" class="ebook-status" role="status">頁面載入中...</div>
     <div v-else-if="!bookPages.length" class="ebook-status" role="status">目前沒有可顯示的頁面</div>
 
-    <div v-else ref="readerRef" class="ebook-reader">
+    <div
+      v-else
+      ref="readerRef"
+      class="ebook-reader"
+      @click="handleReaderTap"
+      @touchstart.passive="handleReaderTouchStart"
+      @touchend.passive="handleReaderTouchEnd"
+    >
       <button
         class="ebook-nav ebook-nav-prev"
         type="button"
         aria-label="上一頁"
         :disabled="isAtStart"
-        @click="previousPage"
+        @click.stop="previousPage"
       >
         ‹
       </button>
@@ -71,7 +86,7 @@
         type="button"
         aria-label="下一頁"
         :disabled="isAtEnd"
-        @click="nextPage"
+        @click.stop="nextPage"
       >
         ›
       </button>
@@ -110,15 +125,16 @@ const bookPages = ref([]);
 const activePage = ref(0);
 const isLoading = ref(false);
 const isFullscreen = ref(false);
+const fsControlsVisible = ref(false);
+const pageRootRef = ref(null);
 const readerRef = ref(null);
 const flipbookRef = ref(null);
 const flipbookKey = ref(0);
 const pageFlipRef = ref(null);
 const selectedBook = ref(null);
 
-const visiblePageCount = computed(() => (
-  typeof window !== 'undefined' && window.innerWidth >= 800 ? 2 : 1
-));
+const viewportWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024);
+const visiblePageCount = computed(() => (viewportWidth.value >= 800 ? 2 : 1));
 const isAtStart = computed(() => activePage.value === 0);
 const isAtEnd = computed(() => activePage.value >= displayBookPages.value.length - visiblePageCount.value);
 const isTurning = ref(false);
@@ -219,6 +235,9 @@ async function selectBook(book) {
 }
 
 function returnToCatalog() {
+  if (document.fullscreenElement === pageRootRef.value) {
+    document.exitFullscreen().catch(() => {});
+  }
   destroyPageFlip();
   selectedBook.value = null;
   bookPages.value = [];
@@ -242,16 +261,28 @@ async function initPageFlip() {
   renderFlipPages();
 
   const startPage = Math.min(activePage.value, Math.max(displayBookPages.value.length - visiblePageCount.value, 0));
-  const fullscreenMode = document.fullscreenElement === readerRef.value;
+  const fullscreenMode = document.fullscreenElement === pageRootRef.value;
+
+  // 依容器實際寬高反推頁面尺寸（維持 3:4 頁面比例），寬、高哪個先頂到就用哪個，
+  // 讓書頁盡量置中滿版顯示，同時避免手機/全螢幕時跟固定尺寸打架而截斷或溢出
+  const containerWidth = flipbookRef.value.clientWidth || 420;
+  const containerHeight = flipbookRef.value.clientHeight || 560;
+  const perPageWidthByWidth = Math.floor(containerWidth / visiblePageCount.value);
+  const perPageWidthByHeight = Math.floor(containerHeight * 3 / 4);
+  const perPageWidth = Math.max(1, Math.min(perPageWidthByWidth, perPageWidthByHeight));
+  const minPageWidth = Math.min(220, perPageWidth);
+  const maxPageWidth = fullscreenMode ? Math.max(perPageWidth, 760) : Math.max(perPageWidth, 340);
+  const baseWidth = Math.min(Math.max(perPageWidth, minPageWidth), maxPageWidth);
+  const baseHeight = Math.round(baseWidth * 4 / 3);
 
   const pageFlip = new PageFlip(flipbookRef.value, {
-    width: fullscreenMode ? 560 : 420,
-    height: fullscreenMode ? 746 : 560,
+    width: baseWidth,
+    height: baseHeight,
     size: 'stretch',
-    minWidth: 260,
-    maxWidth: fullscreenMode ? 760 : 520,
-    minHeight: 346,
-    maxHeight: fullscreenMode ? 980 : 700,
+    minWidth: minPageWidth,
+    maxWidth: maxPageWidth,
+    minHeight: Math.round(minPageWidth * 4 / 3),
+    maxHeight: Math.round(maxPageWidth * 4 / 3),
     showCover: false,
     usePortrait: true,
     drawShadow: true,
@@ -277,19 +308,69 @@ async function initPageFlip() {
 
 async function toggleFullscreen() {
   if (!document.fullscreenElement) {
-    await readerRef.value?.requestFullscreen();
+    await pageRootRef.value?.requestFullscreen();
   } else {
     await document.exitFullscreen();
   }
 }
 
 function handleFullscreenChange() {
-  isFullscreen.value = Boolean(document.fullscreenElement);
+  isFullscreen.value = document.fullscreenElement === pageRootRef.value;
+  // 進全螢幕時先隱藏上下 bar，讓書頁盡量滿版；離開全螢幕則跟全螢幕狀態脫鉤，一律視為顯示
+  fsControlsVisible.value = !isFullscreen.value;
   if(selectedBook.value && bookPages.value.length) initPageFlip();
+}
+
+let lastTapAt = 0;
+function handleReaderTap() {
+  if (!isFullscreen.value) return;
+  // 避免同一次觸控又補觸發一次 click 造成連續切換兩次（形同沒反應）
+  const now = Date.now();
+  if (now - lastTapAt < 300) return;
+  lastTapAt = now;
+  fsControlsVisible.value = !fsControlsVisible.value;
+}
+
+// PageFlip 在 mobileScrollSupport:false 時會對 touchstart 呼叫 preventDefault，
+// 這會讓瀏覽器不再合成 click 事件，導致手機/觸控裝置上點擊完全不會觸發 handleReaderTap，
+// 因此改用自己偵測的輕觸手勢（沒有明顯移動、時間夠短）來觸發，不依賴 click。
+let touchStartPos = null;
+let touchStartTime = 0;
+function handleReaderTouchStart(event) {
+  if (!isFullscreen.value || !event.touches?.length) return;
+  const touch = event.touches[0];
+  touchStartPos = { x: touch.clientX, y: touch.clientY };
+  touchStartTime = Date.now();
+}
+function handleReaderTouchEnd(event) {
+  if (!isFullscreen.value || !touchStartPos) return;
+  if (event.target?.closest?.('.ebook-nav')) {
+    touchStartPos = null;
+    return;
+  }
+  const touch = event.changedTouches?.[0];
+  if (touch) {
+    const moved = Math.hypot(touch.clientX - touchStartPos.x, touch.clientY - touchStartPos.y);
+    const duration = Date.now() - touchStartTime;
+    if (moved < 12 && duration < 500) {
+      handleReaderTap();
+    }
+  }
+  touchStartPos = null;
+}
+
+let resizeTimer = null;
+function handleResize() {
+  viewportWidth.value = window.innerWidth;
+  if(resizeTimer) window.clearTimeout(resizeTimer);
+  resizeTimer = window.setTimeout(() => {
+    if(selectedBook.value && bookPages.value.length) initPageFlip();
+  }, 200);
 }
 
 onMounted(async () => {
   document.addEventListener('fullscreenchange', handleFullscreenChange);
+  window.addEventListener('resize', handleResize);
 
   isCatalogLoading.value = true;
   magazines.value = await getMagazines();
@@ -306,6 +387,8 @@ watch(bookPages, () => {
 
 onBeforeUnmount(() => {
   document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  window.removeEventListener('resize', handleResize);
+  if(resizeTimer) window.clearTimeout(resizeTimer);
   destroyPageFlip();
 });
 </script>

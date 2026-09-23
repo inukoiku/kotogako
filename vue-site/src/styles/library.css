@@ -95,7 +95,7 @@
 .library-ebook-entry {
   display:flex;
   justify-content:center;
-  margin:-.75rem 0 1.25rem;
+  margin:.25rem 0 1.25rem;
 }
 .library-ebook-entry a {
   padding:.75rem 1.25rem;
@@ -255,6 +255,7 @@
   .lib-block { padding:1.6rem 1.25rem 1.9rem; }
   .lib-block-title { font-size:1.35rem; }
   .library-section-switch { padding:2.25rem 0 2.5rem; }
+  .library-ebook-entry { margin:5.25rem 0 1.25rem; }
 }
 
 /* === 註解掉第一個定義，使用下方修正過的定義 === */
