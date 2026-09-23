@@ -34,6 +34,10 @@
           <span class="nav-icon">📚</span>
           <span v-if="!sidebarCollapsed" class="nav-text">雜誌管理</span>
         </router-link>
+        <router-link to="/admin/boards" class="nav-item">
+          <span class="nav-icon">💬</span>
+          <span v-if="!sidebarCollapsed" class="nav-text">留言板管理</span>
+        </router-link>
       </nav>
 
       <div class="sidebar-footer">
@@ -88,7 +92,8 @@ const pageTitle = computed(() => {
     '/admin/home-video': '首頁影片管理',
     '/admin/products': '產品管理',
     '/admin/events': '活動管理',
-    '/admin/magazines': '雜誌管理'
+    '/admin/magazines': '雜誌管理',
+    '/admin/boards': '留言板管理'
   };
   return titles[route.path] || '後台管理';
 });

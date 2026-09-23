@@ -26,6 +26,7 @@ import ProductsEditor from '@/admin/pages/ProductsEditor.vue';
 import EventsEditor from '@/admin/pages/EventsEditor.vue';
 import MagazinesEditor from '@/admin/pages/MagazinesEditor.vue';
 import MagazinePagesEditor from '@/admin/pages/MagazinePagesEditor.vue';
+import BoardsEditor from '@/admin/pages/BoardsEditor.vue';
 
 const routes = [
   { path: '/', component: HomePage },
@@ -36,6 +37,8 @@ const routes = [
   { path: '/library', component: LibraryPage },
   { path: '/ebook', name: 'Ebook', component: EbookPage },
   { path: '/link', component: LinkPage },
+  { path: '/board', name: 'BoardList', component: NewsPage },
+  { path: '/board/:slug', name: 'Board', component: NewsPage },
   { path: '/age-gate', name: 'AgeGate', component: AgeGate },
   
   // Admin routes
@@ -52,7 +55,8 @@ const routes = [
       { path: 'products', name: 'ProductsEditor', component: ProductsEditor },
       { path: 'events', name: 'EventsEditor', component: EventsEditor },
       { path: 'magazines', name: 'MagazinesEditor', component: MagazinesEditor },
-      { path: 'magazines/:magazineId/pages', name: 'MagazinePagesEditor', component: MagazinePagesEditor }
+      { path: 'magazines/:magazineId/pages', name: 'MagazinePagesEditor', component: MagazinePagesEditor },
+      { path: 'boards', name: 'BoardsEditor', component: BoardsEditor }
     ]
   }
 ];

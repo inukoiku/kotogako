@@ -233,6 +233,34 @@ export function useFirestore() {
     }
   }
 
+  /**
+   * 獲取留言板列表，後台可維護 title、slug、description、order、active 欄位
+   * @returns {Promise<Array>} 啟用中的留言板列表
+   */
+  async function getBoards() {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const q = query(
+        collection(db, 'pages', 'boardpage', 'boardItems'),
+        where('active', '==', true),
+        orderBy('order', 'asc')
+      );
+      const querySnapshot = await getDocs(q);
+
+      return querySnapshot.docs
+        .map((boardDoc) => ({ id: boardDoc.id, ...boardDoc.data() }))
+        .filter((board) => typeof board.slug === 'string' && board.slug.trim());
+    } catch (err) {
+      console.error('Error fetching boards:', err);
+      error.value = err.message;
+      return [];
+    } finally {
+      loading.value = false;
+    }
+  }
+
   return {
     loading,
     error,
@@ -241,6 +269,7 @@ export function useFirestore() {
     getProducts,
     getNewsItems,
     getMagazines,
-    getMagazinePages
+    getMagazinePages,
+    getBoards
   };
 }
