@@ -18,7 +18,7 @@
   min-height:auto;
   padding:clamp(14px, 2.5vw, 28px);
   border:1px solid rgba(247, 243, 232, .28);
-  background-color:rgba(215, 210, 198, .94);
+  background-color:rgba(32, 32, 32, 0.2);
   box-shadow:0 18px 42px rgba(0, 0, 0, .24);
 }
 
@@ -46,6 +46,7 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); 
 }
 
 .ebook-back {
@@ -218,7 +219,9 @@
 .ebook-page-reading .ebook-reader {
   width:min(1120px, 100%);
   padding:clamp(16px, 2.2vw, 28px);
-  overflow:visible;
+  /* scroll-fix: keep flipping pages from growing document scroll height */
+  overflow:clip;
+  overflow-clip-margin:24px;
   background:
     radial-gradient(circle at 50% 48%, rgba(255, 243, 214, .14), rgba(255, 243, 214, 0) 44%),
     linear-gradient(135deg, #37322c, #161412 58%, #0d0c0b);

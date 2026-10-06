@@ -238,7 +238,14 @@ export function useLibraryPageState() {
     scheduleRecalc();
     window.addEventListener('resize', scheduleRecalc);
     if(typeof ResizeObserver !== 'undefined') {
-      blockResizeObserver = new ResizeObserver(scheduleRecalc);
+      // scroll-fix: ignore width-only changes (e.g. scrollbar appearing)
+      let lastBlockHeight = -1;
+      blockResizeObserver = new ResizeObserver((entries) => {
+        const height = Math.round(entries[0]?.contentRect.height ?? 0);
+        if(height === lastBlockHeight) return;
+        lastBlockHeight = height;
+        scheduleRecalc();
+      });
       watch(blockCRef, (block, previousBlock) => {
         if(previousBlock) blockResizeObserver.unobserve(previousBlock);
         if(block) blockResizeObserver.observe(block);
