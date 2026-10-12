@@ -5,14 +5,14 @@
       :style="{ '--cover-img': 'url(' + base + '/images/events/events_banner_v2.webp)' }"
     >
       <div class="cover-frame-inner">
-        <div class="lib-switch-btns">
+        <div class="lib-switch-btns news-switch-btns">
           <button
             class="lib-switch-btn"
             :class="{ active: currentView==='event' }"
             @click="currentView='event'"
             aria-label="顯示活動介紹">
             <img
-              :src="base + '/images/library/' + (currentView==='event' ? 'gallery_btn_active.webp' : 'gallery_btn.webp')"
+              :src="base + '/images/events/' + (currentView==='event' ? 'event_btn_active.webp' : 'event_btn.webp')"
               alt="活動介紹"
               draggable="false" />
             <span class="lib-switch-label">活動介紹</span>
@@ -23,7 +23,7 @@
             @click="currentView='board'"
             aria-label="顯示留言板">
             <img
-              :src="base + '/images/library/' + (currentView==='board' ? 'gallery_btn_active.webp' : 'gallery_btn.webp')"
+              :src="base + '/images/events/' + (currentView==='board' ? 'message_btn_active.webp' : 'message_btn.webp')"
               alt="留言板"
               draggable="false" />
             <span class="lib-switch-label">留言板</span>
@@ -107,7 +107,7 @@
 
       <!-- 沒有指定 slug：顯示所有留言板列表 -->
       <template v-else-if="!slug">
-        <h1 class="board-page-title">留言板</h1>
+        <!-- <h1 class="board-page-title">留言板</h1> -->
 
         <div v-if="boards.length === 0" class="board-empty">
           目前尚無留言板
@@ -241,6 +241,28 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.news-switch-btns .lib-switch-btn {
+  flex:0 0 220px;
+  width:220px;
+}
+
+.news-switch-btns .lib-switch-btn img {
+  width:100%;
+  height:70px;
+  object-fit:contain;
+}
+
+@media (max-width:575.98px) {
+  .news-switch-btns .lib-switch-btn {
+    flex-basis:min(160px, 38vw);
+    width:min(160px, 38vw);
+  }
+
+  .news-switch-btns .lib-switch-btn img {
+    height:58px;
+  }
+}
+
 .lib-switch-label {
   display: block;
   text-align: center;

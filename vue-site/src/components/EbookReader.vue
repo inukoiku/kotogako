@@ -21,7 +21,7 @@
       <span v-else class="ebook-back ebook-back-placeholder" aria-hidden="true"></span>
       <div class="ebook-heading">
         <p>{{ selectedBook ? selectedBook.kicker : 'Magazine' }}</p>
-        <h1>{{ selectedBook ? selectedBook.title : '犬高雜誌' }}</h1>
+        <h1>{{ selectedBook ? selectedBook.title : '犬高誌' }}</h1>
       </div>
       <button
         v-if="selectedBook"
@@ -39,7 +39,7 @@
     <template v-if="!selectedBook">
       <div v-if="isCatalogLoading" class="ebook-status" role="status">雜誌讀取中...</div>
       <div v-else-if="!magazines.length" class="ebook-status" role="status">目前沒有可顯示的雜誌</div>
-      <div v-else class="ebook-catalog" aria-label="犬高雜誌列表">
+      <div v-else class="ebook-catalog" aria-label="犬高誌列表">
         <button
           v-for="book in magazines"
           :key="book.id"

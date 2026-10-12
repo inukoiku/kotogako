@@ -78,7 +78,7 @@
             <div class="form-row">
               <div class="form-group">
                 <label>雜誌標題 *</label>
-                <input v-model="formData.title" type="text" placeholder="犬高雜誌-第二期" required />
+                <input v-model="formData.title" type="text" placeholder="犬高誌-第二期" required />
               </div>
               <div class="form-group">
                 <label>排序</label>

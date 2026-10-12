@@ -44,9 +44,16 @@
     <button
       type="button"
       :class="{ active: currentBlock==='C' }"
+      :aria-pressed="currentBlock==='C'"
       @click="currentBlock='C'"
     >
-      Magazine
+      <img
+        :src="base + (currentBlock==='C'
+          ? '/images/library/magazine_btn_active.webp'
+          : '/images/library/magazine_btn.webp')"
+        alt="Magazine"
+        draggable="false"
+      >
     </button>
   </nav>
 

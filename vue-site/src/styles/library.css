@@ -93,9 +93,10 @@
 /* ===== Library Page 專用新增樣式 ===== */
 
 .library-ebook-entry {
-  display:flex;
-  justify-content:center;
-  margin:.25rem 0 1.25rem;
+  display:block;
+  width:max-content;
+  max-width:100%;
+  margin:.25rem auto 1.25rem;
 }
 .library-ebook-entry a {
   padding:.75rem 1.25rem;
@@ -106,16 +107,19 @@
   text-decoration:none;
 }
 .library-ebook-entry button {
-  padding:.75rem 1.25rem;
-  border:1px solid rgba(255,255,255,.45);
-  color:#fff;
-  background:#312d29;
-  font-weight:700;
+  display:block;
+  width:max-content;
+  padding:0;
+  border:0;
+  background:transparent;
   cursor:pointer;
+  line-height:0;
 }
-.library-ebook-entry button.active {
-  border-color:#fff;
-  background:#6f3c32;
+.library-ebook-entry button img {
+  display:block;
+  width:auto;
+  height:70px;
+  object-fit:contain;
 }
 
 /* 封面內的左側切換按鈕群組 */
@@ -255,7 +259,10 @@
   .lib-block { padding:1.6rem 1.25rem 1.9rem; }
   .lib-block-title { font-size:1.35rem; }
   .library-section-switch { padding:2.25rem 0 2.5rem; }
-  .library-ebook-entry { margin:5.25rem 0 1.25rem; }
+  .library-ebook-entry { margin:5.25rem auto 1.25rem; }
+  .library-ebook-entry button img {
+    height:58px;
+  }
 }
 
 /* === 註解掉第一個定義，使用下方修正過的定義 === */
