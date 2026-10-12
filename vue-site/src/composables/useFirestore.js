@@ -176,12 +176,100 @@ export function useFirestore() {
     }
   }
 
+  /**
+   * 獲取電子書雜誌列表（書櫃），後台可維護 title、kicker、coverUrl、order、active 欄位
+   * @returns {Promise<Array>} 啟用中的雜誌列表
+   */
+  async function getMagazines() {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const q = query(
+        collection(db, 'pages', 'librarypage', 'magazines'),
+        where('active', '==', true),
+        orderBy('order', 'asc')
+      );
+      const querySnapshot = await getDocs(q);
+
+      return querySnapshot.docs
+        .map((magazineDoc) => ({ id: magazineDoc.id, ...magazineDoc.data() }))
+        .filter((magazine) => typeof magazine.coverUrl === 'string' && magazine.coverUrl.trim());
+    } catch (err) {
+      console.error('Error fetching magazines:', err);
+      error.value = err.message;
+      return [];
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  /**
+   * 獲取單一雜誌的頁面，後台可維護 imageUrl、alt、order、active 欄位
+   * @param {string} magazineId 雜誌文件 ID
+   * @returns {Promise<Array>} 該雜誌啟用中的頁面
+   */
+  async function getMagazinePages(magazineId) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const q = query(
+        collection(db, 'pages', 'librarypage', 'magazines', magazineId, 'pages'),
+        where('active', '==', true),
+        orderBy('order', 'asc')
+      );
+      const querySnapshot = await getDocs(q);
+
+      return querySnapshot.docs
+        .map((pageDoc) => ({ id: pageDoc.id, ...pageDoc.data() }))
+        .filter((page) => typeof page.imageUrl === 'string' && page.imageUrl.trim());
+    } catch (err) {
+      console.error('Error fetching magazine pages:', err);
+      error.value = err.message;
+      return [];
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  /**
+   * 獲取留言板列表，後台可維護 title、slug、description、order、active 欄位
+   * @returns {Promise<Array>} 啟用中的留言板列表
+   */
+  async function getBoards() {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const q = query(
+        collection(db, 'pages', 'boardpage', 'boardItems'),
+        where('active', '==', true),
+        orderBy('order', 'asc')
+      );
+      const querySnapshot = await getDocs(q);
+
+      return querySnapshot.docs
+        .map((boardDoc) => ({ id: boardDoc.id, ...boardDoc.data() }))
+        .filter((board) => typeof board.slug === 'string' && board.slug.trim());
+    } catch (err) {
+      console.error('Error fetching boards:', err);
+      error.value = err.message;
+      return [];
+    } finally {
+      loading.value = false;
+    }
+  }
+
   return {
     loading,
     error,
     getHeroSlides,
     getHomeVideo,
     getProducts,
-    getNewsItems
+    getNewsItems,
+    getMagazines,
+    getMagazinePages,
+    getBoards
   };
 }

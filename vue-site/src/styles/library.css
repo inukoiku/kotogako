@@ -92,6 +92,36 @@
 
 /* ===== Library Page 專用新增樣式 ===== */
 
+.library-ebook-entry {
+  display:block;
+  width:max-content;
+  max-width:100%;
+  margin:.25rem auto 1.25rem;
+}
+.library-ebook-entry a {
+  padding:.75rem 1.25rem;
+  border:1px solid rgba(255,255,255,.45);
+  color:#fff;
+  background:#312d29;
+  font-weight:700;
+  text-decoration:none;
+}
+.library-ebook-entry button {
+  display:block;
+  width:max-content;
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  line-height:0;
+}
+.library-ebook-entry button img {
+  display:block;
+  width:auto;
+  height:70px;
+  object-fit:contain;
+}
+
 /* 封面內的左側切換按鈕群組 */
 .lib-switch-btns {
   position:absolute;
@@ -207,6 +237,12 @@
 .lib-block-b {
   height: 100%;
 }
+.lib-block-c {
+  width:94%;
+  max-width:1180px;
+  min-width:0;
+  height:auto;
+}
 
 /* Fade 過渡 (使用 <transition name="fade"> ) */
 
@@ -223,6 +259,10 @@
   .lib-block { padding:1.6rem 1.25rem 1.9rem; }
   .lib-block-title { font-size:1.35rem; }
   .library-section-switch { padding:2.25rem 0 2.5rem; }
+  .library-ebook-entry { margin:5.25rem auto 1.25rem; }
+  .library-ebook-entry button img {
+    height:58px;
+  }
 }
 
 /* === 註解掉第一個定義，使用下方修正過的定義 === */
@@ -306,6 +346,8 @@
 .library-section-switch.use-img {
   background:none;
   padding:0;
+  display:block;
+  overflow:visible;
 }
 .library-section-switch.use-img .library-section-inner {
   position:relative;
@@ -313,14 +355,19 @@
   padding:0;
 }
 .library-section-switch.use-img .lib-bg-img {
-  display:block;
-  width:100%;
-  height:auto;      /* 等比縮放，完整呈現 */
-  vertical-align:middle;
-}
-.library-section-switch.use-img .lib-block-wrap {
   position:absolute;
   inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  pointer-events:none;
+}
+.library-section-switch.use-img .lib-block-wrap {
+  position:relative;
+  z-index:1;
+  width:100%;
+  min-width:0;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -583,6 +630,13 @@
   transition:none !important;
 }
 
+.fade-leave-active {
+  position:absolute;
+  inset:0;
+  width:100%;
+  pointer-events:none;
+}
+
 
 /* 若你想保留 0.18s 淡入淡出 (無位移)，改用下列，並刪除上面方案 1：
 .fade-enter-active,
@@ -607,7 +661,7 @@
   object-fit:cover;          /* use contain if you don't want cropping */
   object-position:center;
   pointer-events:none;
-  min-height: 1000px;
+  min-height: 100%;
 }
 
 /* === 圖片彈出視窗樣式 === */

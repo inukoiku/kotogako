@@ -11,6 +11,7 @@ import TeamPage from './pages/TeamPage.vue';
 import ProductsPage from './pages/ProductsPage.vue';
 import NewsPage from './pages/NewsPage.vue';
 import LibraryPage from './pages/LibraryPage.vue';
+import EbookPage from './pages/EbookPage.vue';
 import LinkPage from './pages/LinkPage.vue';
 import AgeGate from '@/pages/AgeGate.vue';
 import { useAgeGate } from '@/composables/useAgeGate';
@@ -23,6 +24,9 @@ import HeroSlidesEditor from '@/admin/pages/HeroSlidesEditor.vue';
 import HomeVideoEditor from '@/admin/pages/HomeVideoEditor.vue';
 import ProductsEditor from '@/admin/pages/ProductsEditor.vue';
 import EventsEditor from '@/admin/pages/EventsEditor.vue';
+import MagazinesEditor from '@/admin/pages/MagazinesEditor.vue';
+import MagazinePagesEditor from '@/admin/pages/MagazinePagesEditor.vue';
+import BoardsEditor from '@/admin/pages/BoardsEditor.vue';
 
 const routes = [
   { path: '/', component: HomePage },
@@ -31,7 +35,10 @@ const routes = [
   { path: '/products', component: ProductsPage },
   { path: '/news', component: NewsPage },
   { path: '/library', component: LibraryPage },
+  { path: '/ebook', name: 'Ebook', component: EbookPage },
   { path: '/link', component: LinkPage },
+  { path: '/board', name: 'BoardList', component: NewsPage },
+  { path: '/board/:slug', name: 'Board', component: NewsPage },
   { path: '/age-gate', name: 'AgeGate', component: AgeGate },
   
   // Admin routes
@@ -46,7 +53,10 @@ const routes = [
       { path: 'hero-slides', name: 'HeroSlidesEditor', component: HeroSlidesEditor },
       { path: 'home-video', name: 'HomeVideoEditor', component: HomeVideoEditor },
       { path: 'products', name: 'ProductsEditor', component: ProductsEditor },
-      { path: 'events', name: 'EventsEditor', component: EventsEditor }
+      { path: 'events', name: 'EventsEditor', component: EventsEditor },
+      { path: 'magazines', name: 'MagazinesEditor', component: MagazinesEditor },
+      { path: 'magazines/:magazineId/pages', name: 'MagazinePagesEditor', component: MagazinePagesEditor },
+      { path: 'boards', name: 'BoardsEditor', component: BoardsEditor }
     ]
   }
 ];
